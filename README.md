@@ -8,12 +8,15 @@ A játékosok a főmenüben megadják nevüket, valamint csapatszínt választan
 Saját körükben a játékosok egységeket vásárolhatnak. Tornyokat is építhetnek, fejleszthetnek.<br>
 Az előbbiek a lehető legrövidebb utat választva megindulnak az ellenfél bázisa felé, hogy elpusztítsák azt.<br>
 Pályától függően olyan "természeti" akadályokkal találhatják szembe magukat, mint az építőkockákból épült hegyvonulat, vagy éppen a kifröccsent üdítő.<br>
+
 A tornyok egyfajta védelmi vonalként támadnak az ellenséges egységekre, amennyiben azok megfelelő távolságon belül tartózkodnak. Tornyokat csak egymás mellé lehet építeni.<br>
 Egységekből és tornyokból is több fajta érhető el, a különféle egységek más- más élet- és támadóerővel, valamint egyéb képességekkel is rendelkeznek.<br>
 A tornyok típusai között továbbá hatótávolságbeli különbség is fennáll.<br>
+
 A játékosok az életben lévő egységeik száma alapján, valamint az ellenfél egységeinek elpusztításáért cserébe aranyat kapnak. <br>
 Ezen felül a játék hosszával, tehát a körök számával arányosan is aranyhoz jutnak, ezzel is elősegítve a játék folyamatosságát.<br>
 Az így megszerzett aranyat elkölthetik újabb egységek és tornyok vásárlására, valamint tornyaik és bázisuk fejlesztésére. <br>
+
 A játék fő célja, hogy az egyes egységek az ellenfél bázisához elérve arra sebzést mérjenek, idővel annak bukásához vezetve.<br>
 Az a játékos nyer, aki előbb elpusztítja ellenfele bázisát.
 
