@@ -30,7 +30,7 @@ Az a játékos nyer, aki előbb elpusztítja ellenfele bázisát.
 
 ## Felhasználói történetek diagram
 
-![A War of Toys user story diagramja]
+[A War of Toys user story diagramja](https://szofttech.inf.elte.hu/szt-c-2022/group-03/war-of-toys/-/blob/main/Felhaszn%C3%A1l%C3%B3iEsetek.pdf)
 
 # Felületi terv
 
