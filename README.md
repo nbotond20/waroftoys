@@ -3,7 +3,6 @@
 A War of Toys egy körökre osztott, helyi többjátékos módon működő tower defense játék.
 
 # A játék menete
-<span style="font-size:4em;">
 A játékosok a főmenüben megadják nevüket, valamint csapatszínt választanak.<br>
 Saját körükben a játékosok egységeket vásárolhatnak. Tornyokat is építhetnek, fejleszthetnek.<br>
 Az előbbiek a lehető legrövidebb utat választva megindulnak az ellenfél bázisa felé, hogy elpusztítsák azt.<br>
@@ -19,7 +18,6 @@ Az így megszerzett aranyat elkölthetik újabb egységek és tornyok vásárlá
 
 A játék fő célja, hogy az egyes egységek az ellenfél bázisához elérve arra sebzést mérjenek, idővel annak bukásához vezetve.<br>
 Az a játékos nyer, aki előbb elpusztítja ellenfele bázisát.
-</span>
 # Fejlesztői napló
 
 ## Osztálydiagram
