@@ -40,7 +40,7 @@ Az a játékos nyer, aki előbb elpusztítja ellenfele bázisát.
 
 ## Saved Games menüpont
 
-![A War of Toys főmenüjének "Saved Games" menüpontjának terve]
+![A War of Toys főmenüjének "Saved Games" menüpontjának terve](https://i.imgur.com/SrOL3Mb.png)
 
 ## Játékmenet terve
 
