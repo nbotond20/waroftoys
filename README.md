@@ -26,7 +26,7 @@ Az a játékos nyer, aki előbb elpusztítja ellenfele bázisát.
 
 ## Használati eset ( use case ) diagram
 
-![A War of Toys use case diagramja](https://i.imgur.com/W8p8RtX.png)
+![A War of Toys use case diagramja](https://i.imgur.com/eQLOf3m.png)
 
 ## Felhasználói történetek diagram
 
