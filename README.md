@@ -22,7 +22,7 @@ Az a játékos nyer, aki előbb elpusztítja ellenfele bázisát.
 
 ## Osztálydiagram
 
-![A War of Toys UML diagramja.](https://i.imgur.com/z20RUYi.png)
+![A War of Toys UML diagramja.](https://i.imgur.com/KuyAbtX.png)
 
 ## Használati eset ( use case ) diagram
 
