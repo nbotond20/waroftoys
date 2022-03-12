@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package model.entity.unit;
 
 import java.awt.Color;
@@ -19,6 +24,10 @@ import model.utility.Position;
 import model.Game;
 import model.entity.Entity;
 
+/**
+ *
+ * @author Nuszpl Botond
+ */
 public abstract class Unit extends Entity {
 
     private BufferedImage front1, front2, front3, front4, front5, front6, front7, front8;
@@ -42,25 +51,28 @@ public abstract class Unit extends Entity {
     Color color;
 
     public Unit(Game gp, MouseHandler mouseH) {
-        this.width = 32 * gp.scale;
-        this.height = 48 * gp.scale;
-        this.dotSize = 8 * gp.scale;
+        this.width = 48 * gp.scale;
+        this.height = 64 * gp.scale;
+        this.dotSize = 4 * gp.scale;
         this.gp = gp;
         this.mouseH = mouseH;
         this.destinations = new LinkedList<Position>();
+        HEALTH_BAR_WIDTH = 30;
     }
 
-    // Moves unit by position values
     private void move(Position pos) {
         this.pos.x += pos.x;
         this.pos.y += pos.y;
     }
 
-    private void addDestination(Position pos) {
+    public void addDestination(int x, int y) {
+        this.destinations.add(new Position(x, y));
+    }
+
+    public void addDestination(Position pos) {
         this.destinations.add(pos);
     }
 
-    // Checks if the unit is at the destination
     private boolean isAtDestination() {
         if (abs(destinations.get(0).x - pos.x) == 0 && abs(destinations.get(0).y - pos.y) == 0) {
             return true;
@@ -68,7 +80,6 @@ public abstract class Unit extends Entity {
         return false;
     }
 
-    // Calculates the next position based on the unit's speed
     private Position calcNextPos(Position curr, Position dest) {
         double distX = (dest.x - curr.x);
         double distY = (dest.y - curr.y);
@@ -79,19 +90,8 @@ public abstract class Unit extends Entity {
         return new Position(distX / ratio, distY / ratio);
     }
 
-    // Converts grid index (i, j) to position (x, y) the position is going to be in the center of the tile
-    private Position getPosFromIndex(int i, int j) {
-        return new Position(j * gp.tileSize + (gp.tileSize / 2) - width / 2,
-                i * gp.tileSize + (gp.tileSize / 2) - height / 2);
-    }
-
-    // Converts position (x, y) to grid index (i, j)
-    private int[] getIndexFromPos(Position pos) {
-        int[] arr = { (int) (pos.y / gp.tileSize), (int) (pos.x / gp.tileSize) };
-        return arr;
-    }
-
     private void calcSpriteNum() {
+        if (destinations.size() != 0 && gp.isAttacking) {
             spriteCounter++;
             if (spriteCounter > 5) {
                 spriteNum++;
@@ -99,10 +99,10 @@ public abstract class Unit extends Entity {
                     spriteNum = 0;
                 }
                 spriteCounter = 0;
+            }
         }
-    }  
+    }
 
-    // Handles mouse clicks ( adds new destinations based on click position )
     public void handleMouseClick() {
         if (this.mouseH.isClicked && !gp.isAttacking) {
             Position dest = new Position(mouseH.pos.x, mouseH.pos.y);
@@ -116,13 +116,17 @@ public abstract class Unit extends Entity {
             }
 
             if (startInd != null && destInd != null && mouseH.pos != null) {
-                AStar aStar = new AStar(gp.maxScreenRow, gp.maxScreenCol, startInd[0], startInd[1], destInd[0], destInd[1], gp.tileM.blocks/* new int[][] {} */);
+                AStar aStar = new AStar(gp.maxScreenRow, gp.maxScreenCol, startInd[0], startInd[1], destInd[0],
+                        destInd[1], gp.tileM.blocks/* new int[][] {} */);
+
+                /* aStar.display(); */
                 aStar.process(); // Apply A* Algorithm
-                ArrayList<Cell> destCells = aStar.displaySolution(false); // Returns destination cells ( displays it to console if parameter is true ) 
+                /* aStar.displayScores(); */ // Display Scores on grid
+                ArrayList<Cell> destCells = aStar.displaySolution(false); // Display Solution
 
                 if (destCells != null) {
                     for (int k = destCells.size() - 1; k >= 0; k--) {
-                        addDestination(getPosFromIndex(destCells.get(k).i, destCells.get(k).j));
+                        this.destinations.add(getPosFromIndex(destCells.get(k).i, destCells.get(k).j));
                     }
                 }
             }
@@ -130,55 +134,49 @@ public abstract class Unit extends Entity {
         this.mouseH.isClicked = false;
     }
 
-    // Handles movement
     private void startMoving() {
-        Position p = calcNextPos(pos, destinations.get(0));
-        move(p);
+        if (destinations.size() != 0 && gp.isAttacking) {
+            Position p = calcNextPos(pos, destinations.get(0));
+            move(p);
 
-        if (isAtDestination()) {
-            destinations.removeFirst();
-        }
+            if (isAtDestination()) {
+                destinations.removeFirst();
+            }
 
-        setDirection(p); // Sets direction based on next position
-        calcSpriteNum(); // Changes Sprite Count
-    }
-
-    // Sets sprite direction based on next position
-    private void setDirection(Position p) {
-        if (p.x <= 0 && p.y <= 0) { // LEFT or UP
-            if (abs(p.x) < abs(p.y)) {
-                dir = Direction.UP;
-            } else {
-                dir = Direction.LEFT;
+            if (p.x <= 0 && p.y <= 0) { // LEFT UP
+                if (abs(p.x) < abs(p.y)) {
+                    dir = Direction.UP;
+                } else {
+                    dir = Direction.LEFT;
+                }
             }
-        }
-        if (p.x >= 0 && p.y <= 0) { // RIGHT or UP
-            if (abs(p.x) < abs(p.y)) {
-                dir = Direction.UP;
-            } else {
-                dir = Direction.RIGHT;
+            if (p.x >= 0 && p.y <= 0) { // RIGHT UP
+                if (abs(p.x) < abs(p.y)) {
+                    dir = Direction.UP;
+                } else {
+                    dir = Direction.RIGHT;
+                }
             }
-        }
-        if (p.x <= 0 && p.y >= 0) { // LEFT or DOWN
-            if (abs(p.x) < abs(p.y)) {
-                dir = Direction.DOWN;
-            } else {
-                dir = Direction.LEFT;
+            if (p.x <= 0 && p.y >= 0) { // LEFT DOWN
+                if (abs(p.x) < abs(p.y)) {
+                    dir = Direction.DOWN;
+                } else {
+                    dir = Direction.LEFT;
+                }
             }
-        }
-        if (p.x >= 0 && p.y >= 0) { // RIGHT or DOWN
-            if (abs(p.x) < abs(p.y)) {
-                dir = Direction.DOWN;
-            } else {
-                dir = Direction.RIGHT;
+            if (p.x >= 0 && p.y >= 0) { // RIGHT DOWN
+                if (abs(p.x) < abs(p.y)) {
+                    dir = Direction.DOWN;
+                } else {
+                    dir = Direction.RIGHT;
+                }
             }
         }
     }
 
-    // Sets sprite image based on current direction
     private BufferedImage setImageBasedOnDirection(Direction dir, boolean standing) {
         BufferedImage image = null;
-        if (standing || !gp.isAttacking) {
+        if(standing || !gp.isAttacking){
             switch (dir) {
                 case UP:
                     image = back.get(0);
@@ -193,7 +191,7 @@ public abstract class Unit extends Entity {
                     image = right.get(0);
                     break;
             }
-        } else {
+        }else{
             switch (dir) {
                 case UP:
                     image = back.get(spriteNum);
@@ -213,17 +211,18 @@ public abstract class Unit extends Entity {
     }
 
     public void update() {
+        calcSpriteNum(); // Changes Sprite Count
         handleMouseClick(); // Listens for mouse clicks (adds new destination(s))
-        if (destinations.size() != 0 && gp.isAttacking) startMoving(); // Handles movement
+        startMoving(); // Changes Player Sprite Direction (when using the mouse)
     }
 
     public void draw(Graphics2D g2) {
         BufferedImage image = setImageBasedOnDirection(dir, destinations.size() == 0);
 
-        if (this.equals(gp.activeUnit) && !gp.isAttacking) {
+        if(this.equals(gp.activeUnit) && !gp.isAttacking){
             g2.setColor(Color.RED);
             g2.fillOval((int) pos.x + (width / 2) - (dotSize / 2), (int) pos.y - (dotSize / 2), dotSize, dotSize);
-        } else {
+        }else{
             g2.setColor(color);
         }
 
@@ -246,9 +245,13 @@ public abstract class Unit extends Entity {
                         (int) p2.x + (width / 2), (int) p2.y + (height / 2));
             }
         }
+
+        g2.setColor(Color.RED);
+        g2.fillRect((int)pos.x + (width-HEALTH_BAR_WIDTH)/2, (int)pos.y, (int)(HEALTH_BAR_WIDTH*(health / MAX_HEALTH)), 5);
+        g2.setColor(Color.BLACK);
+        g2.drawRect((int)pos.x + (width-HEALTH_BAR_WIDTH)/2, (int)pos.y, HEALTH_BAR_WIDTH, 5);
     }
 
-    // Loads the player sprite pictures
     public void getPlayerImage(String filename) {
         try {
             front1 = ImageIO.read(getClass().getResourceAsStream("/player/" + filename + "/front/front1.png"));

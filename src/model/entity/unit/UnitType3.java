@@ -12,8 +12,10 @@ public class UnitType3 extends Unit {
         super(gp, mouseH);
         this.speed = 2.5;
         this.pos = pos;
+        calcCorrectPosition(this.pos);
         this.dir = Direction.DOWN;
         this.health = 50;
+        this.MAX_HEALTH = 50;
         this.color = Color.MAGENTA;
         getPlayerImage("unit-type1");
     }

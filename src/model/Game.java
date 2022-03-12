@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import model.tile.TileManager;
 import model.utility.*;
 import model.entity.unit.*;
+import model.entity.Base;
+import model.entity.tower.*;
 
 public class Game extends JPanel implements Runnable {
 
@@ -30,6 +32,8 @@ public class Game extends JPanel implements Runnable {
     private Thread gameThread;
 
     private ArrayList<Unit> units;
+    private ArrayList<Tower> towers;
+    private ArrayList<Base> bases;
 
     public boolean isAttacking = false;
     public int unitNum = 0;
@@ -44,15 +48,31 @@ public class Game extends JPanel implements Runnable {
 
         units = new ArrayList<Unit>();
 
-        Unit p1 = new UnitType1(new Position(), this, mouseH);
-        Unit p2 = new UnitType2(new Position(), this, mouseH);
-        Unit p3 = new UnitType3(new Position(), this, mouseH);
+        Unit u1 = new UnitType1(new Position(), this, mouseH);
+        Unit u2 = new UnitType2(new Position(), this, mouseH);
+        Unit u3 = new UnitType3(new Position(), this, mouseH);
 
-        units.add(p1);
-        units.add(p2);
-        units.add(p3);
+        units.add(u1);
+        units.add(u2);
+        units.add(u3);
 
         activeUnit = units.get(0);
+
+        towers = new ArrayList<Tower>();
+
+        Tower t1 = new TowerType1(new Position(128,64), this, mouseH);
+        Tower t2 = new TowerType2(new Position(128,450), this, mouseH);
+        Tower t3 = new TowerType3(new Position(555,120), this, mouseH);
+
+        towers.add(t1);
+        towers.add(t2);
+        towers.add(t3);
+
+        bases = new ArrayList<Base>();
+
+        Base b1 = new Base(new Position(500,500), this, mouseH);
+
+        bases.add(b1);
 
         addMouseListener(mouseH);
     }
@@ -132,6 +152,15 @@ public class Game extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         tileM.draw(g2);
+
+        for(Base b : bases){
+            b.draw(g2);
+        }
+
+        for(Tower t : towers) {
+            t.draw(g2);
+        }
+
         for (Unit p : units) {
             p.draw(g2);
         }
