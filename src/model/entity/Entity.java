@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.entity;
 
 import model.utility.KeyHandler;
@@ -10,10 +5,6 @@ import model.utility.MouseHandler;
 import model.utility.Position;
 import model.Game;
 
-/**
- *
- * @author Nuszpl Botond
- */
 public abstract class Entity {
     public Game gp;
     public KeyHandler keyH;

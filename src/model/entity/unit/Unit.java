@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.entity.unit;
 
 import java.awt.Color;
@@ -24,10 +19,6 @@ import model.utility.Position;
 import model.Game;
 import model.entity.Entity;
 
-/**
- *
- * @author Nuszpl Botond
- */
 public abstract class Unit extends Entity {
 
     private BufferedImage front1, front2, front3, front4, front5, front6, front7, front8;
