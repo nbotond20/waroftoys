@@ -3,8 +3,8 @@ package model.entity.tower;
 import model.entity.Entity;
 import model.utility.MouseHandler;
 import model.Game;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.Color;
 

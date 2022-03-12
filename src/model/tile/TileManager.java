@@ -4,88 +4,79 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import model.Game;
 
 public class TileManager {
-    private Game gp;
-    private HashMap<String, Tile> tileType;
-    private HashMap<Integer, String> tileCodeTable;
-    private ArrayList<ArrayList<String>> tiles;
-    private int blockCount;
+    private String PATH = "wood";
+
+    public int maxRowNumber;
+    public int maxColNumber;
+    
+    private Tile[][] grid;
     public int[][] blocks;
+    private HashMap<String, BufferedImage> images;
+    private HashMap<Integer, String> tileCodeTable;
 
-    public BufferedImage image;
+    private int tileSize;
 
-    public TileManager(Game gp) {
-        this.gp = gp;
-        this.tileType = new HashMap<>();
-        this.tileCodeTable = new HashMap<>();
-        this.tiles = new ArrayList<ArrayList<String>>();
-        getTileImage();
-        loadMap();
+    public TileManager(int tileSize) {
+        this.images = new HashMap<String, BufferedImage>();
+        this.tileCodeTable = new HashMap<Integer, String>();
+        this.tileSize = tileSize;
+
+        loadTileImages();
+        loadMap("map1.txt");
     }
 
-    public void getTileImage() {
+    private void loadTileImages() {
         try {
-            Tile t1 = new Tile();
-            t1.image = ImageIO.read(getClass().getResourceAsStream("/tiles/wood-64x64.png"));
-            tileType.put("grass", t1);
-            tileCodeTable.put(0, "grass");
+            tileCodeTable.put(0, "wood");
+            images.put("wood", ImageIO.read(getClass().getResourceAsStream("/tiles/wood-64x64.png")));
 
-            Tile t2 = new Tile();
-            t2.image = ImageIO.read(getClass().getResourceAsStream("/tiles/water-64x64.png"));
-            tileType.put("road", t2);
-            tileCodeTable.put(1, "road");
-
-            Tile t3 = new Tile();
-            t3.image = ImageIO.read(getClass().getResourceAsStream("/tiles/water-64x64.png"));
-            tileType.put("water", t3);
-            tileCodeTable.put(2, "water");
-
-            image = ImageIO.read(getClass().getResourceAsStream("/tiles/map2-2-2.png"));
+            tileCodeTable.put(1, "water");
+            images.put("water", ImageIO.read(getClass().getResourceAsStream("/tiles/water-64x64.png")));
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void loadMap() {
+    private void loadMap(String filename) {
         try {
-            InputStream is = getClass().getResourceAsStream("/maps/map2.txt");
+            InputStream is = getClass().getResourceAsStream("/maps/" + filename);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            int col = 0;
-            int row = 0;
+            String[] dimensions = br.readLine().split(" ");
+            maxColNumber = Integer.parseInt(dimensions[0]);
+            maxRowNumber = Integer.parseInt(dimensions[1]);
+            grid = new Tile[maxRowNumber][maxColNumber];   
 
-            String line;
-            while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
-                line = br.readLine();
-                ArrayList<String> temp = new ArrayList<String>();
-                while (col < gp.maxScreenCol) {
-                    String type = tileCodeTable.get(Integer.parseInt(line.split(" ")[col]));
-                    if (type != "road") {
+            int blockCount = 0;
+            
+            for(int i = 0; i < maxRowNumber; i++) {
+                String[] tileNumbers = br.readLine().split(" ");
+                for (int j = 0; j < maxColNumber; j++) {
+                    Tile t = new Tile();
+
+                    int tileNum = Integer.parseInt(tileNumbers[j]);
+                    t.image = images.get(tileCodeTable.get(tileNum));
+
+                    if(tileCodeTable.get(tileNum) != PATH){
+                        t.collision = true;
                         blockCount++;
                     }
-                    temp.add(type);
-                    col++;
+                    grid[i][j] = t;
                 }
-                if (col == gp.maxScreenCol) {
-                    col = 0;
-                    row++;
-                }
-                tiles.add(temp);
             }
-            br.close();
 
             if (blockCount > 0) {
                 blocks = new int[blockCount][2];
                 int k = 0;
-                for (int i = 0; i < tiles.size(); i++) {
-                    for (int j = 0; j < tiles.get(i).size(); j++) {
-                        if (tiles.get(i).get(j) != "road") {
+                for (int i = 0; i < grid.length; i++) {
+                    for (int j = 0; j < grid[i].length; j++) {
+                        if (grid[i][j].collision) {
                             blocks[k] = new int[] { i, j };
                             k++;
                         }
@@ -95,28 +86,15 @@ public class TileManager {
                 blocks = new int[1][2];
                 blocks[0] = new int[] {-1, -1};
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
     }
 
     public void draw(Graphics2D g2) {
-        int col = 0;
-        int row = 0;
-        int x = 0;
-        int y = 0;
-
-        while (row < gp.maxScreenRow) {
-            g2.drawImage(tileType.get(tiles.get(row).get(col)).image, x, y, gp.tileSize, gp.tileSize, null);
-            col++;
-            x += gp.tileSize;
-            if (col == gp.maxScreenCol) {
-                col = 0;
-                x = 0;
-                row++;
-                y += gp.tileSize;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                g2.drawImage(grid[i][j].image, tileSize * j, tileSize * i, tileSize, tileSize, null);
             }
         }
-        /* g2.drawImage(image, 0, 0, 1024, 576, null);  */
     }
 }

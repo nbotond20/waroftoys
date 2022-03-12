@@ -47,7 +47,9 @@ public class AStar {
     }
 
     public void addBlockOnCell(int i, int j) {
-        grid[i][j] = null;
+        if(i>=0 && j>=0){
+            grid[i][j] = null;
+        }
     }
 
     public void startCell(int i, int j) {
@@ -80,6 +82,10 @@ public class AStar {
 
     public void process() {
         // Add start location to the open list
+        if(grid[startI][startJ] == null){
+            System.out.println("Standing on a block!");
+            return;
+        }
         openCells.add(grid[startI][startJ]);
         Cell current;
 
