@@ -51,8 +51,8 @@ public abstract class Unit extends Entity {
     Color color;
 
     public Unit(Game gp, MouseHandler mouseH) {
-        this.width = 48 * gp.scale;
-        this.height = 64 * gp.scale;
+        this.width = 32 * gp.scale;
+        this.height = 48 * gp.scale;
         this.dotSize = 4 * gp.scale;
         this.gp = gp;
         this.mouseH = mouseH;
