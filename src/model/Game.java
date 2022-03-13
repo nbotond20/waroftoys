@@ -14,6 +14,7 @@ import model.entity.Base;
 import model.entity.tower.*;
 
 public class Game extends JPanel implements Runnable {
+    public Position hoverPosition;
 
     final int originalTileSize = 32;
     public final int scale = 1;
@@ -29,6 +30,7 @@ public class Game extends JPanel implements Runnable {
     public TileManager tileM = new TileManager(tileSize);
     private KeyHandler keyH = new KeyHandler();
     private MouseHandler mouseH = new MouseHandler();
+    private MouseMovementHandler mouseMH = new MouseMovementHandler(this);
     private Thread gameThread;
 
     private ArrayList<Unit> units;
@@ -44,7 +46,9 @@ public class Game extends JPanel implements Runnable {
         this.setBackground(Color.GRAY);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
+        this.addMouseMotionListener(mouseMH);
         this.setFocusable(true);
+        this.hoverPosition = new Position();
 
         units = new ArrayList<Unit>();
 
@@ -164,6 +168,10 @@ public class Game extends JPanel implements Runnable {
         for (Unit p : units) {
             p.draw(g2);
         }
+        
+
+        g2.setColor(new Color(1f,0f,0f,.5f ));
+        g2.fillRect((int)hoverPosition.x, (int)hoverPosition.y, tileSize, tileSize);
 
         g2.dispose();
     }
