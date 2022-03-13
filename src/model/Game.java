@@ -15,12 +15,12 @@ import model.entity.tower.*;
 
 public class Game extends JPanel implements Runnable {
 
-    final int originalTileSize = 64;
+    final int originalTileSize = 32;
     public final int scale = 1;
 
     public final int tileSize = originalTileSize * scale;
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 9;
+    public final int maxScreenCol = 32;
+    public final int maxScreenRow = 18;
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 

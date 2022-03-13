@@ -20,6 +20,7 @@ import model.Game;
 import model.entity.Entity;
 
 public abstract class Unit extends Entity {
+    private boolean AStarVerbose = false;
 
     private BufferedImage front1, front2, front3, front4, front5, front6, front7, front8;
     private BufferedImage back1, back2, back3, back4, back5, back6, back7, back8;
@@ -42,8 +43,8 @@ public abstract class Unit extends Entity {
     Color color;
 
     public Unit(Game gp, MouseHandler mouseH) {
-        this.width = 32 * gp.scale;
-        this.height = 48 * gp.scale;
+        this.width = 16 * gp.scale;
+        this.height = 24 * gp.scale;
         this.dotSize = 4 * gp.scale;
         this.gp = gp;
         this.mouseH = mouseH;
@@ -113,7 +114,16 @@ public abstract class Unit extends Entity {
                 /* aStar.display(); */
                 aStar.process(); // Apply A* Algorithm
                 /* aStar.displayScores(); */ // Display Scores on grid
-                ArrayList<Cell> destCells = aStar.displaySolution(false); // Display Solution
+
+                ArrayList<Cell> destCells;
+                if (!AStarVerbose) {
+                    destCells = aStar.displaySolution(false); // Display Solution
+                } else {
+                    aStar.display();
+                    aStar.process(); // Apply A* Algorithm
+                    aStar.displayScores(); // Display Scores on grid
+                    destCells = aStar.displaySolution(true); // Display Solution
+                }
 
                 if (destCells != null) {
                     for (int k = destCells.size() - 1; k >= 0; k--) {
@@ -167,7 +177,7 @@ public abstract class Unit extends Entity {
 
     private BufferedImage setImageBasedOnDirection(Direction dir, boolean standing) {
         BufferedImage image = null;
-        if(standing || !gp.isAttacking){
+        if (standing || !gp.isAttacking) {
             switch (dir) {
                 case UP:
                     image = back.get(0);
@@ -182,7 +192,7 @@ public abstract class Unit extends Entity {
                     image = right.get(0);
                     break;
             }
-        }else{
+        } else {
             switch (dir) {
                 case UP:
                     image = back.get(spriteNum);
@@ -210,10 +220,10 @@ public abstract class Unit extends Entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = setImageBasedOnDirection(dir, destinations.size() == 0);
 
-        if(this.equals(gp.activeUnit) && !gp.isAttacking){
+        if (this.equals(gp.activeUnit) && !gp.isAttacking) {
             g2.setColor(Color.RED);
             g2.fillOval((int) pos.x + (width / 2) - (dotSize / 2), (int) pos.y - (dotSize / 2), dotSize, dotSize);
-        }else{
+        } else {
             g2.setColor(color);
         }
 
@@ -238,9 +248,10 @@ public abstract class Unit extends Entity {
         }
 
         g2.setColor(Color.RED);
-        g2.fillRect((int)pos.x + (width-HEALTH_BAR_WIDTH)/2, (int)pos.y, (int)(HEALTH_BAR_WIDTH*(health / MAX_HEALTH)), 5);
+        g2.fillRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2, (int) pos.y,
+                (int) (HEALTH_BAR_WIDTH * (health / MAX_HEALTH)), 5);
         g2.setColor(Color.BLACK);
-        g2.drawRect((int)pos.x + (width-HEALTH_BAR_WIDTH)/2, (int)pos.y, HEALTH_BAR_WIDTH, 5);
+        g2.drawRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2, (int) pos.y, HEALTH_BAR_WIDTH, 5);
     }
 
     public void getPlayerImage(String filename) {
