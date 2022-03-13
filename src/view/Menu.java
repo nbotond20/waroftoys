@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.BoxLayout;
 import java.awt.image.BufferedImage;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
@@ -192,16 +193,24 @@ public class Menu extends JPanel {
     }
 
     private void StartActionPerformed(java.awt.event.ActionEvent evt) {
+        window.remove(this);
         
-        Game gamePanel = new Game();
-        window.add(gamePanel);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        Game game = new Game();
+        mainPanel.add(game);
+        ButtonPanel btnPanel = new ButtonPanel(game);
+        mainPanel.add(btnPanel);
         
+        window.add(mainPanel);
+
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         
-        gamePanel.startGameThread();
-        window.remove(this);
+        game.startGameThread();
+        game.requestFocus();
     }
 
     private void SavedGamesActionPerformed(java.awt.event.ActionEvent evt) {
