@@ -16,7 +16,7 @@ public class UnitType3 extends Unit {
         this.dir = Direction.DOWN;
         this.health = 50;
         this.MAX_HEALTH = 50;
-        this.color = Color.MAGENTA;
+        this.color = new Color(200, 0, 0, 255);
         getPlayerImage("unit-type1");
     }
 }

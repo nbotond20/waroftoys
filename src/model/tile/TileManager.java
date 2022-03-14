@@ -61,6 +61,10 @@ public class TileManager {
             tileCodeTable.put(6, "dices");
             obstacleSizeTable.put("dices", new Integer[] { 4, 4 });
             images.put("dices", ImageIO.read(getClass().getResourceAsStream("/tiles/dices-165x165.png")));
+
+            tileCodeTable.put(7, "bear");
+            obstacleSizeTable.put("bear", new Integer[] { 10, 8 });
+            images.put("bear", ImageIO.read(getClass().getResourceAsStream("/tiles/bear-165x165.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,18 +78,19 @@ public class TileManager {
             String[] dimensions = br.readLine().split(" ");
             maxColNumber = Integer.parseInt(dimensions[0]);
             maxRowNumber = Integer.parseInt(dimensions[1]);
-            grid = new Tile[maxRowNumber][maxColNumber];   
-            obstacleGrid = new Obstacle[maxRowNumber][maxColNumber];   
+            grid = new Tile[maxRowNumber][maxColNumber];
+            obstacleGrid = new Obstacle[maxRowNumber][maxColNumber];
 
             int blockCount = 0;
-            
-            for(int i = 0; i < maxRowNumber; i++) {
+
+            for (int i = 0; i < maxRowNumber; i++) {
                 String[] tileNumbers = br.readLine().split(" ");
                 for (int j = 0; j < maxColNumber; j++) {
                     Tile t = new Tile();
 
                     int tileNum = Integer.parseInt(tileNumbers[j]);
-                    if(tileNum <= 1) t.image = images.get(tileCodeTable.get(tileNum));
+                    if (tileNum <= 1)
+                        t.image = images.get(tileCodeTable.get(tileNum));
                     else {
                         Obstacle obstacle = new Obstacle();
                         obstacle.image = images.get(tileCodeTable.get(tileNum));
@@ -94,19 +99,24 @@ public class TileManager {
                         obstacleGrid[i][j] = obstacle;
                         t.image = images.get(DEFAULT);
                     }
-                    
-                    if(tileCodeTable.get(tileNum) != DEFAULT){
+
+                    if (tileCodeTable.get(tileNum) != DEFAULT) {
                         t.collision = true;
                         blockCount++;
                     }
-
-                    if (obstacleGrid[i][j] != null){
-                        blockCount += obstacleGrid[i][j].width * obstacleGrid[i][j].height - 1;
+                    
+                    if (obstacleGrid[i][j] != null) {
+                        for(int e=0; e<obstacleGrid[i][j].width; e++){
+                            for(int f=0; f<obstacleGrid[i][j].height; f++){
+                                if(!(e==0 && f==0) && (i + f < grid.length - 1 && j + e < grid[0].length - 1)){
+                                    blockCount++;
+                                }
+                            }
+                        }
                     }
                     grid[i][j] = t;
                 }
             }
-
             if (blockCount > 0) {
                 blocks = new int[blockCount][2];
                 int k = 0;
@@ -116,10 +126,10 @@ public class TileManager {
                             blocks[k] = new int[] { i, j };
                             k++;
                         }
-                        if( obstacleGrid[i][j] != null ){
-                            for(int e = 0; e < obstacleGrid[i][j].width; e++) {
-                                for(int f = 0; f < obstacleGrid[i][j].height; f++) {
-                                    if(!(e == 0 && f == 0)){
+                        if (obstacleGrid[i][j] != null) {
+                            for (int e = 0; e < obstacleGrid[i][j].width; e++) {
+                                for (int f = 0; f < obstacleGrid[i][j].height; f++) {
+                                    if (!(e == 0 && f == 0) && (i + f < grid.length - 1 && j + e < grid[0].length - 1) && grid[i][j].collision) {
                                         blocks[k] = new int[] { i + f, j + e };
                                         k++;
                                     }
@@ -128,13 +138,14 @@ public class TileManager {
                         }
                     }
                 }
-            }else{
+            } else {
                 blocks = new int[1][2];
-                blocks[0] = new int[] {-1, -1};
+                blocks[0] = new int[] { -1, -1 };
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public void draw(Graphics2D g2) {

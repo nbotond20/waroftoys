@@ -24,7 +24,7 @@ public class MouseMovementHandler implements MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        System.out.println("mouse is dragged to point " + e.getX() + " " + e.getY()); 
+        /* System.out.println("mouse is dragged to point " + e.getX() + " " + e.getY());  */
     }
 
     @Override
@@ -32,6 +32,6 @@ public class MouseMovementHandler implements MouseMotionListener {
         p.x = e.getX();
         p.y = e.getY();
         game.hoverPosition = getPosFromIndex(getIndexFromPos(p));
-        System.out.println("mouse is moved to point " + e.getX() + " " + e.getY()); 
+        /* System.out.println("mouse is moved to point " + e.getX() + " " + e.getY());  */
     }
 }

@@ -31,15 +31,17 @@ public abstract class Tower extends Entity {
     }
 
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.GREEN);
+        g2.setColor(new Color(100, 100, 100, 100));
+        g2.fillOval((int) (pos.x + width/2 - range/2), (int) (pos.y + width/2 - range/2), (int)range, (int)range);
+
         /* g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null); */
         g2.setColor(color);
         g2.fillOval((int) pos.x, (int) pos.y, width, height);
         g2.drawOval((int) (pos.x + width/2 - range/2), (int) (pos.y + width/2 - range/2), (int)range, (int)range);
-
+        
         g2.setColor(Color.RED);
-        g2.fillRect((int)pos.x + (width-HEALTH_BAR_WIDTH)/2, (int)pos.y, (int)(HEALTH_BAR_WIDTH*(health / MAX_HEALTH)), 5);
+        g2.fillRect((int)pos.x + (width-HEALTH_BAR_WIDTH)/2, (int)pos.y - 5, (int)(HEALTH_BAR_WIDTH*(health / MAX_HEALTH)), 5);
         g2.setColor(Color.BLACK);
-        g2.drawRect((int)pos.x + (width-HEALTH_BAR_WIDTH)/2, (int)pos.y, HEALTH_BAR_WIDTH, 5);
+        g2.drawRect((int)pos.x + (width-HEALTH_BAR_WIDTH)/2, (int)pos.y - 5, HEALTH_BAR_WIDTH, 5);
     }
 }
