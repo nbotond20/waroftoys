@@ -35,7 +35,7 @@ public class Scoreboard extends JPanel {
         // Labelek és szövegeik beállításai:
         Player1Name.setFont(new Font("Tahoma", 1, 24));
         Player1Name.setHorizontalAlignment(SwingConstants.CENTER);
-        Player1Name.setText("Player 2");
+        Player1Name.setText("Player 2"); //  Player 2 lekért nevének a helye
 
         Player2Name.setFont(new Font("Tahoma", 1, 24));
         Player2Name.setHorizontalAlignment(SwingConstants.CENTER);
