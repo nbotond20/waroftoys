@@ -220,12 +220,7 @@ public abstract class Unit extends Entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = setImageBasedOnDirection(dir, destinations.size() == 0);
 
-        if (this.equals(gp.activeUnit) && !gp.isAttacking) {
-            g2.setColor(Color.RED);
-            g2.fillOval((int) pos.x + (width / 2) - (dotSize / 2), (int) pos.y - (dotSize / 2), dotSize, dotSize);
-        } else {
-            g2.setColor(color);
-        }
+        g2.setColor(color);
 
         g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null);
         g2.drawRect((int) pos.x + 6, (int) pos.y + height / 2, width - 12, height / 2);

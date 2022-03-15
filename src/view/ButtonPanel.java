@@ -89,31 +89,32 @@ public class ButtonPanel extends JPanel {
         add(Unit3Btn);
     }                      
 
-    private void Tower1BtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
+    private void Tower1BtnActionPerformed(java.awt.event.ActionEvent evt) { 
+        game.selectedButtonNum = 0;                                         
     }                                         
 
-    private void Tower2BtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
+    private void Tower2BtnActionPerformed(java.awt.event.ActionEvent evt) {     
+        game.selectedButtonNum = 1;                                      
     }                                         
 
-    private void Tower3BtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
+    private void Tower3BtnActionPerformed(java.awt.event.ActionEvent evt) { 
+        game.selectedButtonNum = 2;                                          
     }                                         
 
-    private void Unit1BtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+    private void Unit1BtnActionPerformed(java.awt.event.ActionEvent evt) {  
+        game.selectedButtonNum = 3;                                        
     }                                        
 
-    private void Unit2BtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+    private void Unit2BtnActionPerformed(java.awt.event.ActionEvent evt) {  
+        game.selectedButtonNum = 4;                                        
     }                                        
 
-    private void Unit3BtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+    private void Unit3BtnActionPerformed(java.awt.event.ActionEvent evt) { 
+        game.selectedButtonNum = 5;                                         
     }
     
-    private void ReadyBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void ReadyBtnActionPerformed(java.awt.event.ActionEvent evt) { 
+        game.selectedButtonNum = -1;                                        
         game.isAttacking = !game.isAttacking;
         if(game.isAttacking) Ready.setText("STOP");
         else Ready.setText("READY");

@@ -13,6 +13,7 @@ public abstract class Entity {
     public int height, width;
     public double speed, health, range, MAX_HEALTH;
     public int HEALTH_BAR_WIDTH;
+    public double cost;
 
     public Position getPosFromIndex(int i, int j) {
         return new Position(j * gp.tileSize + (gp.tileSize / 2) - width / 2,

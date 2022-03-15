@@ -142,6 +142,10 @@ public class TileManager {
                 blocks = new int[1][2];
                 blocks[0] = new int[] { -1, -1 };
             }
+
+            for(int[] i : blocks) {
+                grid[i[0]][i[1]].collision = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

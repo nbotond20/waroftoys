@@ -14,7 +14,7 @@ public class TowerType2 extends Tower {
         this.health = 20;
         this.MAX_HEALTH = 200;
         this.range = 100;
-
+        this.cost = 1000;
         this.color = new Color(0, 200, 0, 255);
 
         calcCorrectPosition(this.pos);

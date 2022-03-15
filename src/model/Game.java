@@ -9,12 +9,14 @@ import java.util.ArrayList;
 
 import model.tile.TileManager;
 import model.utility.*;
-import model.entity.unit.*;
 import model.entity.Base;
-import model.entity.tower.*;
+import model.player.Player;
 
 public class Game extends JPanel implements Runnable {
     public Position hoverPosition;
+    public Position selectedPosition;
+
+    public int selectedButtonNum = -1;
 
     final int originalTileSize = 32;
     public final int scale = 1;
@@ -29,17 +31,14 @@ public class Game extends JPanel implements Runnable {
 
     public TileManager tileM = new TileManager(tileSize);
     private KeyHandler keyH = new KeyHandler();
-    private MouseHandler mouseH = new MouseHandler();
+    public MouseHandler mouseH = new MouseHandler(this);
     private MouseMovementHandler mouseMH = new MouseMovementHandler(this);
     private Thread gameThread;
 
-    private ArrayList<Unit> units;
-    private ArrayList<Tower> towers;
-    private ArrayList<Base> bases;
+    public ArrayList<Player> players;
+    public int activePlayer = 0;
 
     public boolean isAttacking = false;
-    public int unitNum = 0;
-    public Unit activeUnit;
 
     public Game() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -50,33 +49,12 @@ public class Game extends JPanel implements Runnable {
         this.setFocusable(true);
         this.hoverPosition = new Position();
 
-        units = new ArrayList<Unit>();
+        this.players = new ArrayList<Player>();
 
-        Unit u1 = new UnitType1(new Position(), this, mouseH);
-        Unit u2 = new UnitType2(new Position(), this, mouseH);
-        Unit u3 = new UnitType3(new Position(), this, mouseH);
-
-        units.add(u1);
-        units.add(u2);
-        units.add(u3);
-
-        activeUnit = units.get(0);
-
-        towers = new ArrayList<Tower>();
-
-        Tower t1 = new TowerType1(new Position(128,64), this, mouseH);
-        Tower t2 = new TowerType2(new Position(128,450), this, mouseH);
-        Tower t3 = new TowerType3(new Position(555,120), this, mouseH);
-
-        towers.add(t1);
-        towers.add(t2);
-        towers.add(t3);
-
-        bases = new ArrayList<Base>();
-
-        Base b1 = new Base(new Position(500,500), this, mouseH);
-
-        bases.add(b1);
+        Player p = new Player("James", this);
+        Base b = new Base(new Position(), this);
+        p.setBase(b);
+        players.add(p);
 
         addMouseListener(mouseH);
     }
@@ -116,38 +94,12 @@ public class Game extends JPanel implements Runnable {
         }
     }
 
-    private void setNextUnitIndex(){
-        if(keyH.switchPlayer != 0){
-            if(keyH.switchPlayer == -1){
-                if(unitNum == 0){
-                    unitNum = units.size()-1;
-                }else{
-                    unitNum--;
-                }
-            }else{
-                if(unitNum == units.size()-1){
-                    unitNum = 0;
-                }else{
-                    unitNum++;
-                }
-            }
-            keyH.switchPlayer = 0;
-            activeUnit = units.get(unitNum);
-        }
+    private void setNextUnitIndex() {
     }
 
     public void update() {
-        setNextUnitIndex();
-        if(keyH.active){
-            isAttacking = !isAttacking;
-            keyH.active = false;
-        }
-        if(isAttacking){
-            for(Unit u : units){
-                u.update();
-            }
-        }else{
-            units.get(unitNum).update();
+        for(Player p : players){
+            p.update();
         }
     }
 
@@ -157,21 +109,20 @@ public class Game extends JPanel implements Runnable {
 
         tileM.draw(g2);
 
-        for(Base b : bases){
-            b.draw(g2);
-        }
-
-        for(Tower t : towers) {
-            t.draw(g2);
-        }
-
-        for (Unit p : units) {
+        for(Player p : players) {
             p.draw(g2);
         }
-        
 
-        g2.setColor(new Color(1f,0f,0f,.5f ));
-        g2.fillRect((int)hoverPosition.x, (int)hoverPosition.y, tileSize, tileSize);
+        g2.setColor(new Color(1f, 0f, 0f, .5f));
+        g2.fillRect((int) hoverPosition.x, (int) hoverPosition.y, tileSize, tileSize);
+
+        if (selectedPosition != null) {
+            g2.setColor(new Color(0, 160, 200, 150));
+            g2.fillRect((int) selectedPosition.x, (int) selectedPosition.y, tileSize, tileSize);
+        }
+
+        g2.setFont(g.getFont().deriveFont(30f));
+        g2.drawString(String.valueOf(players.get(0).balance), 0, 0 + g2.getFontMetrics().getHeight());
 
         g2.dispose();
     }

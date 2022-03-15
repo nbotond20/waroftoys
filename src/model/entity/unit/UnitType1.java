@@ -10,13 +10,14 @@ import model.Game;
 public class UnitType1 extends Unit {
     public UnitType1(Position pos, Game gp, MouseHandler mouseH){
         super(gp, mouseH);
-        this.speed = 2;
+        this.speed = 1;
         this.pos = pos;
         calcCorrectPosition(this.pos);
         this.dir = Direction.DOWN;
         this.health = 50;
         this.MAX_HEALTH = 100;
         this.color = new Color(0, 0, 200, 255);
+        this.cost = 1000;
         getPlayerImage("unit-type1");
     }
 }

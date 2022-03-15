@@ -13,9 +13,9 @@ public class Base extends Entity {
     private BufferedImage image;
     private Color color;
 
-    public Base(Position pos, Game gp, MouseHandler mouseH){
+    public Base(Position pos, Game gp){
         this.gp = gp;
-        this.mouseH = mouseH;
+        this.mouseH = gp.mouseH;
         this.width = gp.tileSize * gp.scale;
         this.height = gp.tileSize * gp.scale;
         HEALTH_BAR_WIDTH = 60;
