@@ -1,5 +1,6 @@
 package view;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.Game;
@@ -7,6 +8,7 @@ import model.Game;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class Scoreboard extends JPanel {
@@ -28,7 +30,7 @@ public class Scoreboard extends JPanel {
     public Scoreboard(Game game) {
         this.game = game;
         initComponents();
-        startTimer(); 
+        startTimer();
     }
 
     private void initComponents() {
@@ -48,7 +50,7 @@ public class Scoreboard extends JPanel {
         setRequestFocusEnabled(false);
         setLayout(new GridBagLayout());
 
-        Player2Name.setFont(new Font("Tahoma", 1, 24)); // NOI18N
+        Player2Name.setFont(new Font("Tahoma", 1, 24)); 
         Player2Name.setHorizontalAlignment(SwingConstants.CENTER);
         Player2Name.setText(game.players.get(1).name);
         gridBagConstraints = new GridBagConstraints();
@@ -58,7 +60,7 @@ public class Scoreboard extends JPanel {
         add(Player2Name, gridBagConstraints);
         Player2Name.getAccessibleContext().setAccessibleName("Player1Name");
 
-        Player1Name.setFont(new Font("Tahoma", 1, 24)); // NOI18N
+        Player1Name.setFont(new Font("Tahoma", 1, 24)); 
         Player1Name.setHorizontalAlignment(SwingConstants.CENTER);
         Player1Name.setText(game.players.get(0).name);
         gridBagConstraints = new GridBagConstraints();
@@ -67,7 +69,7 @@ public class Scoreboard extends JPanel {
         gridBagConstraints.insets = new Insets(0, 28, 0, 100);
         add(Player1Name, gridBagConstraints);
 
-        TimerLabel.setFont(new Font("Tahoma", 0, 36)); // NOI18N
+        TimerLabel.setFont(new Font("Tahoma", 0, 36)); 
         TimerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         TimerLabel.setText("0:00");
         TimerLabel.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -78,24 +80,32 @@ public class Scoreboard extends JPanel {
         gridBagConstraints.insets = new Insets(0, 40, 0, 40);
         add(TimerLabel, gridBagConstraints);
 
-        Player2CoinIcon
-                .setIcon(new ImageIcon("C:\\Users\\bence\\Desktop\\ScoreboardProject\\Scoreboard\\res\\coinicon.png")); // NOI18N
+        try {
+            Player2CoinIcon
+                    .setIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/scoreboard/coinicon.png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new Insets(0, 4, 0, 128);
+        gridBagConstraints.insets = new Insets(0, 4, 0, 140);
         add(Player2CoinIcon, gridBagConstraints);
 
-        Player1CoinIcon
-                .setIcon(new ImageIcon("C:\\Users\\bence\\Desktop\\ScoreboardProject\\Scoreboard\\res\\coinicon.png")); // NOI18N
+        try {
+            Player1CoinIcon
+                    .setIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/scoreboard/coinicon.png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new Insets(0, 112, 0, 0);
+        gridBagConstraints.insets = new Insets(0, 106, 0, 0);
         add(Player1CoinIcon, gridBagConstraints);
 
-        Player2Balance.setFont(new Font("Tahoma", 0, 14)); // NOI18N
+        Player2Balance.setFont(new Font("Tahoma", 0, 14)); 
         Player2Balance.setHorizontalAlignment(SwingConstants.CENTER);
         Player2Balance.setText(String.valueOf(game.players.get(1).balance));
         gridBagConstraints = new GridBagConstraints();
@@ -105,7 +115,7 @@ public class Scoreboard extends JPanel {
         gridBagConstraints.insets = new Insets(0, 112, 0, 0);
         add(Player2Balance, gridBagConstraints);
 
-        Player1Balance.setFont(new Font("Tahoma", 0, 14)); // NOI18N
+        Player1Balance.setFont(new Font("Tahoma", 0, 14)); 
         Player1Balance.setHorizontalAlignment(SwingConstants.CENTER);
         Player1Balance.setText(String.valueOf(game.players.get(0).balance));
         gridBagConstraints = new GridBagConstraints();
