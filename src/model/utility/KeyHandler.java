@@ -10,12 +10,12 @@ public class KeyHandler implements KeyListener {
     public int switchPlayer = 0;
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(final KeyEvent e) {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        int code = e.getKeyCode();
+    public void keyPressed(final KeyEvent e) {
+        final int code = e.getKeyCode();
 
         if (code == KeyEvent.VK_W) {
             upPressed = true;
@@ -42,8 +42,8 @@ public class KeyHandler implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        int code = e.getKeyCode();
+    public void keyReleased(final KeyEvent e) {
+        final int code = e.getKeyCode();
 
         if (code == KeyEvent.VK_W) {
             upPressed = false;

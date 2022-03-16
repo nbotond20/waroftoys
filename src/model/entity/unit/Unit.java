@@ -1,25 +1,28 @@
 package model.entity.unit;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.sqrt;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import static java.lang.Math.abs;
-import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+
 import javax.imageio.ImageIO;
 
+import model.Game;
+import model.entity.Entity;
 import model.pathfinding.AStar;
 import model.pathfinding.Cell;
 import model.utility.Direction;
 import model.utility.MouseHandler;
 import model.utility.Position;
-import model.Game;
-import model.entity.Entity;
 
 public abstract class Unit extends Entity {
+    private final boolean AStarVerbose = false;
 
     private BufferedImage front1, front2, front3, front4, front5, front6, front7, front8;
     private BufferedImage back1, back2, back3, back4, back5, back6, back7, back8;
@@ -37,30 +40,25 @@ public abstract class Unit extends Entity {
     Direction dir;
     int dotSize;
 
-    LinkedList<Position> destinations;
+    public LinkedList<Position> destinations;
 
     Color color;
 
-    public Unit(Game gp, MouseHandler mouseH) {
-        this.width = 32 * gp.scale;
-        this.height = 48 * gp.scale;
-        this.dotSize = 8 * gp.scale;
+    public Unit(final Game gp, final MouseHandler mouseH) {
+        this.width = 16 * gp.scale;
+        this.height = 24 * gp.scale;
+        this.dotSize = 4 * gp.scale;
         this.gp = gp;
         this.mouseH = mouseH;
         this.destinations = new LinkedList<Position>();
+        HEALTH_BAR_WIDTH = 30;
     }
 
-    // Moves unit by position values
-    private void move(Position pos) {
+    private void move(final Position pos) {
         this.pos.x += pos.x;
         this.pos.y += pos.y;
     }
 
-    private void addDestination(Position pos) {
-        this.destinations.add(pos);
-    }
-
-    // Checks if the unit is at the destination
     private boolean isAtDestination() {
         if (abs(destinations.get(0).x - pos.x) == 0 && abs(destinations.get(0).y - pos.y) == 0) {
             return true;
@@ -68,30 +66,18 @@ public abstract class Unit extends Entity {
         return false;
     }
 
-    // Calculates the next position based on the unit's speed
-    private Position calcNextPos(Position curr, Position dest) {
-        double distX = (dest.x - curr.x);
-        double distY = (dest.y - curr.y);
+    private Position calcNextPos(final Position curr, final Position dest) {
+        final double distX = (dest.x - curr.x);
+        final double distY = (dest.y - curr.y);
         if (sqrt(distX * distX + distY * distY) <= speed) {
             return new Position(dest.x - curr.x, dest.y - curr.y);
         }
-        double ratio = sqrt((distX * distX + distY * distY) / (speed * speed));
+        final double ratio = sqrt((distX * distX + distY * distY) / (speed * speed));
         return new Position(distX / ratio, distY / ratio);
     }
 
-    // Converts grid index (i, j) to position (x, y) the position is going to be in the center of the tile
-    private Position getPosFromIndex(int i, int j) {
-        return new Position(j * gp.tileSize + (gp.tileSize / 2) - width / 2,
-                i * gp.tileSize + (gp.tileSize / 2) - height / 2);
-    }
-
-    // Converts position (x, y) to grid index (i, j)
-    private int[] getIndexFromPos(Position pos) {
-        int[] arr = { (int) (pos.y / gp.tileSize), (int) (pos.x / gp.tileSize) };
-        return arr;
-    }
-
     private void calcSpriteNum() {
+        if (destinations.size() != 0 && gp.isAttacking) {
             spriteCounter++;
             if (spriteCounter > 5) {
                 spriteNum++;
@@ -99,16 +85,15 @@ public abstract class Unit extends Entity {
                     spriteNum = 0;
                 }
                 spriteCounter = 0;
+            }
         }
-    }  
+    }
 
-    // Handles mouse clicks ( adds new destinations based on click position )
-    public void handleMouseClick() {
-        if (this.mouseH.isClicked && !gp.isAttacking) {
-            Position dest = new Position(mouseH.pos.x, mouseH.pos.y);
+    public void addDestination(Position dest) {
+        if (!gp.isAttacking) {
 
             int[] startInd;
-            int[] destInd = getIndexFromPos(dest);
+            final int[] destInd = getIndexFromPos(dest);
             if (destinations.size() == 0) {
                 startInd = getIndexFromPos(this.pos);
             } else {
@@ -116,67 +101,73 @@ public abstract class Unit extends Entity {
             }
 
             if (startInd != null && destInd != null && mouseH.pos != null) {
-                AStar aStar = new AStar(gp.maxScreenRow, gp.maxScreenCol, startInd[0], startInd[1], destInd[0], destInd[1], gp.tileM.blocks/* new int[][] {} */);
+                final AStar aStar = new AStar(gp.maxScreenRow, gp.maxScreenCol, startInd[0], startInd[1], destInd[0],
+                        destInd[1], gp.tileM.blocks/* new int[][] {} */);
+
+                /* aStar.display(); */
                 aStar.process(); // Apply A* Algorithm
-                ArrayList<Cell> destCells = aStar.displaySolution(false); // Returns destination cells ( displays it to console if parameter is true ) 
+                /* aStar.displayScores(); */ // Display Scores on grid
+
+                ArrayList<Cell> destCells;
+                if (!AStarVerbose) {
+                    destCells = aStar.displaySolution(false); // Display Solution
+                } else {
+                    aStar.display();
+                    aStar.process(); // Apply A* Algorithm
+                    aStar.displayScores(); // Display Scores on grid
+                    destCells = aStar.displaySolution(true); // Display Solution
+                }
 
                 if (destCells != null) {
                     for (int k = destCells.size() - 1; k >= 0; k--) {
-                        addDestination(getPosFromIndex(destCells.get(k).i, destCells.get(k).j));
+                        this.destinations.add(getPosFromIndex(destCells.get(k).i, destCells.get(k).j));
                     }
                 }
             }
         }
-        this.mouseH.isClicked = false;
     }
 
-    // Handles movement
     private void startMoving() {
-        Position p = calcNextPos(pos, destinations.get(0));
-        move(p);
+        if (destinations.size() != 0 && gp.isAttacking) {
+            final Position p = calcNextPos(pos, destinations.get(0));
+            move(p);
 
-        if (isAtDestination()) {
-            destinations.removeFirst();
-        }
+            if (isAtDestination()) {
+                destinations.removeFirst();
+            }
 
-        setDirection(p); // Sets direction based on next position
-        calcSpriteNum(); // Changes Sprite Count
-    }
-
-    // Sets sprite direction based on next position
-    private void setDirection(Position p) {
-        if (p.x <= 0 && p.y <= 0) { // LEFT or UP
-            if (abs(p.x) < abs(p.y)) {
-                dir = Direction.UP;
-            } else {
-                dir = Direction.LEFT;
+            if (p.x <= 0 && p.y <= 0) { // LEFT UP
+                if (abs(p.x) < abs(p.y)) {
+                    dir = Direction.UP;
+                } else {
+                    dir = Direction.LEFT;
+                }
             }
-        }
-        if (p.x >= 0 && p.y <= 0) { // RIGHT or UP
-            if (abs(p.x) < abs(p.y)) {
-                dir = Direction.UP;
-            } else {
-                dir = Direction.RIGHT;
+            if (p.x >= 0 && p.y <= 0) { // RIGHT UP
+                if (abs(p.x) < abs(p.y)) {
+                    dir = Direction.UP;
+                } else {
+                    dir = Direction.RIGHT;
+                }
             }
-        }
-        if (p.x <= 0 && p.y >= 0) { // LEFT or DOWN
-            if (abs(p.x) < abs(p.y)) {
-                dir = Direction.DOWN;
-            } else {
-                dir = Direction.LEFT;
+            if (p.x <= 0 && p.y >= 0) { // LEFT DOWN
+                if (abs(p.x) < abs(p.y)) {
+                    dir = Direction.DOWN;
+                } else {
+                    dir = Direction.LEFT;
+                }
             }
-        }
-        if (p.x >= 0 && p.y >= 0) { // RIGHT or DOWN
-            if (abs(p.x) < abs(p.y)) {
-                dir = Direction.DOWN;
-            } else {
-                dir = Direction.RIGHT;
+            if (p.x >= 0 && p.y >= 0) { // RIGHT DOWN
+                if (abs(p.x) < abs(p.y)) {
+                    dir = Direction.DOWN;
+                } else {
+                    dir = Direction.RIGHT;
+                }
             }
         }
     }
 
-    // Sets sprite image based on current direction
-    private BufferedImage setImageBasedOnDirection(Direction dir, boolean standing) {
+    private BufferedImage setImageBasedOnDirection(final Direction dir, final boolean standing) {
         BufferedImage image = null;
         if (standing || !gp.isAttacking) {
             switch (dir) {
@@ -213,19 +204,14 @@ public abstract class Unit extends Entity {
     }
 
     public void update() {
-        handleMouseClick(); // Listens for mouse clicks (adds new destination(s))
-        if (destinations.size() != 0 && gp.isAttacking) startMoving(); // Handles movement
+        calcSpriteNum(); // Changes Sprite Count
+        startMoving(); // Changes Player Sprite Direction (when using the mouse)
     }
 
-    public void draw(Graphics2D g2) {
-        BufferedImage image = setImageBasedOnDirection(dir, destinations.size() == 0);
+    public void draw(final Graphics2D g2) {
+        final BufferedImage image = setImageBasedOnDirection(dir, destinations.size() == 0);
 
-        if (this.equals(gp.activeUnit) && !gp.isAttacking) {
-            g2.setColor(Color.RED);
-            g2.fillOval((int) pos.x + (width / 2) - (dotSize / 2), (int) pos.y - (dotSize / 2), dotSize, dotSize);
-        } else {
-            g2.setColor(color);
-        }
+        g2.setColor(color);
 
         g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null);
         g2.drawRect((int) pos.x + 6, (int) pos.y + height / 2, width - 12, height / 2);
@@ -238,18 +224,23 @@ public abstract class Unit extends Entity {
                     (int) destinations.get(0).y + (height / 2), (int) pos.x + (width / 2),
                     (int) pos.y + (height / 2));
             for (int i = 1; i < destinations.size(); i++) {
-                Position p1 = destinations.get(i - 1);
-                Position p2 = destinations.get(i);
+                final Position p1 = destinations.get(i - 1);
+                final Position p2 = destinations.get(i);
                 g2.fillOval((int) p2.x + (width / 2) - dotSize / 2, (int) p2.y + (height / 2) - dotSize / 2, dotSize,
                         dotSize);
                 g2.drawLine((int) p1.x + (width / 2), (int) p1.y + (height / 2),
                         (int) p2.x + (width / 2), (int) p2.y + (height / 2));
             }
         }
+
+        g2.setColor(Color.RED);
+        g2.fillRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2, (int) pos.y - 5,
+                (int) (HEALTH_BAR_WIDTH * (health / MAX_HEALTH)), 5);
+        g2.setColor(Color.BLACK);
+        g2.drawRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2, (int) pos.y - 5, HEALTH_BAR_WIDTH, 5);
     }
 
-    // Loads the player sprite pictures
-    public void getPlayerImage(String filename) {
+    public void getPlayerImage(final String filename) {
         try {
             front1 = ImageIO.read(getClass().getResourceAsStream("/player/" + filename + "/front/front1.png"));
             front2 = ImageIO.read(getClass().getResourceAsStream("/player/" + filename + "/front/front2.png"));
@@ -290,7 +281,7 @@ public abstract class Unit extends Entity {
             right7 = ImageIO.read(getClass().getResourceAsStream("/player/" + filename + "/right/right7.png"));
             right8 = ImageIO.read(getClass().getResourceAsStream("/player/" + filename + "/right/right8.png"));
             right = new ArrayList<>(Arrays.asList(right1, right2, right3, right4, right5, right6, right7, right8));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.out.println("entity.Player.getPlayerImage()");
         }
     }

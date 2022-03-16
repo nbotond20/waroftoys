@@ -1,0 +1,51 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch TileManager2",
+            "request": "launch",
+            "mainClass": "model.tile.TileManager2",
+            "projectName": "war-of-toys_e516374a"
+        },
+        {
+            "type": "java",
+            "name": "Launch WarOfToys",
+            "request": "launch",
+            "mainClass": "main.WarOfToys",
+            "projectName": "waroftoys_cb0b864c"
+        },
+        {
+            "type": "java",
+            "name": "Launch AStar",
+            "request": "launch",
+            "mainClass": "pathfinding.AStar",
+            "projectName": "WarOfToys_d3c43f6d"
+        },
+        {
+            "type": "java",
+            "name": "Launch WarOfToys",
+            "request": "launch",
+            "mainClass": "waroftoys.WarOfToys",
+            "projectName": "WarOfToys_d3c43f6d",
+            "noDebug": false,
+            "__progressId": "e777ae60-7949-4274-ad5b-884fdcede065"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch WarOfToys",
+            "request": "launch",
+            "mainClass": "waroftoys.WarOfToys",
+            "projectName": "WarOfToys_a2a70964"
+        }
+    ]
+}

@@ -4,55 +4,78 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javax.swing.JPanel;
+
+import model.entity.Base;
+import model.entity.unit.Unit;
+import model.player.Player;
 import model.tile.TileManager;
-import model.utility.*;
-import model.entity.unit.*;
+import model.utility.KeyHandler;
+import model.utility.MouseHandler;
+import model.utility.MouseMovementHandler;
+import model.utility.Position;
+import view.ButtonPanel;
+import view.Scoreboard;
 
 public class Game extends JPanel implements Runnable {
+    public Position hoverPosition;
 
-    final int originalTileSize = 64;
+    public int selectedButtonNum = -1;
+
+    final int originalTileSize = 40;
     public final int scale = 1;
 
     public final int tileSize = originalTileSize * scale;
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 9;
+    public final int maxScreenCol = 32;
+    public final int maxScreenRow = 18;
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 
     final int FPS = 60;
 
-    public TileManager tileM = new TileManager(this);
-    private KeyHandler keyH = new KeyHandler();
-    private MouseHandler mouseH = new MouseHandler();
+    public TileManager tileM = new TileManager(tileSize);
+    private final KeyHandler keyH = new KeyHandler();
+    public final MouseHandler mouseH = new MouseHandler(this);
+    private final MouseMovementHandler mouseMH = new MouseMovementHandler(this);
     private Thread gameThread;
 
-    private ArrayList<Unit> units;
+    public ArrayList<Player> players;
+    public int activePlayer = 0/* (int)Math.round(Math.random()) */;
+    private int prevPlayer = activePlayer;
+    public int readyBtnPushCount = 0;
 
     public boolean isAttacking = false;
-    public int unitNum = 0;
-    public Unit activeUnit;
 
-    public Game() {
+    private ButtonPanel btnPanel;
+
+    private Scoreboard score;
+
+    public Game(String name1, String name2) {
+
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.GRAY);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
+        this.addMouseMotionListener(mouseMH);
         this.setFocusable(true);
+        this.hoverPosition = new Position();
 
-        units = new ArrayList<Unit>();
+        this.players = new ArrayList<Player>();
 
-        Unit p1 = new UnitType1(new Position(), this, mouseH);
-        Unit p2 = new UnitType2(new Position(), this, mouseH);
-        Unit p3 = new UnitType3(new Position(), this, mouseH);
+        final Player p1 = new Player(name1, this, 25000);
+        final Base b1 = new Base(new Position(160, 100), this);
+        p1.setBase(b1);
 
-        units.add(p1);
-        units.add(p2);
-        units.add(p3);
+        final Player p2 = new Player(name2, this, 15000);
+        final Base b2 = new Base(new Position(600, 460), this);
+        p2.setBase(b2);
 
-        activeUnit = units.get(0);
+        players.add(p1);
+        players.add(p2);
 
         addMouseListener(mouseH);
     }
@@ -64,7 +87,7 @@ public class Game extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1000000000 / FPS;
+        final double drawInterval = 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -92,49 +115,76 @@ public class Game extends JPanel implements Runnable {
         }
     }
 
-    private void setNextUnitIndex(){
-        if(keyH.switchPlayer != 0){
-            if(keyH.switchPlayer == -1){
-                if(unitNum == 0){
-                    unitNum = units.size()-1;
-                }else{
-                    unitNum--;
-                }
-            }else{
-                if(unitNum == units.size()-1){
-                    unitNum = 0;
-                }else{
-                    unitNum++;
-                }
+    public void addButtonPanel(ButtonPanel btnPanel) {
+        this.btnPanel = btnPanel;
+    }
+
+    public void addScoreboardPanel(Scoreboard score) {
+        this.score = score;
+    }
+
+    public void setNextPlayer() {
+        readyBtnPushCount++;
+        if (readyBtnPushCount == 2) {
+            btnPanel.Ready.setEnabled(false);
+            isAttacking = true;
+            if (prevPlayer == 0) {
+                activePlayer = 1;
+                prevPlayer = 1;
+            } else {
+                activePlayer = 0;
+                prevPlayer = 0;
             }
-            keyH.switchPlayer = 0;
-            activeUnit = units.get(unitNum);
+            readyBtnPushCount = 0;
+        } else {
+            if (activePlayer == 0) {
+                activePlayer = 1;
+            } else {
+                activePlayer = 0;
+            }
         }
     }
 
     public void update() {
-        setNextUnitIndex();
-        if(keyH.active){
-            isAttacking = !isAttacking;
-            keyH.active = false;
+        for (final Player p : players) {
+            p.update();
         }
-        if(isAttacking){
-            for(Unit u : units){
-                u.update();
+
+        boolean allFinished = true;
+        for (final Player p : players) {
+            for (Unit u : p.units) {
+                if (u.destinations.size() > 0) {
+                    allFinished = false;
+                }
             }
-        }else{
-            units.get(unitNum).update();
         }
+
+        if (allFinished) {
+            isAttacking = false;
+            btnPanel.Ready.setEnabled(true);
+            btnPanel.Ready.setText("Ready");
+        }
+
+        score.Player1Balance.setText(String.valueOf(players.get(0).balance));
+        score.Player2Balance.setText(String.valueOf(players.get(1).balance));
     }
 
-    public void paintComponent(Graphics g) {
+    public void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+        final Graphics2D g2 = (Graphics2D) g;
 
         tileM.draw(g2);
-        for (Unit p : units) {
+
+        for (final Player p : players) {
             p.draw(g2);
         }
+
+        g2.setColor(new Color(1f, 0f, 0f, .5f));
+        g2.fillRect((int) hoverPosition.x, (int) hoverPosition.y, tileSize, tileSize);
+
+        g2.setFont(g.getFont().deriveFont(30f));
+        g2.drawString(String.valueOf(players.get(activePlayer).name), 0, 0 + g2.getFontMetrics().getHeight());
+        g2.drawString(String.valueOf(players.get(activePlayer).balance), 0, 0 + 2 * g2.getFontMetrics().getHeight());
 
         g2.dispose();
     }

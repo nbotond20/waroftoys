@@ -1,22 +1,25 @@
 package view;
 
-import model.Game;
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import java.awt.image.BufferedImage;
-import java.awt.FlowLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Cursor;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import model.Game;
 
 public class Menu extends JPanel {
-    private double scale;
-    private JFrame window;
+    private final double scale;
+    private final JFrame window;
 
-    public Menu(double scale, JFrame window) {
+    public Menu(final double scale, final JFrame window) {
         this.window = window;
         this.setLayout(new FlowLayout());
         this.scale = scale;
@@ -46,7 +49,7 @@ public class Menu extends JPanel {
         Player1Input.setText("Player1");
         Player1Input.setPreferredSize(new java.awt.Dimension((int) (160 * (0.5 / scale)), (int) (25 * (0.5 / scale))));
         Player1Input.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Player1InputActionPerformed(evt);
             }
         });
@@ -59,7 +62,7 @@ public class Menu extends JPanel {
         Player1Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         Left.add(Player1Input, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(Player1Pic);
+        final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(Player1Pic);
         Player1Pic.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -77,7 +80,7 @@ public class Menu extends JPanel {
 
         Buttons.setBackground(new java.awt.Color(0, 100, 0));
         Buttons.setPreferredSize(new java.awt.Dimension((int) (300 * (0.5 / scale)), (int) (540 * (0.5 / scale))));
-        java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
+        final java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
         jPanel2Layout.columnWidths = new int[] { 0 };
         jPanel2Layout.rowHeights = new int[] { 0, 5, 0, 5, 0 };
         Buttons.setLayout(jPanel2Layout);
@@ -86,7 +89,7 @@ public class Menu extends JPanel {
         Start.setText("");
         Start.setPreferredSize(new java.awt.Dimension((int) (200 * (0.5 / scale)), (int) (50 * (0.5 / scale))));
         Start.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 StartActionPerformed(evt);
             }
         });
@@ -105,7 +108,7 @@ public class Menu extends JPanel {
         SavedGames.setText("");
         SavedGames.setPreferredSize(new java.awt.Dimension((int) (100 * (0.5 / scale)), (int) (30 * (0.5 / scale))));
         SavedGames.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 SavedGamesActionPerformed(evt);
             }
         });
@@ -153,7 +156,7 @@ public class Menu extends JPanel {
         Player2Input.setText("Player2");
         Player2Input.setPreferredSize(new java.awt.Dimension((int) (160 * (0.5 / scale)), (int) (25 * (0.5 / scale))));
         Player2Input.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Player2InputActionPerformed(evt);
             }
         });
@@ -166,7 +169,7 @@ public class Menu extends JPanel {
         Player2Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         Right.add(Player2Input, gridBagConstraints);
 
-        javax.swing.GroupLayout Player2PicLayout = new javax.swing.GroupLayout(Player2Pic);
+        final javax.swing.GroupLayout Player2PicLayout = new javax.swing.GroupLayout(Player2Pic);
         Player2Pic.setLayout(Player2PicLayout);
         Player2PicLayout.setHorizontalGroup(
                 Player2PicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,28 +186,55 @@ public class Menu extends JPanel {
         add(Right);
     }
 
-    private void Player2InputActionPerformed(java.awt.event.ActionEvent evt) {
+    private void Player2InputActionPerformed(final java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void Player1InputActionPerformed(java.awt.event.ActionEvent evt) {
+    private void Player1InputActionPerformed(final java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void StartActionPerformed(java.awt.event.ActionEvent evt) {
+    private void StartActionPerformed(final java.awt.event.ActionEvent evt) {
+        window.remove(this);
         
-        Game gamePanel = new Game();
-        window.add(gamePanel);
+        final JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout(0,0));
+
+        final Game game = new Game(Player1Input.getText(), Player2Input.getText());
+
+        final ButtonPanel btnPanel = new ButtonPanel(game);
+        final Scoreboard scoreboard = new Scoreboard(game);
         
+        game.addButtonPanel(btnPanel);
+        game.addScoreboardPanel(scoreboard);
+
+        final JPanel p1 = new JPanel();
+        p1.setBackground(new Color(148,246,250,98));
+        p1.setPreferredSize(new Dimension(138,0));
+        final JPanel p2 = new JPanel();
+        p2.setBackground(new Color(148,246,250,98));
+        p2.setPreferredSize(new Dimension(138,0));
+
+        mainPanel.add(scoreboard, BorderLayout.PAGE_START);
+        mainPanel.add(game, BorderLayout.CENTER);
+        mainPanel.add(btnPanel, BorderLayout.PAGE_END);
+
+        /* mainPanel.add(p1, BorderLayout.LINE_START);
+        mainPanel.add(p2, BorderLayout.LINE_END); */
+        
+        mainPanel.setBackground(new Color(0,0,255,255));
+
+        window.add(mainPanel);
+
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         
-        gamePanel.startGameThread();
-        window.remove(this);
+        game.startGameThread();
+        game.requestFocus();
     }
 
-    private void SavedGamesActionPerformed(java.awt.event.ActionEvent evt) {
+    private void SavedGamesActionPerformed(final java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
@@ -224,13 +254,13 @@ public class Menu extends JPanel {
     /* private javax.swing.JButton Quit; */
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         BufferedImage bgImage;
         try {
             bgImage = ImageIO.read(getClass().getResourceAsStream("/menu/menu-bg.png"));
             g.drawImage(bgImage, 0, 0, (int) (1920 * scale), (int) (1080 * scale), null);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
