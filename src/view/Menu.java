@@ -1,17 +1,19 @@
 package view;
 
-import model.Game;
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.BoxLayout;
-import java.awt.image.BufferedImage;
-import java.awt.FlowLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Cursor;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import model.Game;
 
 public class Menu extends JPanel {
     private double scale;

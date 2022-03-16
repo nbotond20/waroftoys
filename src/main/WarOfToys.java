@@ -1,7 +1,8 @@
 package main;
 
-import view.*;
 import javax.swing.JFrame;
+
+import view.Menu;
 
 public class WarOfToys {
 

@@ -4,8 +4,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import model.Game;
-import model.entity.tower.*;
-import model.entity.unit.*;
+import model.entity.tower.Tower;
+import model.entity.tower.TowerType1;
+import model.entity.tower.TowerType2;
+import model.entity.tower.TowerType3;
+import model.entity.unit.Unit;
+import model.entity.unit.UnitType1;
+import model.entity.unit.UnitType2;
+import model.entity.unit.UnitType3;
 
 public class MouseHandler implements MouseListener {
     public boolean isClicked = false;

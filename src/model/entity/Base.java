@@ -1,13 +1,14 @@
 package model.entity;
 
-import model.utility.MouseHandler;
-import model.utility.Position;
-import model.Game;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.awt.Graphics2D;
-import java.awt.Color;
+
 import javax.imageio.ImageIO;
+
+import model.Game;
+import model.utility.Position;
 
 public class Base extends Entity {
     private BufferedImage image;

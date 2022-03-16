@@ -1,23 +1,25 @@
 package model.entity.unit;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.sqrt;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import static java.lang.Math.abs;
-import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+
 import javax.imageio.ImageIO;
 
+import model.Game;
+import model.entity.Entity;
 import model.pathfinding.AStar;
 import model.pathfinding.Cell;
 import model.utility.Direction;
 import model.utility.MouseHandler;
 import model.utility.Position;
-import model.Game;
-import model.entity.Entity;
 
 public abstract class Unit extends Entity {
     private boolean AStarVerbose = false;

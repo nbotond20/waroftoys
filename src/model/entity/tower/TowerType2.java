@@ -1,9 +1,10 @@
 package model.entity.tower;
 
+import java.awt.Color;
+
+import model.Game;
 import model.utility.MouseHandler;
 import model.utility.Position;
-import model.Game;
-import java.awt.Color;
 
 public class TowerType2 extends Tower {
     public TowerType2(Position pos, Game gp, MouseHandler mouseH) {

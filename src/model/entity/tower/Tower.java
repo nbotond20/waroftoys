@@ -1,14 +1,15 @@
 package model.entity.tower;
 
-import model.entity.Entity;
-import model.utility.MouseHandler;
-import model.Game;
-import java.io.IOException;
-import java.awt.image.BufferedImage;
-import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import model.Game;
+import model.entity.Entity;
+import model.utility.MouseHandler;
 
 public abstract class Tower extends Entity {
     private BufferedImage image;

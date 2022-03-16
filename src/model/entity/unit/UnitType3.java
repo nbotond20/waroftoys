@@ -2,10 +2,10 @@ package model.entity.unit;
 
 import java.awt.Color;
 
+import model.Game;
 import model.utility.Direction;
 import model.utility.MouseHandler;
 import model.utility.Position;
-import model.Game;
 
 public class UnitType3 extends Unit {
     public UnitType3(Position pos, Game gp, MouseHandler mouseH){

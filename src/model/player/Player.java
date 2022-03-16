@@ -1,11 +1,12 @@
 package model.player;
 
-import java.util.ArrayList;
 import java.awt.Graphics2D;
-import model.entity.unit.*;
-import model.entity.tower.*;
+import java.util.ArrayList;
+
 import model.Game;
 import model.entity.Base;
+import model.entity.tower.Tower;
+import model.entity.unit.Unit;
 
 
 public class Player { 

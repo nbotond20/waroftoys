@@ -4,13 +4,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.JPanel;
 import java.util.ArrayList;
 
-import model.tile.TileManager;
-import model.utility.*;
+import javax.swing.JPanel;
+
 import model.entity.Base;
 import model.player.Player;
+import model.tile.TileManager;
+import model.utility.KeyHandler;
+import model.utility.MouseHandler;
+import model.utility.MouseMovementHandler;
+import model.utility.Position;
 
 public class Game extends JPanel implements Runnable {
     public Position hoverPosition;

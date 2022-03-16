@@ -1,9 +1,9 @@
 package model.entity;
 
+import model.Game;
 import model.utility.KeyHandler;
 import model.utility.MouseHandler;
 import model.utility.Position;
-import model.Game;
 
 public abstract class Entity {
     public Game gp;
