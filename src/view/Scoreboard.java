@@ -16,7 +16,7 @@ public class Scoreboard extends JPanel {
     private JLabel Player2CoinIcon;
     private JLabel Player2Name;
     private JLabel TimerLabel;
-// teszt
+// tesztaasdsad
     private void initComponents() {
 
         Player1Name = new JLabel();
