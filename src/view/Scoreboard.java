@@ -20,10 +20,10 @@ public class Scoreboard extends JPanel {
 
     public JLabel Player1Balance;
     private JLabel Player1CoinIcon;
-    private JLabel Player1Name;
+    public JLabel Player1Name;
     public JLabel Player2Balance;
     private JLabel Player2CoinIcon;
-    private JLabel Player2Name;
+    public JLabel Player2Name;
     private JLabel TimerLabel;
     private Game game;
 
@@ -63,6 +63,7 @@ public class Scoreboard extends JPanel {
         Player1Name.setFont(new Font("Tahoma", 1, 24)); 
         Player1Name.setHorizontalAlignment(SwingConstants.CENTER);
         Player1Name.setText(game.players.get(0).name);
+
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -124,6 +125,7 @@ public class Scoreboard extends JPanel {
         gridBagConstraints.ipady = 10;
         gridBagConstraints.insets = new Insets(0, 0, 0, 60);
         add(Player1Balance, gridBagConstraints);
+
     }
 
     public void startTimer() {

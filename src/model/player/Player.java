@@ -26,7 +26,8 @@ public class Player {
     }
 
     public void addUnit(final Unit unit){
-        if(balance > unit.cost){
+        int[] i = unit.getIndexFromPos(game.hoverPosition);
+        if(balance > unit.cost && !game.tileM.grid[i[0]][i[1]].collision){
             this.balance-= unit.cost;
             unit.pos = game.hoverPosition;
             unit.calcCorrectPosition(unit.pos);
@@ -36,14 +37,19 @@ public class Player {
                 unit.addDestination(game.players.get(0).base.pos);
             }
             units.add(unit);
+            game.tileM.grid[i[0]][i[1]].collision = true;
+            game.tileM.addToBlocks(i);
         }
     }
 
     public void addTower(final Tower tower){
-        if(balance > tower.cost){
+        int[] i = tower.getIndexFromPos(game.hoverPosition);
+        if(balance > tower.cost && !game.tileM.grid[i[0]][i[1]].collision){
             this.balance-= tower.cost;
             tower.pos = game.hoverPosition;
             towers.add(tower);
+            game.tileM.grid[i[0]][i[1]].collision = true;
+            game.tileM.addToBlocks(i);
         }
     }
 

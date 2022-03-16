@@ -6,7 +6,7 @@ import model.utility.MouseHandler;
 import model.utility.Position;
 
 public abstract class Entity {
-    public Game gp;
+    public Game game;
     public KeyHandler keyH;
     public MouseHandler mouseH;
     public Position pos;
@@ -16,12 +16,12 @@ public abstract class Entity {
     public double cost;
 
     public Position getPosFromIndex(final int i, final int j) {
-        return new Position(j * gp.tileSize + (gp.tileSize / 2) - width / 2,
-                i * gp.tileSize + (gp.tileSize / 2) - height / 2);
+        return new Position(j * game.tileSize + (game.tileSize / 2) - width / 2,
+                i * game.tileSize + (game.tileSize / 2) - height / 2);
     }
 
     public int[] getIndexFromPos(final Position pos) {
-        final int[] arr = { (int) (pos.y / gp.tileSize), (int) (pos.x / gp.tileSize) };
+        final int[] arr = { (int) (pos.y / game.tileSize), (int) (pos.x / game.tileSize) };
         return arr;
     }
 

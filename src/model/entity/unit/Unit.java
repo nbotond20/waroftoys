@@ -45,10 +45,10 @@ public abstract class Unit extends Entity {
     Color color;
 
     public Unit(final Game gp, final MouseHandler mouseH) {
-        this.width = 16 * gp.scale;
-        this.height = 24 * gp.scale;
-        this.dotSize = 4 * gp.scale;
-        this.gp = gp;
+        this.width = 24 * gp.scale;
+        this.height = 36 * gp.scale;
+        this.dotSize = 8 * gp.scale;
+        this.game = gp;
         this.mouseH = mouseH;
         this.destinations = new LinkedList<Position>();
         HEALTH_BAR_WIDTH = 30;
@@ -77,7 +77,7 @@ public abstract class Unit extends Entity {
     }
 
     private void calcSpriteNum() {
-        if (destinations.size() != 0 && gp.isAttacking) {
+        if (destinations.size() != 0 && game.isAttacking) {
             spriteCounter++;
             if (spriteCounter > 5) {
                 spriteNum++;
@@ -90,7 +90,7 @@ public abstract class Unit extends Entity {
     }
 
     public void addDestination(Position dest) {
-        if (!gp.isAttacking) {
+        if (!game.isAttacking) {
 
             int[] startInd;
             final int[] destInd = getIndexFromPos(dest);
@@ -101,8 +101,8 @@ public abstract class Unit extends Entity {
             }
 
             if (startInd != null && destInd != null && mouseH.pos != null) {
-                final AStar aStar = new AStar(gp.maxScreenRow, gp.maxScreenCol, startInd[0], startInd[1], destInd[0],
-                        destInd[1], gp.tileM.blocks/* new int[][] {} */);
+                final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0],
+                        destInd[1], game.tileM.blocks/* new int[][] {} */);
 
                 /* aStar.display(); */
                 aStar.process(); // Apply A* Algorithm
@@ -128,7 +128,7 @@ public abstract class Unit extends Entity {
     }
 
     private void startMoving() {
-        if (destinations.size() != 0 && gp.isAttacking) {
+        if (destinations.size() != 0 && game.isAttacking) {
             final Position p = calcNextPos(pos, destinations.get(0));
             move(p);
 
@@ -169,7 +169,7 @@ public abstract class Unit extends Entity {
 
     private BufferedImage setImageBasedOnDirection(final Direction dir, final boolean standing) {
         BufferedImage image = null;
-        if (standing || !gp.isAttacking) {
+        if (standing || !game.isAttacking) {
             switch (dir) {
                 case UP:
                     image = back.get(0);
@@ -214,14 +214,14 @@ public abstract class Unit extends Entity {
         g2.setColor(color);
 
         g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null);
-        g2.drawRect((int) pos.x + 6, (int) pos.y + height / 2, width - 12, height / 2);
-
-        if (destinations.size() != 0) {
+        
+        if (destinations.size() != 0 && abs(pos.x - game.mouseMH.pos.x + width / 2) < game.tileSize / 2 && abs(pos.y - game.mouseMH.pos.y + height / 2) < game.tileSize / 2) {
+            g2.drawRect((int) pos.x + 6, (int) pos.y + height / 2, width - 12, height / 2);
             g2.fillOval((int) destinations.get(0).x + (width / 2) - dotSize / 2,
-                    (int) destinations.get(0).y + (height / 2) - dotSize / 2, dotSize,
-                    dotSize);
+            (int) destinations.get(0).y + (height / 2) - dotSize / 2, dotSize,
+            dotSize);
             g2.drawLine((int) destinations.get(0).x + (width / 2),
-                    (int) destinations.get(0).y + (height / 2), (int) pos.x + (width / 2),
+            (int) destinations.get(0).y + (height / 2), (int) pos.x + (width / 2),
                     (int) pos.y + (height / 2));
             for (int i = 1; i < destinations.size(); i++) {
                 final Position p1 = destinations.get(i - 1);
