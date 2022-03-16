@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -9,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -198,14 +198,31 @@ public class Menu extends JPanel {
         window.remove(this);
         
         final JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new BorderLayout(0,0));
 
-        final Game game = new Game();
-        mainPanel.add(game);
+        final Game game = new Game(Player1Input.getText(), Player2Input.getText());
+
         final ButtonPanel btnPanel = new ButtonPanel(game);
-        game.addButtonPanel(btnPanel);
-        mainPanel.add(btnPanel);
+        final Scoreboard scoreboard = new Scoreboard(game);
         
+        game.addButtonPanel(btnPanel);
+        game.addScoreboardPanel(scoreboard);
+
+        final JPanel p1 = new JPanel();
+        p1.setBackground(new Color(148,246,250,98));
+        p1.setPreferredSize(new Dimension(138,0));
+        final JPanel p2 = new JPanel();
+        p2.setBackground(new Color(148,246,250,98));
+        p2.setPreferredSize(new Dimension(138,0));
+
+        mainPanel.add(scoreboard, BorderLayout.PAGE_START);
+        mainPanel.add(game, BorderLayout.CENTER);
+        mainPanel.add(btnPanel, BorderLayout.PAGE_END);
+
+        /* mainPanel.add(p1, BorderLayout.LINE_START);
+        mainPanel.add(p2, BorderLayout.LINE_END); */
+        
+        mainPanel.setBackground(new Color(0,0,255,255));
 
         window.add(mainPanel);
 

@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
@@ -17,13 +19,14 @@ import model.utility.MouseHandler;
 import model.utility.MouseMovementHandler;
 import model.utility.Position;
 import view.ButtonPanel;
+import view.Scoreboard;
 
 public class Game extends JPanel implements Runnable {
     public Position hoverPosition;
 
     public int selectedButtonNum = -1;
 
-    final int originalTileSize = 32;
+    final int originalTileSize = 40;
     public final int scale = 1;
 
     public final int tileSize = originalTileSize * scale;
@@ -49,7 +52,10 @@ public class Game extends JPanel implements Runnable {
 
     private ButtonPanel btnPanel;
 
-    public Game() {
+    private Scoreboard score;
+
+    public Game(String name1, String name2) {
+
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.GRAY);
         this.setDoubleBuffered(true);
@@ -60,11 +66,11 @@ public class Game extends JPanel implements Runnable {
 
         this.players = new ArrayList<Player>();
 
-        final Player p1 = new Player("James1", this);
+        final Player p1 = new Player(name1, this, 25000);
         final Base b1 = new Base(new Position(160, 100), this);
         p1.setBase(b1);
 
-        final Player p2 = new Player("James2", this);
+        final Player p2 = new Player(name2, this, 15000);
         final Base b2 = new Base(new Position(600, 460), this);
         p2.setBase(b2);
 
@@ -109,51 +115,58 @@ public class Game extends JPanel implements Runnable {
         }
     }
 
-    public void addButtonPanel(ButtonPanel btnPanel){
+    public void addButtonPanel(ButtonPanel btnPanel) {
         this.btnPanel = btnPanel;
+    }
+
+    public void addScoreboardPanel(Scoreboard score) {
+        this.score = score;
     }
 
     public void setNextPlayer() {
         readyBtnPushCount++;
-        if(readyBtnPushCount == 2){
+        if (readyBtnPushCount == 2) {
             btnPanel.Ready.setEnabled(false);
             isAttacking = true;
-            if(prevPlayer == 0){
+            if (prevPlayer == 0) {
                 activePlayer = 1;
                 prevPlayer = 1;
-            }else{  
+            } else {
                 activePlayer = 0;
                 prevPlayer = 0;
             }
             readyBtnPushCount = 0;
-        }else{
-            if(activePlayer == 0){
+        } else {
+            if (activePlayer == 0) {
                 activePlayer = 1;
-            }else{
+            } else {
                 activePlayer = 0;
             }
         }
     }
 
     public void update() {
-        for(final Player p : players){
+        for (final Player p : players) {
             p.update();
         }
 
         boolean allFinished = true;
-        for(final Player p : players){
-            for(Unit u : p.units){
-                if(u.destinations.size() > 0){
+        for (final Player p : players) {
+            for (Unit u : p.units) {
+                if (u.destinations.size() > 0) {
                     allFinished = false;
                 }
             }
         }
 
-        if(allFinished){
+        if (allFinished) {
             isAttacking = false;
             btnPanel.Ready.setEnabled(true);
             btnPanel.Ready.setText("Ready");
         }
+
+        score.Player1Balance.setText(String.valueOf(players.get(0).balance));
+        score.Player2Balance.setText(String.valueOf(players.get(1).balance));
     }
 
     public void paintComponent(final Graphics g) {
@@ -162,7 +175,7 @@ public class Game extends JPanel implements Runnable {
 
         tileM.draw(g2);
 
-        for(final Player p : players) {
+        for (final Player p : players) {
             p.draw(g2);
         }
 
@@ -171,7 +184,7 @@ public class Game extends JPanel implements Runnable {
 
         g2.setFont(g.getFont().deriveFont(30f));
         g2.drawString(String.valueOf(players.get(activePlayer).name), 0, 0 + g2.getFontMetrics().getHeight());
-        g2.drawString(String.valueOf(players.get(activePlayer).balance), 0, 0 + 2*g2.getFontMetrics().getHeight());
+        g2.drawString(String.valueOf(players.get(activePlayer).balance), 0, 0 + 2 * g2.getFontMetrics().getHeight());
 
         g2.dispose();
     }

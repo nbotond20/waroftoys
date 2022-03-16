@@ -17,9 +17,10 @@ public class Player {
     private Base base;
     public double balance = 25000;
 
-    public Player(final String name, final Game game){
+    public Player(final String name, final Game game, double balance){
         this.name = name;
         this.game = game;
+        this.balance = balance;
         this.units = new ArrayList<>();
         this.towers = new ArrayList<>();
     }
