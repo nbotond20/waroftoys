@@ -37,8 +37,6 @@ public class Player {
                 unit.addDestination(game.players.get(0).base.pos);
             }
             units.add(unit);
-            game.tileM.grid[i[0]][i[1]].collision = true;
-            game.tileM.addToBlocks(i);
         }
     }
 
