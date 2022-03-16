@@ -9,16 +9,17 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import model.entity.Base;
+import model.entity.unit.Unit;
 import model.player.Player;
 import model.tile.TileManager;
 import model.utility.KeyHandler;
 import model.utility.MouseHandler;
 import model.utility.MouseMovementHandler;
 import model.utility.Position;
+import view.ButtonPanel;
 
 public class Game extends JPanel implements Runnable {
     public Position hoverPosition;
-    public Position selectedPosition;
 
     public int selectedButtonNum = -1;
 
@@ -40,9 +41,13 @@ public class Game extends JPanel implements Runnable {
     private Thread gameThread;
 
     public ArrayList<Player> players;
-    public int activePlayer = 0;
+    public int activePlayer = 0/* (int)Math.round(Math.random()) */;
+    private int prevPlayer = activePlayer;
+    public int readyBtnPushCount = 0;
 
     public boolean isAttacking = false;
+
+    private ButtonPanel btnPanel;
 
     public Game() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -55,10 +60,16 @@ public class Game extends JPanel implements Runnable {
 
         this.players = new ArrayList<Player>();
 
-        final Player p = new Player("James", this);
-        final Base b = new Base(new Position(), this);
-        p.setBase(b);
-        players.add(p);
+        final Player p1 = new Player("James1", this);
+        final Base b1 = new Base(new Position(160, 100), this);
+        p1.setBase(b1);
+
+        final Player p2 = new Player("James2", this);
+        final Base b2 = new Base(new Position(600, 460), this);
+        p2.setBase(b2);
+
+        players.add(p1);
+        players.add(p2);
 
         addMouseListener(mouseH);
     }
@@ -98,12 +109,50 @@ public class Game extends JPanel implements Runnable {
         }
     }
 
-    public void setGameState() {
+    public void addButtonPanel(ButtonPanel btnPanel){
+        this.btnPanel = btnPanel;
+    }
+
+    public void setNextPlayer() {
+        readyBtnPushCount++;
+        if(readyBtnPushCount == 2){
+            btnPanel.Ready.setEnabled(false);
+            isAttacking = true;
+            if(prevPlayer == 0){
+                activePlayer = 1;
+                prevPlayer = 1;
+            }else{  
+                activePlayer = 0;
+                prevPlayer = 0;
+            }
+            readyBtnPushCount = 0;
+        }else{
+            if(activePlayer == 0){
+                activePlayer = 1;
+            }else{
+                activePlayer = 0;
+            }
+        }
     }
 
     public void update() {
         for(final Player p : players){
             p.update();
+        }
+
+        boolean allFinished = true;
+        for(final Player p : players){
+            for(Unit u : p.units){
+                if(u.destinations.size() > 0){
+                    allFinished = false;
+                }
+            }
+        }
+
+        if(allFinished){
+            isAttacking = false;
+            btnPanel.Ready.setEnabled(true);
+            btnPanel.Ready.setText("Ready");
         }
     }
 
@@ -120,13 +169,9 @@ public class Game extends JPanel implements Runnable {
         g2.setColor(new Color(1f, 0f, 0f, .5f));
         g2.fillRect((int) hoverPosition.x, (int) hoverPosition.y, tileSize, tileSize);
 
-        if (selectedPosition != null) {
-            g2.setColor(new Color(0, 160, 200, 150));
-            g2.fillRect((int) selectedPosition.x, (int) selectedPosition.y, tileSize, tileSize);
-        }
-
         g2.setFont(g.getFont().deriveFont(30f));
-        g2.drawString(String.valueOf(players.get(0).balance), 0, 0 + g2.getFontMetrics().getHeight());
+        g2.drawString(String.valueOf(players.get(activePlayer).name), 0, 0 + g2.getFontMetrics().getHeight());
+        g2.drawString(String.valueOf(players.get(activePlayer).balance), 0, 0 + 2*g2.getFontMetrics().getHeight());
 
         g2.dispose();
     }

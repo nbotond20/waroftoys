@@ -7,7 +7,6 @@ import model.Game;
 public class ButtonPanel extends JPanel {
     private final Game game;
 
-
     public ButtonPanel(final Game game) {
         this.game = game;
         initComponents();
@@ -52,7 +51,7 @@ public class ButtonPanel extends JPanel {
         });
         add(Tower3Btn);
 
-        Ready.setText("READY");
+        Ready.setText("Ready");
         Ready.setPreferredSize(new java.awt.Dimension(100, 75));
         Ready.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -87,45 +86,54 @@ public class ButtonPanel extends JPanel {
             }
         });
         add(Unit3Btn);
-    }                      
-
-    private void Tower1BtnActionPerformed(final java.awt.event.ActionEvent evt) { 
-        game.selectedButtonNum = 0;                                         
-    }                                         
-
-    private void Tower2BtnActionPerformed(final java.awt.event.ActionEvent evt) {     
-        game.selectedButtonNum = 1;                                      
-    }                                         
-
-    private void Tower3BtnActionPerformed(final java.awt.event.ActionEvent evt) { 
-        game.selectedButtonNum = 2;                                          
-    }                                         
-
-    private void Unit1BtnActionPerformed(final java.awt.event.ActionEvent evt) {  
-        game.selectedButtonNum = 3;                                        
-    }                                        
-
-    private void Unit2BtnActionPerformed(final java.awt.event.ActionEvent evt) {  
-        game.selectedButtonNum = 4;                                        
-    }                                        
-
-    private void Unit3BtnActionPerformed(final java.awt.event.ActionEvent evt) { 
-        game.selectedButtonNum = 5;                                         
     }
-    
-    private void ReadyBtnActionPerformed(final java.awt.event.ActionEvent evt) { 
-        game.selectedButtonNum = -1;                                        
-        game.setGameState();
-    } 
 
+    private void Tower1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        game.selectedButtonNum = 0;
+    }
 
-    // Variables declaration - do not modify                     
+    private void Tower2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        game.selectedButtonNum = 1;
+    }
+
+    private void Tower3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        game.selectedButtonNum = 2;
+    }
+
+    private void Unit1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        game.selectedButtonNum = 3;
+    }
+
+    private void Unit2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        game.selectedButtonNum = 4;
+    }
+
+    private void Unit3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        game.selectedButtonNum = 5;
+    }
+
+    private void ReadyBtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        game.selectedButtonNum = -1;
+
+        game.setNextPlayer();
+        if (game.readyBtnPushCount == 1) {
+            Ready.setText("Attack");
+        } else {
+            Ready.setText("Ready");
+        }
+
+        if (game.isAttacking) {
+            Ready.setText("Attacking...");
+        }
+    }
+
+    // Variables declaration - do not modify
     private javax.swing.JButton Tower1Btn;
     private javax.swing.JButton Tower2Btn;
     private javax.swing.JButton Tower3Btn;
-    private javax.swing.JButton Ready;
+    public javax.swing.JButton Ready;
     private javax.swing.JButton Unit1Btn;
     private javax.swing.JButton Unit2Btn;
     private javax.swing.JButton Unit3Btn;
-    // End of variables declaration                   
+    // End of variables declaration
 }

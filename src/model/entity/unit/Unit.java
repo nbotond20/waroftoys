@@ -40,7 +40,7 @@ public abstract class Unit extends Entity {
     Direction dir;
     int dotSize;
 
-    LinkedList<Position> destinations;
+    public LinkedList<Position> destinations;
 
     Color color;
 
@@ -57,14 +57,6 @@ public abstract class Unit extends Entity {
     private void move(final Position pos) {
         this.pos.x += pos.x;
         this.pos.y += pos.y;
-    }
-
-    public void addDestination(final int x, final int y) {
-        this.destinations.add(new Position(x, y));
-    }
-
-    public void addDestination(final Position pos) {
-        this.destinations.add(pos);
     }
 
     private boolean isAtDestination() {
@@ -97,9 +89,8 @@ public abstract class Unit extends Entity {
         }
     }
 
-    public void handleMouseClick() {
-        if (this.mouseH.isClicked && !gp.isAttacking) {
-            final Position dest = new Position(mouseH.pos.x, mouseH.pos.y);
+    public void addDestination(Position dest) {
+        if (!gp.isAttacking) {
 
             int[] startInd;
             final int[] destInd = getIndexFromPos(dest);
@@ -134,7 +125,6 @@ public abstract class Unit extends Entity {
                 }
             }
         }
-        this.mouseH.isClicked = false;
     }
 
     private void startMoving() {
@@ -215,7 +205,6 @@ public abstract class Unit extends Entity {
 
     public void update() {
         calcSpriteNum(); // Changes Sprite Count
-        handleMouseClick(); // Listens for mouse clicks (adds new destination(s))
         startMoving(); // Changes Player Sprite Direction (when using the mouse)
     }
 

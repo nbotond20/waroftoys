@@ -12,7 +12,7 @@ import model.entity.unit.Unit;
 public class Player { 
     private final Game game;
     public String name;
-    private final ArrayList<Unit> units;
+    public final ArrayList<Unit> units;
     private final ArrayList<Tower> towers;
     private Base base;
     public double balance = 25000;
@@ -25,16 +25,21 @@ public class Player {
     }
 
     public void addUnit(final Unit unit){
-        if(game.selectedPosition != null && balance > unit.cost){
+        if(balance > unit.cost){
             this.balance-= unit.cost;
             unit.pos = game.hoverPosition;
             unit.calcCorrectPosition(unit.pos);
+            if(game.activePlayer == 0){
+                unit.addDestination(game.players.get(1).base.pos);
+            }else{
+                unit.addDestination(game.players.get(0).base.pos);
+            }
             units.add(unit);
         }
     }
 
     public void addTower(final Tower tower){
-        if(game.selectedPosition != null && balance > tower.cost){
+        if(balance > tower.cost){
             this.balance-= tower.cost;
             tower.pos = game.hoverPosition;
             towers.add(tower);

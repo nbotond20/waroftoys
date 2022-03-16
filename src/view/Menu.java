@@ -203,8 +203,10 @@ public class Menu extends JPanel {
         final Game game = new Game();
         mainPanel.add(game);
         final ButtonPanel btnPanel = new ButtonPanel(game);
+        game.addButtonPanel(btnPanel);
         mainPanel.add(btnPanel);
         
+
         window.add(mainPanel);
 
         window.pack();

@@ -63,7 +63,6 @@ public class MouseHandler implements MouseListener {
                 game.players.get(game.activePlayer).addUnit(u3);
                 break;
         }
-        game.selectedPosition = game.hoverPosition;
     }
 
     @Override
