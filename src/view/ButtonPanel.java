@@ -5,10 +5,10 @@ import javax.swing.JPanel;
 import model.Game;
 
 public class ButtonPanel extends JPanel {
-    private Game game;
+    private final Game game;
 
 
-    public ButtonPanel(Game game) {
+    public ButtonPanel(final Game game) {
         this.game = game;
         initComponents();
     }
@@ -28,7 +28,7 @@ public class ButtonPanel extends JPanel {
         Tower1Btn.setText("Tower1");
         Tower1Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower1Btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Tower1BtnActionPerformed(evt);
             }
         });
@@ -37,7 +37,7 @@ public class ButtonPanel extends JPanel {
         Tower2Btn.setText("Tower2");
         Tower2Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower2Btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Tower2BtnActionPerformed(evt);
             }
         });
@@ -46,7 +46,7 @@ public class ButtonPanel extends JPanel {
         Tower3Btn.setText("Tower3");
         Tower3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower3Btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Tower3BtnActionPerformed(evt);
             }
         });
@@ -55,7 +55,7 @@ public class ButtonPanel extends JPanel {
         Ready.setText("READY");
         Ready.setPreferredSize(new java.awt.Dimension(100, 75));
         Ready.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 ReadyBtnActionPerformed(evt);
             }
         });
@@ -64,7 +64,7 @@ public class ButtonPanel extends JPanel {
         Unit1Btn.setText("Unit1");
         Unit1Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit1Btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Unit1BtnActionPerformed(evt);
             }
         });
@@ -73,7 +73,7 @@ public class ButtonPanel extends JPanel {
         Unit2Btn.setText("Unit2");
         Unit2Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit2Btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Unit2BtnActionPerformed(evt);
             }
         });
@@ -82,42 +82,40 @@ public class ButtonPanel extends JPanel {
         Unit3Btn.setText("Unit3");
         Unit3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit3Btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Unit3BtnActionPerformed(evt);
             }
         });
         add(Unit3Btn);
     }                      
 
-    private void Tower1BtnActionPerformed(java.awt.event.ActionEvent evt) { 
+    private void Tower1BtnActionPerformed(final java.awt.event.ActionEvent evt) { 
         game.selectedButtonNum = 0;                                         
     }                                         
 
-    private void Tower2BtnActionPerformed(java.awt.event.ActionEvent evt) {     
+    private void Tower2BtnActionPerformed(final java.awt.event.ActionEvent evt) {     
         game.selectedButtonNum = 1;                                      
     }                                         
 
-    private void Tower3BtnActionPerformed(java.awt.event.ActionEvent evt) { 
+    private void Tower3BtnActionPerformed(final java.awt.event.ActionEvent evt) { 
         game.selectedButtonNum = 2;                                          
     }                                         
 
-    private void Unit1BtnActionPerformed(java.awt.event.ActionEvent evt) {  
+    private void Unit1BtnActionPerformed(final java.awt.event.ActionEvent evt) {  
         game.selectedButtonNum = 3;                                        
     }                                        
 
-    private void Unit2BtnActionPerformed(java.awt.event.ActionEvent evt) {  
+    private void Unit2BtnActionPerformed(final java.awt.event.ActionEvent evt) {  
         game.selectedButtonNum = 4;                                        
     }                                        
 
-    private void Unit3BtnActionPerformed(java.awt.event.ActionEvent evt) { 
+    private void Unit3BtnActionPerformed(final java.awt.event.ActionEvent evt) { 
         game.selectedButtonNum = 5;                                         
     }
     
-    private void ReadyBtnActionPerformed(java.awt.event.ActionEvent evt) { 
+    private void ReadyBtnActionPerformed(final java.awt.event.ActionEvent evt) { 
         game.selectedButtonNum = -1;                                        
-        game.isAttacking = !game.isAttacking;
-        if(game.isAttacking) Ready.setText("STOP");
-        else Ready.setText("READY");
+        game.setGameState();
     } 
 
 

@@ -9,12 +9,12 @@ public class Position {
         this.y = 0;
     }
     
-    public Position(double x, double y) {
+    public Position(final double x, final double y) {
         this.x = x;
         this.y = y;
     }
 
-    public Position(Position p) {
+    public Position(final Position p) {
         this.x = p.x;
         this.y = p.y;
     }

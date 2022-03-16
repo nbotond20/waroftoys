@@ -13,7 +13,7 @@ public class Cell {
     // and H(n) the heuristic that estimates the cost of the cheapest path from n to the destination
     public boolean solution; // if cell is part of the solution path
     
-    public Cell(int i, int j){
+    public Cell(final int i, final int j){
         this.i = i;
         this.j = j;
     }

@@ -16,10 +16,10 @@ import javax.swing.JPanel;
 import model.Game;
 
 public class Menu extends JPanel {
-    private double scale;
-    private JFrame window;
+    private final double scale;
+    private final JFrame window;
 
-    public Menu(double scale, JFrame window) {
+    public Menu(final double scale, final JFrame window) {
         this.window = window;
         this.setLayout(new FlowLayout());
         this.scale = scale;
@@ -49,7 +49,7 @@ public class Menu extends JPanel {
         Player1Input.setText("Player1");
         Player1Input.setPreferredSize(new java.awt.Dimension((int) (160 * (0.5 / scale)), (int) (25 * (0.5 / scale))));
         Player1Input.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Player1InputActionPerformed(evt);
             }
         });
@@ -62,7 +62,7 @@ public class Menu extends JPanel {
         Player1Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         Left.add(Player1Input, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(Player1Pic);
+        final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(Player1Pic);
         Player1Pic.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,7 +80,7 @@ public class Menu extends JPanel {
 
         Buttons.setBackground(new java.awt.Color(0, 100, 0));
         Buttons.setPreferredSize(new java.awt.Dimension((int) (300 * (0.5 / scale)), (int) (540 * (0.5 / scale))));
-        java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
+        final java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
         jPanel2Layout.columnWidths = new int[] { 0 };
         jPanel2Layout.rowHeights = new int[] { 0, 5, 0, 5, 0 };
         Buttons.setLayout(jPanel2Layout);
@@ -89,7 +89,7 @@ public class Menu extends JPanel {
         Start.setText("");
         Start.setPreferredSize(new java.awt.Dimension((int) (200 * (0.5 / scale)), (int) (50 * (0.5 / scale))));
         Start.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 StartActionPerformed(evt);
             }
         });
@@ -108,7 +108,7 @@ public class Menu extends JPanel {
         SavedGames.setText("");
         SavedGames.setPreferredSize(new java.awt.Dimension((int) (100 * (0.5 / scale)), (int) (30 * (0.5 / scale))));
         SavedGames.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 SavedGamesActionPerformed(evt);
             }
         });
@@ -156,7 +156,7 @@ public class Menu extends JPanel {
         Player2Input.setText("Player2");
         Player2Input.setPreferredSize(new java.awt.Dimension((int) (160 * (0.5 / scale)), (int) (25 * (0.5 / scale))));
         Player2Input.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Player2InputActionPerformed(evt);
             }
         });
@@ -169,7 +169,7 @@ public class Menu extends JPanel {
         Player2Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         Right.add(Player2Input, gridBagConstraints);
 
-        javax.swing.GroupLayout Player2PicLayout = new javax.swing.GroupLayout(Player2Pic);
+        final javax.swing.GroupLayout Player2PicLayout = new javax.swing.GroupLayout(Player2Pic);
         Player2Pic.setLayout(Player2PicLayout);
         Player2PicLayout.setHorizontalGroup(
                 Player2PicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,23 +186,23 @@ public class Menu extends JPanel {
         add(Right);
     }
 
-    private void Player2InputActionPerformed(java.awt.event.ActionEvent evt) {
+    private void Player2InputActionPerformed(final java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void Player1InputActionPerformed(java.awt.event.ActionEvent evt) {
+    private void Player1InputActionPerformed(final java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void StartActionPerformed(java.awt.event.ActionEvent evt) {
+    private void StartActionPerformed(final java.awt.event.ActionEvent evt) {
         window.remove(this);
         
-        JPanel mainPanel = new JPanel();
+        final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        Game game = new Game();
+        final Game game = new Game();
         mainPanel.add(game);
-        ButtonPanel btnPanel = new ButtonPanel(game);
+        final ButtonPanel btnPanel = new ButtonPanel(game);
         mainPanel.add(btnPanel);
         
         window.add(mainPanel);
@@ -215,7 +215,7 @@ public class Menu extends JPanel {
         game.requestFocus();
     }
 
-    private void SavedGamesActionPerformed(java.awt.event.ActionEvent evt) {
+    private void SavedGamesActionPerformed(final java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
@@ -235,13 +235,13 @@ public class Menu extends JPanel {
     /* private javax.swing.JButton Quit; */
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         BufferedImage bgImage;
         try {
             bgImage = ImageIO.read(getClass().getResourceAsStream("/menu/menu-bg.png"));
             g.drawImage(bgImage, 0, 0, (int) (1920 * scale), (int) (1080 * scale), null);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

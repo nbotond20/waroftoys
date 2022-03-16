@@ -15,7 +15,7 @@ public abstract class Tower extends Entity {
     private BufferedImage image;
     public Color color;
 
-    public Tower(Game gp, MouseHandler mouseH){
+    public Tower(final Game gp, final MouseHandler mouseH){
         this.gp = gp;
         this.mouseH = mouseH;
         this.width = gp.tileSize * gp.scale;
@@ -23,15 +23,15 @@ public abstract class Tower extends Entity {
         HEALTH_BAR_WIDTH = 50;
     }
 
-    public void getTowerImage(String filename) {
+    public void getTowerImage(final String filename) {
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/towers/" + filename + ".png"));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.out.println("entity.Tower.getTowerImage()");
         }
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(final Graphics2D g2) {
         g2.setColor(new Color(100, 100, 100, 100));
         g2.fillOval((int) (pos.x + width/2 - range/2), (int) (pos.y + width/2 - range/2), (int)range, (int)range);
 

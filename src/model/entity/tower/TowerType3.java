@@ -7,7 +7,7 @@ import model.utility.MouseHandler;
 import model.utility.Position;
 
 public class TowerType3 extends Tower {
-    public TowerType3(Position pos, Game gp, MouseHandler mouseH) {
+    public TowerType3(final Position pos, final Game gp, final MouseHandler mouseH) {
         super(gp, mouseH);
         getTowerImage("stone");
         

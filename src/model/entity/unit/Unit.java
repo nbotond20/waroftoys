@@ -22,7 +22,7 @@ import model.utility.MouseHandler;
 import model.utility.Position;
 
 public abstract class Unit extends Entity {
-    private boolean AStarVerbose = false;
+    private final boolean AStarVerbose = false;
 
     private BufferedImage front1, front2, front3, front4, front5, front6, front7, front8;
     private BufferedImage back1, back2, back3, back4, back5, back6, back7, back8;
@@ -44,7 +44,7 @@ public abstract class Unit extends Entity {
 
     Color color;
 
-    public Unit(Game gp, MouseHandler mouseH) {
+    public Unit(final Game gp, final MouseHandler mouseH) {
         this.width = 16 * gp.scale;
         this.height = 24 * gp.scale;
         this.dotSize = 4 * gp.scale;
@@ -54,16 +54,16 @@ public abstract class Unit extends Entity {
         HEALTH_BAR_WIDTH = 30;
     }
 
-    private void move(Position pos) {
+    private void move(final Position pos) {
         this.pos.x += pos.x;
         this.pos.y += pos.y;
     }
 
-    public void addDestination(int x, int y) {
+    public void addDestination(final int x, final int y) {
         this.destinations.add(new Position(x, y));
     }
 
-    public void addDestination(Position pos) {
+    public void addDestination(final Position pos) {
         this.destinations.add(pos);
     }
 
@@ -74,13 +74,13 @@ public abstract class Unit extends Entity {
         return false;
     }
 
-    private Position calcNextPos(Position curr, Position dest) {
-        double distX = (dest.x - curr.x);
-        double distY = (dest.y - curr.y);
+    private Position calcNextPos(final Position curr, final Position dest) {
+        final double distX = (dest.x - curr.x);
+        final double distY = (dest.y - curr.y);
         if (sqrt(distX * distX + distY * distY) <= speed) {
             return new Position(dest.x - curr.x, dest.y - curr.y);
         }
-        double ratio = sqrt((distX * distX + distY * distY) / (speed * speed));
+        final double ratio = sqrt((distX * distX + distY * distY) / (speed * speed));
         return new Position(distX / ratio, distY / ratio);
     }
 
@@ -99,10 +99,10 @@ public abstract class Unit extends Entity {
 
     public void handleMouseClick() {
         if (this.mouseH.isClicked && !gp.isAttacking) {
-            Position dest = new Position(mouseH.pos.x, mouseH.pos.y);
+            final Position dest = new Position(mouseH.pos.x, mouseH.pos.y);
 
             int[] startInd;
-            int[] destInd = getIndexFromPos(dest);
+            final int[] destInd = getIndexFromPos(dest);
             if (destinations.size() == 0) {
                 startInd = getIndexFromPos(this.pos);
             } else {
@@ -110,7 +110,7 @@ public abstract class Unit extends Entity {
             }
 
             if (startInd != null && destInd != null && mouseH.pos != null) {
-                AStar aStar = new AStar(gp.maxScreenRow, gp.maxScreenCol, startInd[0], startInd[1], destInd[0],
+                final AStar aStar = new AStar(gp.maxScreenRow, gp.maxScreenCol, startInd[0], startInd[1], destInd[0],
                         destInd[1], gp.tileM.blocks/* new int[][] {} */);
 
                 /* aStar.display(); */
@@ -139,7 +139,7 @@ public abstract class Unit extends Entity {
 
     private void startMoving() {
         if (destinations.size() != 0 && gp.isAttacking) {
-            Position p = calcNextPos(pos, destinations.get(0));
+            final Position p = calcNextPos(pos, destinations.get(0));
             move(p);
 
             if (isAtDestination()) {
@@ -177,7 +177,7 @@ public abstract class Unit extends Entity {
         }
     }
 
-    private BufferedImage setImageBasedOnDirection(Direction dir, boolean standing) {
+    private BufferedImage setImageBasedOnDirection(final Direction dir, final boolean standing) {
         BufferedImage image = null;
         if (standing || !gp.isAttacking) {
             switch (dir) {
@@ -219,8 +219,8 @@ public abstract class Unit extends Entity {
         startMoving(); // Changes Player Sprite Direction (when using the mouse)
     }
 
-    public void draw(Graphics2D g2) {
-        BufferedImage image = setImageBasedOnDirection(dir, destinations.size() == 0);
+    public void draw(final Graphics2D g2) {
+        final BufferedImage image = setImageBasedOnDirection(dir, destinations.size() == 0);
 
         g2.setColor(color);
 
@@ -235,8 +235,8 @@ public abstract class Unit extends Entity {
                     (int) destinations.get(0).y + (height / 2), (int) pos.x + (width / 2),
                     (int) pos.y + (height / 2));
             for (int i = 1; i < destinations.size(); i++) {
-                Position p1 = destinations.get(i - 1);
-                Position p2 = destinations.get(i);
+                final Position p1 = destinations.get(i - 1);
+                final Position p2 = destinations.get(i);
                 g2.fillOval((int) p2.x + (width / 2) - dotSize / 2, (int) p2.y + (height / 2) - dotSize / 2, dotSize,
                         dotSize);
                 g2.drawLine((int) p1.x + (width / 2), (int) p1.y + (height / 2),
@@ -251,7 +251,7 @@ public abstract class Unit extends Entity {
         g2.drawRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2, (int) pos.y - 5, HEALTH_BAR_WIDTH, 5);
     }
 
-    public void getPlayerImage(String filename) {
+    public void getPlayerImage(final String filename) {
         try {
             front1 = ImageIO.read(getClass().getResourceAsStream("/player/" + filename + "/front/front1.png"));
             front2 = ImageIO.read(getClass().getResourceAsStream("/player/" + filename + "/front/front2.png"));
@@ -292,7 +292,7 @@ public abstract class Unit extends Entity {
             right7 = ImageIO.read(getClass().getResourceAsStream("/player/" + filename + "/right/right7.png"));
             right8 = ImageIO.read(getClass().getResourceAsStream("/player/" + filename + "/right/right8.png"));
             right = new ArrayList<>(Arrays.asList(right1, right2, right3, right4, right5, right6, right7, right8));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.out.println("entity.Player.getPlayerImage()");
         }
     }

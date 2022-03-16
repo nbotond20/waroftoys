@@ -20,10 +20,10 @@ public class AStar {
     // End cell
     private int endI, endJ;
 
-    public AStar(int width, int height, int si, int sj, int ei, int ej, int[][] blocks) {
+    public AStar(final int width, final int height, final int si, final int sj, final int ei, final int ej, final int[][] blocks) {
         grid = new Cell[width][height];
         closedCells = new boolean[width][height];
-        openCells = new PriorityQueue<Cell>((Cell c1, Cell c2) -> {
+        openCells = new PriorityQueue<Cell>((final Cell c1, final Cell c2) -> {
             return c1.finalCost < c2.finalCost ? -1 : c1.finalCost > c2.finalCost ? 1 : 0;
         });
 
@@ -46,29 +46,29 @@ public class AStar {
         }
     }
 
-    public void addBlockOnCell(int i, int j) {
+    public void addBlockOnCell(final int i, final int j) {
         if(i>=0 && j>=0){
             grid[i][j] = null;
         }
     }
 
-    public void startCell(int i, int j) {
+    public void startCell(final int i, final int j) {
         startI = i;
         startJ = j;
     }
 
-    public void endCell(int i, int j) {
+    public void endCell(final int i, final int j) {
         endI = i;
         endJ = j;
     }
 
-    public void updateCostIfNeeded(Cell current, Cell t, int cost) {
+    public void updateCostIfNeeded(final Cell current, final Cell t, final int cost) {
         if (t == null || closedCells[t.i][t.j]) {
             return;
         }
 
-        int tFinalCost = t.heuristicCost + cost;
-        boolean isOpen = openCells.contains(t);
+        final int tFinalCost = t.heuristicCost + cost;
+        final boolean isOpen = openCells.contains(t);
 
         if (!isOpen || tFinalCost < t.finalCost) {
             t.finalCost = tFinalCost;
@@ -179,8 +179,8 @@ public class AStar {
         System.out.println();
     }
 
-    public ArrayList<Cell> displaySolution(boolean b) {
-        ArrayList<Cell> result = new ArrayList<Cell>();
+    public ArrayList<Cell> displaySolution(final boolean b) {
+        final ArrayList<Cell> result = new ArrayList<Cell>();
         if (closedCells[endI][endJ]) {
             // Track back the path
             Cell current = grid[endI][endJ];

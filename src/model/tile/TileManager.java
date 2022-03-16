@@ -11,7 +11,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 public class TileManager {
-    private String DEFAULT = "wood";
+    private final String DEFAULT = "wood";
 
     public int maxRowNumber;
     public int maxColNumber;
@@ -19,13 +19,13 @@ public class TileManager {
     private Tile[][] grid;
     private Obstacle[][] obstacleGrid;
     public int[][] blocks;
-    private HashMap<String, BufferedImage> images;
-    private HashMap<Integer, String> tileCodeTable;
-    private HashMap<String, Integer[]> obstacleSizeTable;
+    private final HashMap<String, BufferedImage> images;
+    private final HashMap<Integer, String> tileCodeTable;
+    private final HashMap<String, Integer[]> obstacleSizeTable;
 
-    private int tileSize;
+    private final int tileSize;
 
-    public TileManager(int tileSize) {
+    public TileManager(final int tileSize) {
         this.images = new HashMap<String, BufferedImage>();
         this.tileCodeTable = new HashMap<Integer, String>();
         this.obstacleSizeTable = new HashMap<String, Integer[]>();
@@ -66,17 +66,17 @@ public class TileManager {
             tileCodeTable.put(7, "bear");
             obstacleSizeTable.put("bear", new Integer[] { 10, 8 });
             images.put("bear", ImageIO.read(getClass().getResourceAsStream("/tiles/bear-165x165.png")));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadMap(String filename) {
+    private void loadMap(final String filename) {
         try {
-            InputStream is = getClass().getResourceAsStream("/maps/" + filename);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            final InputStream is = getClass().getResourceAsStream("/maps/" + filename);
+            final BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            String[] dimensions = br.readLine().split(" ");
+            final String[] dimensions = br.readLine().split(" ");
             maxColNumber = Integer.parseInt(dimensions[0]);
             maxRowNumber = Integer.parseInt(dimensions[1]);
             grid = new Tile[maxRowNumber][maxColNumber];
@@ -85,15 +85,15 @@ public class TileManager {
             int blockCount = 0;
 
             for (int i = 0; i < maxRowNumber; i++) {
-                String[] tileNumbers = br.readLine().split(" ");
+                final String[] tileNumbers = br.readLine().split(" ");
                 for (int j = 0; j < maxColNumber; j++) {
-                    Tile t = new Tile();
+                    final Tile t = new Tile();
 
-                    int tileNum = Integer.parseInt(tileNumbers[j]);
+                    final int tileNum = Integer.parseInt(tileNumbers[j]);
                     if (tileNum <= 1)
                         t.image = images.get(tileCodeTable.get(tileNum));
                     else {
-                        Obstacle obstacle = new Obstacle();
+                        final Obstacle obstacle = new Obstacle();
                         obstacle.image = images.get(tileCodeTable.get(tileNum));
                         obstacle.width = obstacleSizeTable.get(tileCodeTable.get(tileNum))[0];
                         obstacle.height = obstacleSizeTable.get(tileCodeTable.get(tileNum))[1];
@@ -144,16 +144,16 @@ public class TileManager {
                 blocks[0] = new int[] { -1, -1 };
             }
 
-            for(int[] i : blocks) {
+            for(final int[] i : blocks) {
                 grid[i[0]][i[1]].collision = true;
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(final Graphics2D g2) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 g2.drawImage(grid[i][j].image, tileSize * j, tileSize * i, tileSize, tileSize, null);

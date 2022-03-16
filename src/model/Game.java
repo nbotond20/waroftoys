@@ -34,9 +34,9 @@ public class Game extends JPanel implements Runnable {
     final int FPS = 60;
 
     public TileManager tileM = new TileManager(tileSize);
-    private KeyHandler keyH = new KeyHandler();
-    public MouseHandler mouseH = new MouseHandler(this);
-    private MouseMovementHandler mouseMH = new MouseMovementHandler(this);
+    private final KeyHandler keyH = new KeyHandler();
+    public final MouseHandler mouseH = new MouseHandler(this);
+    private final MouseMovementHandler mouseMH = new MouseMovementHandler(this);
     private Thread gameThread;
 
     public ArrayList<Player> players;
@@ -55,8 +55,8 @@ public class Game extends JPanel implements Runnable {
 
         this.players = new ArrayList<Player>();
 
-        Player p = new Player("James", this);
-        Base b = new Base(new Position(), this);
+        final Player p = new Player("James", this);
+        final Base b = new Base(new Position(), this);
         p.setBase(b);
         players.add(p);
 
@@ -70,7 +70,7 @@ public class Game extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1000000000 / FPS;
+        final double drawInterval = 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -98,22 +98,22 @@ public class Game extends JPanel implements Runnable {
         }
     }
 
-    private void setNextUnitIndex() {
+    public void setGameState() {
     }
 
     public void update() {
-        for(Player p : players){
+        for(final Player p : players){
             p.update();
         }
     }
 
-    public void paintComponent(Graphics g) {
+    public void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+        final Graphics2D g2 = (Graphics2D) g;
 
         tileM.draw(g2);
 
-        for(Player p : players) {
+        for(final Player p : players) {
             p.draw(g2);
         }
 

@@ -15,18 +15,18 @@ public abstract class Entity {
     public int HEALTH_BAR_WIDTH;
     public double cost;
 
-    public Position getPosFromIndex(int i, int j) {
+    public Position getPosFromIndex(final int i, final int j) {
         return new Position(j * gp.tileSize + (gp.tileSize / 2) - width / 2,
                 i * gp.tileSize + (gp.tileSize / 2) - height / 2);
     }
 
-    public int[] getIndexFromPos(Position pos) {
-        int[] arr = { (int) (pos.y / gp.tileSize), (int) (pos.x / gp.tileSize) };
+    public int[] getIndexFromPos(final Position pos) {
+        final int[] arr = { (int) (pos.y / gp.tileSize), (int) (pos.x / gp.tileSize) };
         return arr;
     }
 
-    public void calcCorrectPosition(Position pos){
-        int[] ind = getIndexFromPos(pos); 
+    public void calcCorrectPosition(final Position pos){
+        final int[] ind = getIndexFromPos(pos); 
         this.pos = new Position(getPosFromIndex(ind[0], ind[1]));
     }
 }

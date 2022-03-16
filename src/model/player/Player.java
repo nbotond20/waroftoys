@@ -10,21 +10,21 @@ import model.entity.unit.Unit;
 
 
 public class Player { 
-    private Game game;
+    private final Game game;
     public String name;
-    private ArrayList<Unit> units;
-    private ArrayList<Tower> towers;
+    private final ArrayList<Unit> units;
+    private final ArrayList<Tower> towers;
     private Base base;
     public double balance = 25000;
 
-    public Player(String name, Game game){
+    public Player(final String name, final Game game){
         this.name = name;
         this.game = game;
         this.units = new ArrayList<>();
         this.towers = new ArrayList<>();
     }
 
-    public void addUnit(Unit unit){
+    public void addUnit(final Unit unit){
         if(game.selectedPosition != null && balance > unit.cost){
             this.balance-= unit.cost;
             unit.pos = game.hoverPosition;
@@ -33,7 +33,7 @@ public class Player {
         }
     }
 
-    public void addTower(Tower tower){
+    public void addTower(final Tower tower){
         if(game.selectedPosition != null && balance > tower.cost){
             this.balance-= tower.cost;
             tower.pos = game.hoverPosition;
@@ -41,24 +41,24 @@ public class Player {
         }
     }
 
-    public void setBase(Base base){
+    public void setBase(final Base base){
         this.base = base;
     }
 
-    public void draw(Graphics2D g2){
+    public void draw(final Graphics2D g2){
         base.draw(g2);
 
-        for(Tower t : towers) {
+        for(final Tower t : towers) {
             t.draw(g2);
         }
 
-        for (Unit p : units) {
+        for (final Unit p : units) {
             p.draw(g2);
         }
     }
 
     public void update(){
-        for(Unit u : units) {
+        for(final Unit u : units) {
             u.update();
         }
     }

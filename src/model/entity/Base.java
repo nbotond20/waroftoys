@@ -12,9 +12,9 @@ import model.utility.Position;
 
 public class Base extends Entity {
     private BufferedImage image;
-    private Color color;
+    private final Color color;
 
-    public Base(Position pos, Game gp){
+    public Base(final Position pos, final Game gp){
         this.gp = gp;
         this.mouseH = gp.mouseH;
         this.width = gp.tileSize * gp.scale;
@@ -32,20 +32,20 @@ public class Base extends Entity {
         this.color = Color.WHITE;
     }
 
-    public void getBaseImage(String filename) {
+    public void getBaseImage(final String filename) {
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/bases/" + filename + ".png"));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.out.println("entity.Base.getBaseImage()");
         }
     }
 
-    public void calcCorrectPosition(Position pos){
-        int[] ind = getIndexFromPos(pos); 
+    public void calcCorrectPosition(final Position pos){
+        final int[] ind = getIndexFromPos(pos); 
         this.pos = new Position(getPosFromIndex(ind[0], ind[1]));
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(final Graphics2D g2) {
         g2.setColor(new Color(100, 100, 100, 100));
         g2.fillOval((int) (pos.x + width/2 - range/2), (int) (pos.y + width/2 - range/2), (int)range, (int)range);
 

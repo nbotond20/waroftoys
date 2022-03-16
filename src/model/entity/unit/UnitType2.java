@@ -8,7 +8,7 @@ import model.utility.MouseHandler;
 import model.utility.Position;
 
 public class UnitType2 extends Unit {
-    public UnitType2(Position pos, Game gp, MouseHandler mouseH){
+    public UnitType2(final Position pos, final Game gp, final MouseHandler mouseH){
         super(gp, mouseH);
         this.speed = 0.5;
         this.pos = pos;
