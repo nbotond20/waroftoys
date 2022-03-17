@@ -1,6 +1,13 @@
 package view;
 
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Insets;
 
 import model.Game;
 
@@ -13,7 +20,6 @@ public class ButtonPanel extends JPanel {
     }
 
     private void initComponents() {
-
         Tower1Btn = new javax.swing.JButton();
         Tower2Btn = new javax.swing.JButton();
         Tower3Btn = new javax.swing.JButton();
@@ -86,33 +92,64 @@ public class ButtonPanel extends JPanel {
             }
         });
         add(Unit3Btn);
+
+        Tower1Btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Tower2Btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Tower3Btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Ready.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Unit1Btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Unit2Btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Unit3Btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    private void resetColor(){
+        Tower1Btn.setForeground(new Color(0,0,0));
+        Tower2Btn.setForeground(new Color(0,0,0));
+        Tower3Btn.setForeground(new Color(0,0,0));
+        Ready.setForeground(new Color(0,0,0));
+        Unit1Btn.setForeground(new Color(0,0,0));
+        Unit2Btn.setForeground(new Color(0,0,0));
+        Unit3Btn.setForeground(new Color(0,0,0));
     }
 
     private void Tower1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        resetColor();
+        Tower1Btn.setForeground(new Color(255,0,0));
         game.selectedButtonNum = 0;
     }
 
     private void Tower2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        resetColor();
+        Tower2Btn.setForeground(new Color(255,0,0));
         game.selectedButtonNum = 1;
     }
 
     private void Tower3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        resetColor();
+        Tower3Btn.setForeground(new Color(255,0,0));
         game.selectedButtonNum = 2;
     }
 
     private void Unit1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        resetColor();
+        Unit1Btn.setForeground(new Color(255,0,0));
         game.selectedButtonNum = 3;
     }
 
     private void Unit2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        resetColor();
+        Unit2Btn.setForeground(new Color(255,0,0));
         game.selectedButtonNum = 4;
     }
 
     private void Unit3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        resetColor();
+        Unit3Btn.setForeground(new Color(255,0,0));
         game.selectedButtonNum = 5;
     }
 
     private void ReadyBtnActionPerformed(final java.awt.event.ActionEvent evt) {
+        resetColor();
         game.selectedButtonNum = -1;
 
         game.setNextPlayer();
@@ -136,4 +173,25 @@ public class ButtonPanel extends JPanel {
     private javax.swing.JButton Unit2Btn;
     private javax.swing.JButton Unit3Btn;
     // End of variables declaration
+
+    class RoundBtn implements Border {
+        private int r;
+
+        RoundBtn(int r) {
+            this.r = r;
+        }
+
+        public Insets getBorderInsets(Component c) {
+            return new Insets(this.r + 1, this.r + 1, this.r + 2, this.r);
+        }
+
+        public boolean isBorderOpaque() {
+            return true;
+        }
+
+        public void paintBorder(Component c, Graphics g, int x, int y,
+                int width, int height) {
+            g.drawRoundRect(x, y, width - 1, height - 1, r, r);
+        }
+    }
 }

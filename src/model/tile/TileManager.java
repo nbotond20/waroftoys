@@ -16,7 +16,7 @@ public class TileManager {
     public int maxRowNumber;
     public int maxColNumber;
 
-    private Tile[][] grid;
+    public Tile[][] grid;
     private Obstacle[][] obstacleGrid;
     public int[][] blocks;
     private final HashMap<String, BufferedImage> images;
@@ -167,5 +167,17 @@ public class TileManager {
                             tileSize * obstacleGrid[i][j].width, tileSize * obstacleGrid[i][j].height, null);
             }
         }
+    }
+
+    public void addToBlocks(int[] indexes){
+        int i;
+        int newarray[][] = new int[blocks.length + 1][2];
+        
+        for (i = 0; i < blocks.length-1; i++)
+            newarray[i] = blocks[i];
+        
+
+        newarray[blocks.length - 1] = indexes;
+        blocks = newarray;
     }
 }
