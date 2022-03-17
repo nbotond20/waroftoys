@@ -1,5 +1,7 @@
 package view;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -8,6 +10,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.io.IOException;
 
 import model.Game;
 
@@ -30,7 +33,14 @@ public class ButtonPanel extends JPanel {
 
         setLayout(new java.awt.GridLayout());
 
-        Tower1Btn.setText("Tower1");
+        try {
+            Tower1Btn.setIcon(
+                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_attack.png"))
+                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Tower1Btn.setText("Tower1");
         Tower1Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower1Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -39,7 +49,14 @@ public class ButtonPanel extends JPanel {
         });
         add(Tower1Btn);
 
-        Tower2Btn.setText("Tower2");
+        try {
+            Tower2Btn.setIcon(
+                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_speed.png"))
+                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Tower2Btn.setText("Tower2");
         Tower2Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower2Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -48,7 +65,14 @@ public class ButtonPanel extends JPanel {
         });
         add(Tower2Btn);
 
-        Tower3Btn.setText("Tower3");
+        try {
+            Tower3Btn.setIcon(
+                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_slow.png"))
+                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Tower3Btn.setText("Tower3");
         Tower3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower3Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -66,7 +90,14 @@ public class ButtonPanel extends JPanel {
         });
         add(Ready);
 
-        Unit1Btn.setText("Unit1");
+        try {
+            Unit1Btn.setIcon(
+                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/brute.png"))
+                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Unit1Btn.setText("Unit1");
         Unit1Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit1Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -75,7 +106,14 @@ public class ButtonPanel extends JPanel {
         });
         add(Unit1Btn);
 
-        Unit2Btn.setText("Unit2");
+        try {
+            Unit2Btn.setIcon(
+                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/spec.png"))
+                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Unit2Btn.setText("Unit2");
         Unit2Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit2Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -84,7 +122,14 @@ public class ButtonPanel extends JPanel {
         });
         add(Unit2Btn);
 
-        Unit3Btn.setText("Unit3");
+        try {
+            Unit3Btn.setIcon(
+                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/tank.png"))
+                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Unit3Btn.setText("Unit3");
         Unit3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit3Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
@@ -102,49 +147,49 @@ public class ButtonPanel extends JPanel {
         Unit3Btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
-    private void resetColor(){
-        Tower1Btn.setForeground(new Color(0,0,0));
-        Tower2Btn.setForeground(new Color(0,0,0));
-        Tower3Btn.setForeground(new Color(0,0,0));
-        Ready.setForeground(new Color(0,0,0));
-        Unit1Btn.setForeground(new Color(0,0,0));
-        Unit2Btn.setForeground(new Color(0,0,0));
-        Unit3Btn.setForeground(new Color(0,0,0));
+    private void resetColor() {
+        Tower1Btn.setForeground(new Color(0, 0, 0));
+        Tower2Btn.setForeground(new Color(0, 0, 0));
+        Tower3Btn.setForeground(new Color(0, 0, 0));
+        Ready.setForeground(new Color(0, 0, 0));
+        Unit1Btn.setForeground(new Color(0, 0, 0));
+        Unit2Btn.setForeground(new Color(0, 0, 0));
+        Unit3Btn.setForeground(new Color(0, 0, 0));
     }
 
     private void Tower1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Tower1Btn.setForeground(new Color(255,0,0));
+        Tower1Btn.setForeground(new Color(255, 0, 0));
         game.selectedButtonNum = 0;
     }
 
     private void Tower2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Tower2Btn.setForeground(new Color(255,0,0));
+        Tower2Btn.setForeground(new Color(255, 0, 0));
         game.selectedButtonNum = 1;
     }
 
     private void Tower3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Tower3Btn.setForeground(new Color(255,0,0));
+        Tower3Btn.setForeground(new Color(255, 0, 0));
         game.selectedButtonNum = 2;
     }
 
     private void Unit1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Unit1Btn.setForeground(new Color(255,0,0));
+        Unit1Btn.setForeground(new Color(255, 0, 0));
         game.selectedButtonNum = 3;
     }
 
     private void Unit2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Unit2Btn.setForeground(new Color(255,0,0));
+        Unit2Btn.setForeground(new Color(255, 0, 0));
         game.selectedButtonNum = 4;
     }
 
     private void Unit3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Unit3Btn.setForeground(new Color(255,0,0));
+        Unit3Btn.setForeground(new Color(255, 0, 0));
         game.selectedButtonNum = 5;
     }
 
