@@ -6,11 +6,11 @@ import java.awt.event.MouseMotionListener;
 import model.Game;
 
 public class MouseMovementHandler implements MouseMotionListener {
-    public Position p;
+    public Position pos;
     private final Game game;
     public MouseMovementHandler(final Game game){
         this.game = game;
-        p = new Position();
+        pos = new Position();
     }
 
     private Position getPosFromIndex(final int[] indexes) {
@@ -29,9 +29,9 @@ public class MouseMovementHandler implements MouseMotionListener {
 
     @Override
     public void mouseMoved(final MouseEvent e) {
-        p.x = e.getX();
-        p.y = e.getY();
-        game.hoverPosition = getPosFromIndex(getIndexFromPos(p));
+        pos.x = e.getX();
+        pos.y = e.getY();
+        game.hoverPosition = getPosFromIndex(getIndexFromPos(pos));
         /* System.out.println("mouse is moved to point " + e.getX() + " " + e.getY());  */
     }
 }

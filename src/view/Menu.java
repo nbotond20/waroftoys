@@ -225,7 +225,6 @@ public class Menu extends JPanel {
         mainPanel.setBackground(new Color(0,0,255,255));
 
         window.add(mainPanel);
-
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);

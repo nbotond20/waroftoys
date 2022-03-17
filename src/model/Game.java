@@ -24,7 +24,7 @@ public class Game extends JPanel implements Runnable {
 
     public int selectedButtonNum = -1;
 
-    final int originalTileSize = 40;
+    final int originalTileSize = 46;
     public final int scale = 1;
 
     public final int tileSize = originalTileSize * scale;
@@ -38,7 +38,7 @@ public class Game extends JPanel implements Runnable {
     public TileManager tileM = new TileManager(tileSize);
     private final KeyHandler keyH = new KeyHandler();
     public final MouseHandler mouseH = new MouseHandler(this);
-    private final MouseMovementHandler mouseMH = new MouseMovementHandler(this);
+    public final MouseMovementHandler mouseMH = new MouseMovementHandler(this);
     private Thread gameThread;
 
     public ArrayList<Player> players;
@@ -52,7 +52,7 @@ public class Game extends JPanel implements Runnable {
 
     private Scoreboard score;
 
-    public Game(String name1, String name2) {
+    public Game(final String name1, final String name2) {
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.GRAY);
@@ -65,11 +65,11 @@ public class Game extends JPanel implements Runnable {
         this.players = new ArrayList<Player>();
 
         final Player p1 = new Player(name1, this, 25000);
-        final Base b1 = new Base(new Position(160, 100), this);
+        final Base b1 = new Base(new Position(4*tileSize, 4*tileSize), this);
         p1.setBase(b1);
 
         final Player p2 = new Player(name2, this, 15000);
-        final Base b2 = new Base(new Position(600, 460), this);
+        final Base b2 = new Base(new Position(24*tileSize, 16*tileSize), this);
         p2.setBase(b2);
 
         players.add(p1);
@@ -113,11 +113,11 @@ public class Game extends JPanel implements Runnable {
         }
     }
 
-    public void addButtonPanel(ButtonPanel btnPanel) {
+    public void addButtonPanel(final ButtonPanel btnPanel) {
         this.btnPanel = btnPanel;
     }
 
-    public void addScoreboardPanel(Scoreboard score) {
+    public void addScoreboardPanel(final Scoreboard score) {
         this.score = score;
     }
 
@@ -150,7 +150,7 @@ public class Game extends JPanel implements Runnable {
 
         boolean allFinished = true;
         for (final Player p : players) {
-            for (Unit u : p.units) {
+            for (final Unit u : p.units) {
                 if (u.destinations.size() > 0) {
                     allFinished = false;
                 }
@@ -165,6 +165,14 @@ public class Game extends JPanel implements Runnable {
 
         score.Player1Balance.setText(String.valueOf(players.get(0).balance));
         score.Player2Balance.setText(String.valueOf(players.get(1).balance));
+
+        if (activePlayer == 0) {
+            score.Player1Name.setForeground(Color.RED);
+            score.Player2Name.setForeground(Color.BLACK);
+        } else {
+            score.Player1Name.setForeground(Color.BLACK);
+            score.Player2Name.setForeground(Color.RED);
+        }
     }
 
     public void paintComponent(final Graphics g) {
@@ -179,10 +187,6 @@ public class Game extends JPanel implements Runnable {
 
         g2.setColor(new Color(1f, 0f, 0f, .5f));
         g2.fillRect((int) hoverPosition.x, (int) hoverPosition.y, tileSize, tileSize);
-
-        g2.setFont(g.getFont().deriveFont(30f));
-        g2.drawString(String.valueOf(players.get(activePlayer).name), 0, 0 + g2.getFontMetrics().getHeight());
-        g2.drawString(String.valueOf(players.get(activePlayer).balance), 0, 0 + 2 * g2.getFontMetrics().getHeight());
 
         g2.dispose();
     }
