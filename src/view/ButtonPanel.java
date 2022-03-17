@@ -1,6 +1,7 @@
 package view;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -19,6 +20,7 @@ public class ButtonPanel extends JPanel {
 
     public ButtonPanel(final Game game) {
         this.game = game;
+        this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         initComponents();
     }
 
@@ -40,13 +42,14 @@ public class ButtonPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Tower1Btn.setText("Tower1");
+        // Tower1Btn.setText("Tower1");
         Tower1Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower1Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Tower1BtnActionPerformed(evt);
             }
         });
+        Tower1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         add(Tower1Btn);
 
         try {
@@ -56,13 +59,14 @@ public class ButtonPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Tower2Btn.setText("Tower2");
+        // Tower2Btn.setText("Tower2");
         Tower2Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower2Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Tower2BtnActionPerformed(evt);
             }
         });
+        Tower2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         add(Tower2Btn);
 
         try {
@@ -72,13 +76,14 @@ public class ButtonPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Tower3Btn.setText("Tower3");
+        // Tower3Btn.setText("Tower3");
         Tower3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower3Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Tower3BtnActionPerformed(evt);
             }
         });
+        Tower3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         add(Tower3Btn);
 
         Ready.setText("Ready");
@@ -88,6 +93,7 @@ public class ButtonPanel extends JPanel {
                 ReadyBtnActionPerformed(evt);
             }
         });
+        //Ready.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         add(Ready);
 
         try {
@@ -97,13 +103,14 @@ public class ButtonPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Unit1Btn.setText("Unit1");
+        // Unit1Btn.setText("Unit1");
         Unit1Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit1Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Unit1BtnActionPerformed(evt);
             }
         });
+        Unit1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         add(Unit1Btn);
 
         try {
@@ -113,13 +120,14 @@ public class ButtonPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Unit2Btn.setText("Unit2");
+        // Unit2Btn.setText("Unit2");
         Unit2Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit2Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Unit2BtnActionPerformed(evt);
             }
         });
+        Unit2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         add(Unit2Btn);
 
         try {
@@ -129,13 +137,14 @@ public class ButtonPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Unit3Btn.setText("Unit3");
+        // Unit3Btn.setText("Unit3");
         Unit3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit3Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Unit3BtnActionPerformed(evt);
             }
         });
+        Unit3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         add(Unit3Btn);
 
         Tower1Btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

@@ -29,6 +29,7 @@ public class Scoreboard extends JPanel {
 
     public Scoreboard(Game game) {
         this.game = game;
+        this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         initComponents();
         startTimer();
     }
@@ -50,7 +51,7 @@ public class Scoreboard extends JPanel {
         setRequestFocusEnabled(false);
         setLayout(new GridBagLayout());
 
-        Player2Name.setFont(new Font("Tahoma", 1, 24)); 
+        Player2Name.setFont(new Font("Tahoma", 1, 24));
         Player2Name.setHorizontalAlignment(SwingConstants.CENTER);
         Player2Name.setText(game.players.get(1).name);
         gridBagConstraints = new GridBagConstraints();
@@ -60,7 +61,7 @@ public class Scoreboard extends JPanel {
         add(Player2Name, gridBagConstraints);
         Player2Name.getAccessibleContext().setAccessibleName("Player1Name");
 
-        Player1Name.setFont(new Font("Tahoma", 1, 24)); 
+        Player1Name.setFont(new Font("Tahoma", 1, 24));
         Player1Name.setHorizontalAlignment(SwingConstants.CENTER);
         Player1Name.setText(game.players.get(0).name);
 
@@ -70,7 +71,7 @@ public class Scoreboard extends JPanel {
         gridBagConstraints.insets = new Insets(0, 28, 0, 100);
         add(Player1Name, gridBagConstraints);
 
-        TimerLabel.setFont(new Font("Tahoma", 0, 36)); 
+        TimerLabel.setFont(new Font("Tahoma", 0, 36));
         TimerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         TimerLabel.setText("0:00");
         TimerLabel.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -86,7 +87,7 @@ public class Scoreboard extends JPanel {
                     .setIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/scoreboard/coinicon.png"))));
         } catch (IOException e) {
             e.printStackTrace();
-        } 
+        }
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -106,7 +107,7 @@ public class Scoreboard extends JPanel {
         gridBagConstraints.insets = new Insets(0, 106, 0, 0);
         add(Player1CoinIcon, gridBagConstraints);
 
-        Player2Balance.setFont(new Font("Tahoma", 0, 14)); 
+        Player2Balance.setFont(new Font("Tahoma", 0, 14));
         Player2Balance.setHorizontalAlignment(SwingConstants.CENTER);
         Player2Balance.setText(String.valueOf(game.players.get(1).balance));
         gridBagConstraints = new GridBagConstraints();
@@ -116,7 +117,7 @@ public class Scoreboard extends JPanel {
         gridBagConstraints.insets = new Insets(0, 112, 0, 0);
         add(Player2Balance, gridBagConstraints);
 
-        Player1Balance.setFont(new Font("Tahoma", 0, 14)); 
+        Player1Balance.setFont(new Font("Tahoma", 0, 14));
         Player1Balance.setHorizontalAlignment(SwingConstants.CENTER);
         Player1Balance.setText(String.valueOf(game.players.get(0).balance));
         gridBagConstraints = new GridBagConstraints();
