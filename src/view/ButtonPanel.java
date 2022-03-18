@@ -20,7 +20,7 @@ public class ButtonPanel extends JPanel {
 
     public ButtonPanel(final Game game) {
         this.game = game;
-        this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        //this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         initComponents();
     }
 
