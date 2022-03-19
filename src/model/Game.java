@@ -24,7 +24,7 @@ public class Game extends JPanel implements Runnable {
 
     public int selectedButtonNum = -1;
 
-    final int originalTileSize = 46;
+    final int originalTileSize = 32;
     public final int scale = 1;
 
     public final int tileSize = originalTileSize * scale;
@@ -65,11 +65,11 @@ public class Game extends JPanel implements Runnable {
         this.players = new ArrayList<Player>();
 
         final Player p1 = new Player(name1, this, 25000);
-        final Base b1 = new Base(new Position(4*tileSize, 4*tileSize), this);
+        final Base b1 = new Base(new Position(4 * tileSize, 4 * tileSize), this);
         p1.setBase(b1);
 
         final Player p2 = new Player(name2, this, 15000);
-        final Base b2 = new Base(new Position(24*tileSize, 16*tileSize), this);
+        final Base b2 = new Base(new Position(24 * tileSize, 16 * tileSize), this);
         p2.setBase(b2);
 
         players.add(p1);
@@ -124,8 +124,19 @@ public class Game extends JPanel implements Runnable {
     public void setNextPlayer() {
         readyBtnPushCount++;
         if (readyBtnPushCount == 2) {
+            for (Unit u : players.get(0).units) {
+                u.destinations.clear();
+                u.addDestination(players.get(1).base.pos);
+            }
+
+            for (Unit u : players.get(1).units) {
+                u.destinations.clear();
+                u.addDestination(players.get(0).base.pos);
+            }
+
             btnPanel.Ready.setEnabled(false);
             isAttacking = true;
+
             if (prevPlayer == 0) {
                 activePlayer = 1;
                 prevPlayer = 1;

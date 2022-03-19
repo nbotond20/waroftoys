@@ -51,15 +51,15 @@ public class MouseHandler implements MouseListener {
                 game.players.get(game.activePlayer).addTower(t3);
                 break;
             case 3:
-                final Unit u1 = new UnitType1(new Position(), game, this);
+                final Unit u1 = new UnitType1(new Position(), game, this, game.activePlayer);
                 game.players.get(game.activePlayer).addUnit(u1);
                 break;
             case 4:
-                final Unit u2 = new UnitType2(new Position(), game, this);
+                final Unit u2 = new UnitType2(new Position(), game, this, game.activePlayer);
                 game.players.get(game.activePlayer).addUnit(u2);
                 break;
             case 5:
-                final Unit u3 = new UnitType3(new Position(), game, this);
+                final Unit u3 = new UnitType3(new Position(), game, this, game.activePlayer);
                 game.players.get(game.activePlayer).addUnit(u3);
                 break;
         }

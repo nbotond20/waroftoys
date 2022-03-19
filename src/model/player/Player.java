@@ -14,8 +14,10 @@ public class Player {
     public String name;
     public final ArrayList<Unit> units;
     private final ArrayList<Tower> towers;
-    private Base base;
+    public Base base;
     public double balance = 25000;
+
+    public ArrayList<Unit> unitDone;
 
     public Player(final String name, final Game game, double balance){
         this.name = name;
@@ -23,6 +25,7 @@ public class Player {
         this.balance = balance;
         this.units = new ArrayList<>();
         this.towers = new ArrayList<>();
+        this.unitDone = new ArrayList<>();
     }
 
     public void addUnit(final Unit unit){
@@ -71,5 +74,10 @@ public class Player {
         for(final Unit u : units) {
             u.update();
         }
+
+        for(Unit u : unitDone){
+            this.units.remove(u);
+        }
+        unitDone.clear();
     }
 }
