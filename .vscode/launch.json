@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch WarOfToys",
+            "request": "launch",
+            "mainClass": "main.WarOfToys",
+            "projectName": "war-of-toys_e6f7742f"
+        },
+        {
+            "type": "java",
             "name": "Launch TileManager2",
             "request": "launch",
             "mainClass": "model.tile.TileManager2",
