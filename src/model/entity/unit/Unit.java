@@ -22,6 +22,7 @@ import model.utility.MouseHandler;
 import model.utility.Position;
 
 public abstract class Unit extends Entity {
+    private int playerNum;
     private final boolean AStarVerbose = false;
 
     private BufferedImage front1, front2, front3, front4, front5, front6, front7, front8;
@@ -44,11 +45,12 @@ public abstract class Unit extends Entity {
 
     Color color;
 
-    public Unit(final Game gp, final MouseHandler mouseH) {
-        this.width = 24 * gp.scale;
-        this.height = 36 * gp.scale;
-        this.dotSize = 8 * gp.scale;
-        this.game = gp;
+    public Unit(final Game game, final MouseHandler mouseH, int playerNum) {
+        this.playerNum = playerNum;
+        this.width = 16 * game.scale;
+        this.height = 24 * game.scale;
+        this.dotSize = 8 * game.scale;
+        this.game = game;
         this.mouseH = mouseH;
         this.destinations = new LinkedList<Position>();
         HEALTH_BAR_WIDTH = 30;
@@ -128,6 +130,18 @@ public abstract class Unit extends Entity {
     }
 
     private void startMoving() {
+        int baseNum;
+        if(playerNum == 0){
+            baseNum = 1;
+        }else{
+            baseNum = 0;
+        }
+        if(this.pos.x + width/2 - game.tileSize / 2 == game.players.get(baseNum).base.pos.x && this.pos.y + height/2 - game.tileSize / 2 == game.players.get(baseNum).base.pos.y){
+            // System.out.println("this.pos: (x: " + (this.pos.x + width/2 - game.tileSize / 2) + "), y: (" + (this.pos.y + height/2 - game.tileSize / 2)+"), base: (x: " + (game.players.get(baseNum).base.pos.x) + ",  y: " + (game.players.get(baseNum).base.pos.y)+")");
+            // game.players.get(playerNum).units.remove(this);
+            game.players.get(playerNum).unitDone.add(this);
+        }
+
         if (destinations.size() != 0 && game.isAttacking) {
             final Position p = calcNextPos(pos, destinations.get(0));
             move(p);
@@ -216,6 +230,15 @@ public abstract class Unit extends Entity {
         g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null);
         
         if (destinations.size() != 0 && abs(pos.x - game.mouseMH.pos.x + width / 2) < game.tileSize / 2 && abs(pos.y - game.mouseMH.pos.y + height / 2) < game.tileSize / 2) {
+            if(!game.isAttacking){
+                this.destinations.clear();
+                if(playerNum == 0){
+                    this.addDestination(game.players.get(1).base.pos);
+                }else{
+                    this.addDestination(game.players.get(0).base.pos);
+                }
+            }
+            
             g2.drawRect((int) pos.x + 6, (int) pos.y + height / 2, width - 12, height / 2);
             g2.fillOval((int) destinations.get(0).x + (width / 2) - dotSize / 2,
             (int) destinations.get(0).y + (height / 2) - dotSize / 2, dotSize,

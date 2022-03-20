@@ -6,8 +6,8 @@ import java.util.PriorityQueue;
 public class AStar {
 
     // Cost for diagonal and vertical/horizontal moves
-    public static final int DIAGONAL_COST = 200;
-    public static final int V_H_COST = 1;
+    public static final int DIAGONAL_COST = 14;
+    public static final int V_H_COST = 10;
     // Cells of our grid
     private Cell[][] grid;
     // Priority Queue for open Cells
@@ -108,14 +108,14 @@ public class AStar {
                 t = grid[current.i - 1][current.j];
                 updateCostIfNeeded(current, t, current.finalCost + V_H_COST);
 
-                if (current.j - 1 >= 0) {
+                /* if (current.j - 1 >= 0) {
                     t = grid[current.i - 1][current.j - 1];
                     updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
                 }
                 if (current.j + 1 < grid[0].length) {
                     t = grid[current.i - 1][current.j + 1];
                     updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
-                }
+                } */
             }
 
             if (current.j - 1 >= 0) {
@@ -132,7 +132,7 @@ public class AStar {
                 t = grid[current.i + 1][current.j];
                 updateCostIfNeeded(current, t, current.finalCost + V_H_COST);
 
-                if (current.j - 1 >= 0) {
+                /* if (current.j - 1 >= 0) {
                     t = grid[current.i + 1][current.j - 1];
                     updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
                 }
@@ -140,7 +140,7 @@ public class AStar {
                 if (current.j + 1 < grid[0].length) {
                     t = grid[current.i + 1][current.j + 1];
                     updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
-                }
+                } */
             }
         }
     }

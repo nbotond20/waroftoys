@@ -17,7 +17,7 @@ public class TileManager {
     public int maxColNumber;
 
     public Tile[][] grid;
-    private Obstacle[][] obstacleGrid;
+    public Tile[][] obstacles;
     public int[][] blocks;
     private final HashMap<String, BufferedImage> images;
     private final HashMap<Integer, String> tileCodeTable;
@@ -38,9 +38,11 @@ public class TileManager {
     private void loadTileImages() {
         try {
             tileCodeTable.put(0, "wood");
+            obstacleSizeTable.put("wood", new Integer[] { 1, 1 });
             images.put("wood", ImageIO.read(getClass().getResourceAsStream("/tiles/wood-64x64.png")));
 
             tileCodeTable.put(1, "water");
+            obstacleSizeTable.put("water", new Integer[] { 1, 1 });
             images.put("water", ImageIO.read(getClass().getResourceAsStream("/tiles/water-64x64.png")));
 
             tileCodeTable.put(2, "car");
@@ -73,6 +75,8 @@ public class TileManager {
 
     private void loadMap(final String filename) {
         try {
+            int blockCount = 0;
+
             final InputStream is = getClass().getResourceAsStream("/maps/" + filename);
             final BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
@@ -80,104 +84,108 @@ public class TileManager {
             maxColNumber = Integer.parseInt(dimensions[0]);
             maxRowNumber = Integer.parseInt(dimensions[1]);
             grid = new Tile[maxRowNumber][maxColNumber];
-            obstacleGrid = new Obstacle[maxRowNumber][maxColNumber];
-
-            int blockCount = 0;
+            obstacles = new Tile[maxRowNumber][maxColNumber];
 
             for (int i = 0; i < maxRowNumber; i++) {
-                final String[] tileNumbers = br.readLine().split(" ");
+                String[] numbers = br.readLine().split(" ");
                 for (int j = 0; j < maxColNumber; j++) {
-                    final Tile t = new Tile();
+                    int tileNum = Integer.parseInt(numbers[j]);
+                    String tileType = tileCodeTable.get(tileNum);
 
-                    final int tileNum = Integer.parseInt(tileNumbers[j]);
-                    if (tileNum <= 1)
-                        t.image = images.get(tileCodeTable.get(tileNum));
-                    else {
-                        final Obstacle obstacle = new Obstacle();
-                        obstacle.image = images.get(tileCodeTable.get(tileNum));
-                        obstacle.width = obstacleSizeTable.get(tileCodeTable.get(tileNum))[0];
-                        obstacle.height = obstacleSizeTable.get(tileCodeTable.get(tileNum))[1];
-                        obstacleGrid[i][j] = obstacle;
-                        t.image = images.get(DEFAULT);
+                    Tile tile = new Tile();
+                    tile.image = images.get(tileType);
+                    tile.type = tileType;
+                    tile.dimension = obstacleSizeTable.get(tileCodeTable.get(tileNum));
+                    if (tileNum > 1) {
+                        tile.bitMap = loadBitMap(tileType, tile.dimension[0], tile.dimension[1]);
+                        tile.secondaryImage = images.get("wood");
+                        obstacles[i][j] = tile;
+                    }else{
+                        obstacles[i][j] = null;
                     }
+                    grid[i][j] = tile;
+                }
+            }
 
-                    if (tileCodeTable.get(tileNum) != DEFAULT) {
-                        t.collision = true;
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[i].length; j++) {
+                    if (grid[i][j].type == "water") {
+                        grid[i][j].collision = true;
                         blockCount++;
-                    }
-                    
-                    if (obstacleGrid[i][j] != null) {
-                        for(int e=0; e<obstacleGrid[i][j].width; e++){
-                            for(int f=0; f<obstacleGrid[i][j].height; f++){
-                                if(!(e==0 && f==0) && (i + f < grid.length - 1 && j + e < grid[0].length - 1)){
+                    } else if (grid[i][j].type != DEFAULT) {
+                        for (int e = 0; e < grid[i][j].dimension[0]; e++) {
+                            for (int f = 0; f < grid[i][j].dimension[1]; f++) {
+                                if ((i + f < grid.length - 1 && j + e < grid[i].length - 1) && grid[i][j].bitMap[f][e] == 0) {
+                                    grid[i + f][j + e].collision = true;
                                     blockCount++;
                                 }
                             }
                         }
                     }
-                    grid[i][j] = t;
                 }
-            }
-            if (blockCount > 0) {
-                blocks = new int[blockCount][2];
-                int k = 0;
-                for (int i = 0; i < grid.length; i++) {
-                    for (int j = 0; j < grid[i].length; j++) {
-                        if (grid[i][j].collision) {
-                            blocks[k] = new int[] { i, j };
-                            k++;
-                        }
-                        if (obstacleGrid[i][j] != null) {
-                            for (int e = 0; e < obstacleGrid[i][j].width; e++) {
-                                for (int f = 0; f < obstacleGrid[i][j].height; f++) {
-                                    if (!(e == 0 && f == 0) && (i + f < grid.length - 1 && j + e < grid[0].length - 1) && grid[i][j].collision) {
-                                        blocks[k] = new int[] { i + f, j + e };
-                                        k++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                blocks = new int[1][2];
-                blocks[0] = new int[] { -1, -1 };
             }
 
-            for(final int[] i : blocks) {
-                grid[i[0]][i[1]].collision = true;
+            blocks = new int[blockCount][2];
+            int k = 0;
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[i].length; j++) {
+                    if(grid[i][j].collision) {
+                        blocks[k] = new int[]{i, j};
+                        k++;
+                    }
+                }
             }
         } catch (final Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void draw(final Graphics2D g2) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                g2.drawImage(grid[i][j].image, tileSize * j, tileSize * i, tileSize, tileSize, null);
+                if(grid[i][j].type == DEFAULT || grid[i][j].type == "water"){
+                    g2.drawImage(grid[i][j].image, tileSize * j, tileSize * i, tileSize, tileSize, null);
+                }
+                else{
+                    g2.drawImage(grid[i][j].secondaryImage, tileSize * j, tileSize * i, tileSize, tileSize, null);
+                }
             }
         }
 
-        for (int i = 0; i < obstacleGrid.length; i++) {
-            for (int j = 0; j < obstacleGrid[i].length; j++) {
-                if (obstacleGrid[i][j] != null)
-                    g2.drawImage(obstacleGrid[i][j].image, tileSize * j, tileSize * i,
-                            tileSize * obstacleGrid[i][j].width, tileSize * obstacleGrid[i][j].height, null);
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if(grid[i][j].type != DEFAULT && grid[i][j].type != "water"){
+                    g2.drawImage(grid[i][j].image, tileSize * j, tileSize * i, tileSize*grid[i][j].dimension[0], tileSize*grid[i][j].dimension[1], null);
+                }
             }
         }
     }
 
-    public void addToBlocks(int[] indexes){
+    public void addToBlocks(int[] indexes) {
         int i;
         int newarray[][] = new int[blocks.length + 1][2];
-        
-        for (i = 0; i < blocks.length-1; i++)
+
+        for (i = 0; i < blocks.length - 1; i++)
             newarray[i] = blocks[i];
-        
 
         newarray[blocks.length - 1] = indexes;
         blocks = newarray;
+    }
+
+    public Integer[][] loadBitMap(String filename, int width, int height) {
+        Integer[][] result = new Integer[height][width];
+        try {
+            final InputStream is = getClass().getResourceAsStream("/bitmaps/" + filename + ".txt");
+            final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            for (int i = 0; i < height; i++) {
+                String[] numbers = br.readLine().split(" ");
+                for (int j = 0; j < width; j++) {
+                    result[i][j] = Integer.parseInt(numbers[j]);
+                }
+            }
+        } catch (Exception e) {
+        }
+        return result;
     }
 }
