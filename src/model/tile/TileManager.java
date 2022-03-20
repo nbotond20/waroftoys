@@ -162,13 +162,12 @@ public class TileManager {
     }
 
     public void addToBlocks(int[] indexes) {
-        int i;
         int newarray[][] = new int[blocks.length + 1][2];
 
-        for (i = 0; i < blocks.length - 1; i++)
+        for (int i = 0; i < blocks.length; i++)
             newarray[i] = blocks[i];
 
-        newarray[blocks.length - 1] = indexes;
+        newarray[blocks.length] = indexes;
         blocks = newarray;
     }
 
