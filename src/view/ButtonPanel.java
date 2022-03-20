@@ -16,11 +16,13 @@ import java.io.IOException;
 import model.Game;
 
 public class ButtonPanel extends JPanel {
+    private final boolean ICONS = true;
+    private final boolean BORDERS = false;
     private final Game game;
 
     public ButtonPanel(final Game game) {
         this.game = game;
-        //this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        // this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         initComponents();
     }
 
@@ -35,55 +37,70 @@ public class ButtonPanel extends JPanel {
 
         setLayout(new java.awt.GridLayout());
 
-        try {
-            Tower1Btn.setIcon(
-                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_attack.png"))
-                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (ICONS) {
+            try {
+                Tower1Btn.setIcon(
+                        new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_attack.png"))
+                                .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Tower1Btn.setText("Tower1");
         }
-        // Tower1Btn.setText("Tower1");
         Tower1Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower1Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Tower1BtnActionPerformed(evt);
             }
         });
-        Tower1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if(BORDERS){
+            Tower1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        }
         add(Tower1Btn);
 
-        try {
-            Tower2Btn.setIcon(
-                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_speed.png"))
-                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (ICONS) {
+            try {
+                Tower2Btn.setIcon(
+                        new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_speed.png"))
+                                .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Tower2Btn.setText("Tower2");
         }
-        // Tower2Btn.setText("Tower2");
         Tower2Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower2Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Tower2BtnActionPerformed(evt);
             }
         });
-        Tower2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if(BORDERS){
+            Tower2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        }
         add(Tower2Btn);
 
-        try {
-            Tower3Btn.setIcon(
-                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_slow.png"))
-                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(ICONS){
+            try {
+                Tower3Btn.setIcon(
+                        new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_slow.png"))
+                                .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Tower3Btn.setText("Tower3");
         }
-        // Tower3Btn.setText("Tower3");
         Tower3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Tower3Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Tower3BtnActionPerformed(evt);
             }
         });
-        Tower3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if(BORDERS){
+            Tower3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        }
         add(Tower3Btn);
 
         Ready.setText("Ready");
@@ -93,58 +110,75 @@ public class ButtonPanel extends JPanel {
                 ReadyBtnActionPerformed(evt);
             }
         });
-        //Ready.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if(BORDERS){
+            // Ready.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        }
         add(Ready);
 
-        try {
-            Unit1Btn.setIcon(
-                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/brute.png"))
-                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(ICONS){
+            try {
+                Unit1Btn.setIcon(
+                        new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/brute.png"))
+                                .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Unit1Btn.setText("Unit1");
         }
-        // Unit1Btn.setText("Unit1");
         Unit1Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit1Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Unit1BtnActionPerformed(evt);
             }
         });
-        Unit1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if(BORDERS){
+            Unit1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        }
         add(Unit1Btn);
 
-        try {
-            Unit2Btn.setIcon(
-                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/spec.png"))
-                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(ICONS){
+            try {
+                Unit2Btn.setIcon(
+                        new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/spec.png"))
+                                .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Unit2Btn.setText("Unit2");
         }
-        // Unit2Btn.setText("Unit2");
         Unit2Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit2Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Unit2BtnActionPerformed(evt);
             }
         });
-        Unit2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if(BORDERS){
+            Unit2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        }
         add(Unit2Btn);
 
-        try {
-            Unit3Btn.setIcon(
-                    new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/tank.png"))
-                            .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(ICONS){
+            try {
+                Unit3Btn.setIcon(
+                        new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/tank.png"))
+                                .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Unit3Btn.setText("Unit3");
         }
-        // Unit3Btn.setText("Unit3");
         Unit3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
         Unit3Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Unit3BtnActionPerformed(evt);
             }
         });
-        Unit3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if(BORDERS){
+            Unit3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        }
         add(Unit3Btn);
 
         Tower1Btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
