@@ -11,7 +11,7 @@ public abstract class Entity {
     public MouseHandler mouseH;
     public Position pos;
     public int height, width;
-    public double speed, health, range, MAX_HEALTH;
+    public double speed, health, damage, range, MAX_HEALTH;
     public int HEALTH_BAR_WIDTH;
     public double cost;
 

@@ -139,6 +139,7 @@ public abstract class Unit extends Entity {
         if(this.pos.x + width/2 - game.tileSize / 2 == game.players.get(baseNum).base.pos.x && this.pos.y + height/2 - game.tileSize / 2 == game.players.get(baseNum).base.pos.y){
             // System.out.println("this.pos: (x: " + (this.pos.x + width/2 - game.tileSize / 2) + "), y: (" + (this.pos.y + height/2 - game.tileSize / 2)+"), base: (x: " + (game.players.get(baseNum).base.pos.x) + ",  y: " + (game.players.get(baseNum).base.pos.y)+")");
             // game.players.get(playerNum).units.remove(this);
+            game.players.get(baseNum).base.health -= this.damage;
             game.players.get(playerNum).unitDone.add(this);
         }
 

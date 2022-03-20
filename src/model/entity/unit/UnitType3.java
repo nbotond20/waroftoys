@@ -18,6 +18,7 @@ public class UnitType3 extends Unit {
         this.MAX_HEALTH = 50;
         this.color = new Color(200, 0, 0, 255);
         this.cost = 3000;
+        this.damage = 50;
         getPlayerImage("unit-type1");
     }
 }
