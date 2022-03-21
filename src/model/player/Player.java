@@ -8,8 +8,7 @@ import model.entity.Base;
 import model.entity.tower.Tower;
 import model.entity.unit.Unit;
 
-
-public class Player { 
+public class Player {
     private final Game game;
     public String name;
     public final ArrayList<Unit> units;
@@ -19,7 +18,7 @@ public class Player {
 
     public ArrayList<Unit> unitDone;
 
-    public Player(final String name, final Game game, double balance){
+    public Player(final String name, final Game game, double balance) {
         this.name = name;
         this.game = game;
         this.balance = balance;
@@ -28,25 +27,26 @@ public class Player {
         this.unitDone = new ArrayList<>();
     }
 
-    public void addUnit(final Unit unit){
+    public void addUnit(final Unit unit) {
         int[] i = unit.getIndexFromPos(game.hoverPosition);
-        if(balance > unit.cost && !game.tileM.grid[i[0]][i[1]].collision){
-            this.balance-= unit.cost;
+        if (balance > unit.cost && !game.tileM.grid[i[0]][i[1]].collision) {
+            this.balance -= unit.cost;
             unit.pos = game.hoverPosition;
             unit.calcCorrectPosition(unit.pos);
-            if(game.activePlayer == 0){
-                unit.addDestination(game.players.get(1).base.pos);
-            }else{
-                unit.addDestination(game.players.get(0).base.pos);
+            if (game.activePlayer == 0) {
+                unit.setEnemyBasePos(game.players.get(1).base.pos);
+            } else {
+                unit.setEnemyBasePos(game.players.get(0).base.pos);
             }
+            unit.updatePath();
             units.add(unit);
         }
     }
 
-    public void addTower(final Tower tower){
+    public void addTower(final Tower tower) {
         int[] i = tower.getIndexFromPos(game.hoverPosition);
-        if(balance > tower.cost && !game.tileM.grid[i[0]][i[1]].collision){
-            this.balance-= tower.cost;
+        if (balance > tower.cost && !game.tileM.grid[i[0]][i[1]].collision) {
+            this.balance -= tower.cost;
             tower.pos = game.hoverPosition;
             towers.add(tower);
             game.tileM.grid[i[0]][i[1]].collision = true;
@@ -54,14 +54,14 @@ public class Player {
         }
     }
 
-    public void setBase(final Base base){
+    public void setBase(final Base base) {
         this.base = base;
     }
 
-    public void draw(final Graphics2D g2){
+    public void draw(final Graphics2D g2) {
         base.draw(g2);
 
-        for(final Tower t : towers) {
+        for (final Tower t : towers) {
             t.draw(g2);
         }
 
@@ -70,12 +70,12 @@ public class Player {
         }
     }
 
-    public void update(){
-        for(final Unit u : units) {
+    public void update() {
+        for (final Unit u : units) {
             u.update();
         }
 
-        for(Unit u : unitDone){
+        for (Unit u : unitDone) {
             this.units.remove(u);
         }
         unitDone.clear();

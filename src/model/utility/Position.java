@@ -1,7 +1,7 @@
 package model.utility;
 
-public class Position {
-
+public class Position{
+    
     public double x, y;
 
     public Position() {

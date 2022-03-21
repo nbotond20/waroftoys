@@ -9,6 +9,13 @@
             "name": "Launch WarOfToys",
             "request": "launch",
             "mainClass": "main.WarOfToys",
+            "projectName": "war-of-toys_e516374a"
+        },
+        {
+            "type": "java",
+            "name": "Launch WarOfToys",
+            "request": "launch",
+            "mainClass": "main.WarOfToys",
             "projectName": "war-of-toys_e6f7742f"
         },
         {

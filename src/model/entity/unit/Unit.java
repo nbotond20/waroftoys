@@ -42,6 +42,8 @@ public abstract class Unit extends Entity {
     int dotSize;
 
     public LinkedList<Position> destinations;
+    public ArrayList<Position> fixPositions;
+    public Position enemyBasePosition;
 
     Color color;
 
@@ -54,6 +56,58 @@ public abstract class Unit extends Entity {
         this.mouseH = mouseH;
         this.destinations = new LinkedList<Position>();
         HEALTH_BAR_WIDTH = 30;
+
+        this.fixPositions = new ArrayList<Position>();
+    }
+
+    public ArrayList<Position> sortByClosest(ArrayList<Position> positions) {
+        if(positions.size() == 0){
+            return new ArrayList<Position>();
+        }
+        ArrayList<Position> temp = new ArrayList<Position>();
+        for(Position p : positions){
+            temp.add(p);
+        }
+        ArrayList<Position> result = new ArrayList<Position>();
+        Position minFromStart = new Position();
+        int minLength = Integer.MAX_VALUE;
+        for (Position p : temp) {
+            int[] startInd = getIndexFromPos(this.pos);
+            final int[] destInd = getIndexFromPos(p);
+            final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0], destInd[1], game.tileM.blocks);
+            aStar.process();
+            ArrayList<Cell> destCells = aStar.displaySolution(false);
+            if(destCells.size() < minLength){
+                minLength = destCells.size();
+                minFromStart = p;
+            }
+        }
+        temp.remove(minFromStart);
+        result.add(minFromStart);
+        while(temp.size() != 0){
+            Position localMin = new Position();
+            int localMinLength = Integer.MAX_VALUE;
+
+            for(Position p : temp){
+                int[] startInd = getIndexFromPos(result.get(result.size() - 1));
+                final int[] destInd = getIndexFromPos(p);
+                final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0], destInd[1], game.tileM.blocks);
+                aStar.process();
+                ArrayList<Cell> destCells = aStar.displaySolution(false);
+                if(destCells.size() < localMinLength){
+                    localMinLength = destCells.size();
+                    localMin = p;
+                }
+            }
+            temp.remove(localMin);
+            result.add(localMin);
+        }
+
+        return result;
+    }
+
+    public void setEnemyBasePos(Position pos) {
+        this.enemyBasePosition = pos;
     }
 
     private void move(final Position pos) {
@@ -91,6 +145,14 @@ public abstract class Unit extends Entity {
         }
     }
 
+    public void addFixPosition(Position pos) {
+        this.fixPositions.add(getPosFromIndex(getIndexFromPos(pos)));
+    }
+
+    public void addFixPosition(int i, int j) {
+        addFixPosition(new Position(i * game.tileSize, j * game.tileSize));
+    }
+
     public void addDestination(Position dest) {
         if (!game.isAttacking) {
 
@@ -103,12 +165,11 @@ public abstract class Unit extends Entity {
             }
 
             if (startInd != null && destInd != null && mouseH.pos != null) {
-                final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0],
+                final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1],
+                        destInd[0],
                         destInd[1], game.tileM.blocks/* new int[][] {} */);
 
-                /* aStar.display(); */
                 aStar.process(); // Apply A* Algorithm
-                /* aStar.displayScores(); */ // Display Scores on grid
 
                 ArrayList<Cell> destCells;
                 if (!AStarVerbose) {
@@ -129,16 +190,24 @@ public abstract class Unit extends Entity {
         }
     }
 
+    public void updatePath() {
+        destinations.clear();
+        fixPositions = sortByClosest(fixPositions);
+        for (Position p : fixPositions) {
+            this.addDestination(p);
+        }
+        this.addDestination(enemyBasePosition);
+    }
+
     private void startMoving() {
         int baseNum;
-        if(playerNum == 0){
+        if (playerNum == 0) {
             baseNum = 1;
-        }else{
+        } else {
             baseNum = 0;
         }
-        if(this.pos.x + width/2 - game.tileSize / 2 == game.players.get(baseNum).base.pos.x && this.pos.y + height/2 - game.tileSize / 2 == game.players.get(baseNum).base.pos.y){
-            // System.out.println("this.pos: (x: " + (this.pos.x + width/2 - game.tileSize / 2) + "), y: (" + (this.pos.y + height/2 - game.tileSize / 2)+"), base: (x: " + (game.players.get(baseNum).base.pos.x) + ",  y: " + (game.players.get(baseNum).base.pos.y)+")");
-            // game.players.get(playerNum).units.remove(this);
+        if (this.pos.x + width / 2 - game.tileSize / 2 == game.players.get(baseNum).base.pos.x
+                && this.pos.y + height / 2 - game.tileSize / 2 == game.players.get(baseNum).base.pos.y) {
             game.players.get(baseNum).base.health -= this.damage;
             game.players.get(playerNum).unitDone.add(this);
         }
@@ -229,31 +298,31 @@ public abstract class Unit extends Entity {
         g2.setColor(color);
 
         g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null);
-        
-        if (destinations.size() != 0 && abs(pos.x - game.mouseMH.pos.x + width / 2) < game.tileSize / 2 && abs(pos.y - game.mouseMH.pos.y + height / 2) < game.tileSize / 2) {
-            if(!game.isAttacking){
-                this.destinations.clear();
-                if(playerNum == 0){
-                    this.addDestination(game.players.get(1).base.pos);
-                }else{
-                    this.addDestination(game.players.get(0).base.pos);
-                }
+
+        if (destinations.size() != 0 && abs(pos.x - game.mouseMH.pos.x + width / 2) < game.tileSize / 2 && abs(pos.y - game.mouseMH.pos.y + height / 2) < game.tileSize / 2 || (game.selectedUnit != null && this == game.selectedUnit)) {
+            if (!game.isAttacking) {
+                updatePath();
             }
-            
+
             g2.drawRect((int) pos.x + 6, (int) pos.y + height / 2, width - 12, height / 2);
             g2.fillOval((int) destinations.get(0).x + (width / 2) - dotSize / 2,
-            (int) destinations.get(0).y + (height / 2) - dotSize / 2, dotSize,
-            dotSize);
-            g2.drawLine((int) destinations.get(0).x + (width / 2),
-            (int) destinations.get(0).y + (height / 2), (int) pos.x + (width / 2),
-                    (int) pos.y + (height / 2));
+                    (int) destinations.get(0).y + (height / 2) - dotSize / 2, dotSize, dotSize);
+            g2.drawLine((int) destinations.get(0).x + (width / 2), (int) destinations.get(0).y + (height / 2),
+                    (int) pos.x + (width / 2), (int) pos.y + (height / 2));
             for (int i = 1; i < destinations.size(); i++) {
                 final Position p1 = destinations.get(i - 1);
                 final Position p2 = destinations.get(i);
                 g2.fillOval((int) p2.x + (width / 2) - dotSize / 2, (int) p2.y + (height / 2) - dotSize / 2, dotSize,
                         dotSize);
-                g2.drawLine((int) p1.x + (width / 2), (int) p1.y + (height / 2),
-                        (int) p2.x + (width / 2), (int) p2.y + (height / 2));
+                g2.drawLine((int) p1.x + (width / 2), (int) p1.y + (height / 2), (int) p2.x + (width / 2),
+                        (int) p2.y + (height / 2));
+            }
+
+            for (Position p : fixPositions) {
+                g2.setColor(Color.YELLOW);
+                Position temp = getCorrectPos(p);
+                g2.fillOval((int) temp.x + width / 2 - dotSize / 2, (int) temp.y + height / 2 - dotSize / 2, dotSize,
+                        dotSize);
             }
         }
 
