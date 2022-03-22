@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class Scoreboard extends JPanel {
+    private final boolean BORDERS = false;
 
     Timer timer;
     int second, minute;
@@ -29,7 +30,9 @@ public class Scoreboard extends JPanel {
 
     public Scoreboard(Game game) {
         this.game = game;
-        this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if(BORDERS){
+            this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        }
         initComponents();
         startTimer();
     }

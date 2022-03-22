@@ -7,10 +7,13 @@ import model.Game;
 
 public class MouseMovementHandler implements MouseMotionListener {
     public Position pos;
+    public Position dragPos;
+
     private final Game game;
     public MouseMovementHandler(final Game game){
         this.game = game;
-        pos = new Position();
+        this.pos = new Position();
+        this.dragPos = new Position();
     }
 
     private Position getPosFromIndex(final int[] indexes) {
@@ -21,10 +24,44 @@ public class MouseMovementHandler implements MouseMotionListener {
         final int[] arr = { (int) (pos.y / game.tileSize), (int) (pos.x / game.tileSize) };
         return arr;
     }
-
+    
     @Override
     public void mouseDragged(final MouseEvent e) {
-        /* System.out.println("mouse is dragged to point " + e.getX() + " " + e.getY());  */
+        /* System.out.println("Dragged: x:" + e.getX() + ", y: " + e.getY());  */
+        dragPos.x = e.getX();
+        dragPos.y = e.getY();
+        Position tempTile = getPosFromIndex(getIndexFromPos(dragPos));
+        
+        if(game.dragPosition == null){
+            game.dragPosition = tempTile;
+            game.prevDragPosition = tempTile;
+        }
+
+        if(tempTile.x != game.dragPosition.x || tempTile.y != game.dragPosition.y){
+            game.prevDragPosition = game.dragPosition;
+            game.dragPosition = tempTile;
+
+            if(game.selectedUnit != null){
+                Position temp = new Position();
+                Position temp2 = new Position();
+                Position temp3 = null;
+                for(Position p : game.selectedUnit.destinations){
+                    temp = getPosFromIndex(getIndexFromPos(p));
+                    if(temp.x == game.prevDragPosition.x && temp.y == game.prevDragPosition.y){
+                        for(Position p2 : game.selectedUnit.fixPositions){
+                            temp2 = getPosFromIndex(getIndexFromPos(p2));
+                            if((temp2.x == game.prevDragPosition.x && temp2.y == game.prevDragPosition.y) || temp2.x == game.dragPosition.x && temp2.y == game.dragPosition.y){
+                                temp3 = p2;
+                            }
+                        }
+                        if(temp3 != null){
+                            game.selectedUnit.fixPositions.remove(temp3);
+                        }
+                        game.selectedUnit.addFixPosition(game.dragPosition);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -32,6 +69,11 @@ public class MouseMovementHandler implements MouseMotionListener {
         pos.x = e.getX();
         pos.y = e.getY();
         game.hoverPosition = getPosFromIndex(getIndexFromPos(pos));
+
+        dragPos.x = -1;
+        dragPos.y = -1;
+        game.dragPosition = null;
+        game.prevDragPosition = null;
         /* System.out.println("mouse is moved to point " + e.getX() + " " + e.getY());  */
     }
 }

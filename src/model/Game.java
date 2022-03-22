@@ -20,7 +20,12 @@ import view.ButtonPanel;
 import view.Scoreboard;
 
 public class Game extends JPanel implements Runnable {
+    private boolean DRAW_DRAG = false;
+
     public Position hoverPosition;
+    public Position prevDragPosition;
+    public Position dragPosition;
+    public Unit selectedUnit = null;
 
     public int selectedButtonNum = -1;
 
@@ -125,13 +130,11 @@ public class Game extends JPanel implements Runnable {
         readyBtnPushCount++;
         if (readyBtnPushCount == 2) {
             for (Unit u : players.get(0).units) {
-                u.destinations.clear();
-                u.addDestination(players.get(1).base.pos);
+                u.updatePath();
             }
 
             for (Unit u : players.get(1).units) {
-                u.destinations.clear();
-                u.addDestination(players.get(0).base.pos);
+                u.updatePath();
             }
 
             btnPanel.Ready.setEnabled(false);
@@ -198,6 +201,19 @@ public class Game extends JPanel implements Runnable {
 
         g2.setColor(new Color(1f, 0f, 0f, .5f));
         g2.fillRect((int) hoverPosition.x, (int) hoverPosition.y, tileSize, tileSize);
+
+
+        if(DRAW_DRAG){
+            if(prevDragPosition != null) {
+                g2.setColor(new Color(0, 0, 255, 100));
+                g2.fillRect((int) prevDragPosition.x, (int) prevDragPosition.y, tileSize, tileSize);
+            }
+    
+            if(dragPosition != null) {
+                g2.setColor(new Color(0, 255, 0, 100));
+                g2.fillRect((int) dragPosition.x, (int) dragPosition.y, tileSize, tileSize);
+            }
+        }
 
         g2.dispose();
     }
