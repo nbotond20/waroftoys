@@ -61,11 +61,11 @@ public abstract class Unit extends Entity {
     }
 
     public ArrayList<Position> sortByClosest(ArrayList<Position> positions) {
-        if(positions.size() == 0){
+        if (positions.size() == 0) {
             return new ArrayList<Position>();
         }
         ArrayList<Position> temp = new ArrayList<Position>();
-        for(Position p : positions){
+        for (Position p : positions) {
             temp.add(p);
         }
         ArrayList<Position> result = new ArrayList<Position>();
@@ -74,27 +74,29 @@ public abstract class Unit extends Entity {
         for (Position p : temp) {
             int[] startInd = getIndexFromPos(this.pos);
             final int[] destInd = getIndexFromPos(p);
-            final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0], destInd[1], game.tileM.blocks);
+            final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0],
+                    destInd[1], game.tileM.blocks);
             aStar.process();
             ArrayList<Cell> destCells = aStar.displaySolution(false);
-            if(destCells.size() < minLength){
+            if (destCells.size() < minLength) {
                 minLength = destCells.size();
                 minFromStart = p;
             }
         }
         temp.remove(minFromStart);
         result.add(minFromStart);
-        while(temp.size() != 0){
+        while (temp.size() != 0) {
             Position localMin = new Position();
             int localMinLength = Integer.MAX_VALUE;
 
-            for(Position p : temp){
+            for (Position p : temp) {
                 int[] startInd = getIndexFromPos(result.get(result.size() - 1));
                 final int[] destInd = getIndexFromPos(p);
-                final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0], destInd[1], game.tileM.blocks);
+                final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1],
+                        destInd[0], destInd[1], game.tileM.blocks);
                 aStar.process();
                 ArrayList<Cell> destCells = aStar.displaySolution(false);
-                if(destCells.size() < localMinLength){
+                if (destCells.size() < localMinLength) {
                     localMinLength = destCells.size();
                     localMin = p;
                 }
@@ -299,7 +301,9 @@ public abstract class Unit extends Entity {
 
         g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null);
 
-        if (destinations.size() != 0 && abs(pos.x - game.mouseMH.pos.x + width / 2) < game.tileSize / 2 && abs(pos.y - game.mouseMH.pos.y + height / 2) < game.tileSize / 2 || (game.selectedUnit != null && this == game.selectedUnit)) {
+        if (destinations.size() != 0 && abs(pos.x - game.mouseMH.pos.x + width / 2) < game.tileSize / 2
+                && abs(pos.y - game.mouseMH.pos.y + height / 2) < game.tileSize / 2
+                || (game.selectedUnit != null && this == game.selectedUnit)) {
             if (!game.isAttacking) {
                 updatePath();
             }

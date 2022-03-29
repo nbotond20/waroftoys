@@ -20,7 +20,8 @@ public class AStar {
     // End cell
     private int endI, endJ;
 
-    public AStar(final int width, final int height, final int si, final int sj, final int ei, final int ej, final int[][] blocks) {
+    public AStar(final int width, final int height, final int si, final int sj, final int ei, final int ej,
+            final int[][] blocks) {
         grid = new Cell[width][height];
         closedCells = new boolean[width][height];
         openCells = new PriorityQueue<Cell>((final Cell c1, final Cell c2) -> {
@@ -47,7 +48,7 @@ public class AStar {
     }
 
     public void addBlockOnCell(final int i, final int j) {
-        if(i>=0 && j>=0){
+        if (i >= 0 && j >= 0) {
             grid[i][j] = null;
         }
     }
@@ -82,7 +83,7 @@ public class AStar {
 
     public void process() {
         // Add start location to the open list
-        if(grid[startI][startJ] == null){
+        if (grid[startI][startJ] == null) {
             System.out.println("Standing on a block!");
             return;
         }
@@ -108,14 +109,16 @@ public class AStar {
                 t = grid[current.i - 1][current.j];
                 updateCostIfNeeded(current, t, current.finalCost + V_H_COST);
 
-                /* if (current.j - 1 >= 0) {
-                    t = grid[current.i - 1][current.j - 1];
-                    updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
-                }
-                if (current.j + 1 < grid[0].length) {
-                    t = grid[current.i - 1][current.j + 1];
-                    updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
-                } */
+                /*
+                 * if (current.j - 1 >= 0) {
+                 * t = grid[current.i - 1][current.j - 1];
+                 * updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
+                 * }
+                 * if (current.j + 1 < grid[0].length) {
+                 * t = grid[current.i - 1][current.j + 1];
+                 * updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
+                 * }
+                 */
             }
 
             if (current.j - 1 >= 0) {
@@ -132,15 +135,17 @@ public class AStar {
                 t = grid[current.i + 1][current.j];
                 updateCostIfNeeded(current, t, current.finalCost + V_H_COST);
 
-                /* if (current.j - 1 >= 0) {
-                    t = grid[current.i + 1][current.j - 1];
-                    updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
-                }
-
-                if (current.j + 1 < grid[0].length) {
-                    t = grid[current.i + 1][current.j + 1];
-                    updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
-                } */
+                /*
+                 * if (current.j - 1 >= 0) {
+                 * t = grid[current.i + 1][current.j - 1];
+                 * updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
+                 * }
+                 * 
+                 * if (current.j + 1 < grid[0].length) {
+                 * t = grid[current.i + 1][current.j + 1];
+                 * updateCostIfNeeded(current, t, current.finalCost + DIAGONAL_COST);
+                 * }
+                 */
             }
         }
     }
@@ -229,15 +234,17 @@ public class AStar {
     }
 
     // For testing
-    /* public static void main(String[] args) {
-        AStar aStar = new AStar(9, 16, 5, 5, 3, 2,
-                new int[][] {
-                        { 0, 4 }, { 2, 2 }, { 3, 1 }, { 3, 3 }, { 2, 1 }, { 2, 3 }
-                });
-
-        aStar.display();
-        aStar.process(); // Apply A* Algorithm
-        aStar.displayScores(); // Display Scores on grid
-        aStar.displaySolution(true); // Display Solution
-    } */
+    /*
+     * public static void main(String[] args) {
+     * AStar aStar = new AStar(9, 16, 5, 5, 3, 2,
+     * new int[][] {
+     * { 0, 4 }, { 2, 2 }, { 3, 1 }, { 3, 3 }, { 2, 1 }, { 2, 3 }
+     * });
+     * 
+     * aStar.display();
+     * aStar.process(); // Apply A* Algorithm
+     * aStar.displayScores(); // Display Scores on grid
+     * aStar.displaySolution(true); // Display Solution
+     * }
+     */
 }
