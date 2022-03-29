@@ -72,6 +72,9 @@ public abstract class Unit extends Entity {
         Position minFromStart = new Position();
         int minLength = Integer.MAX_VALUE;
         for (Position p : temp) {
+            if(p.x < 0 || p.y < 0 || p.x > game.maxScreenCol * game.tileSize || p.y > game.maxScreenRow * game.tileSize){
+                return new ArrayList<Position>();
+            }
             int[] startInd = getIndexFromPos(this.pos);
             final int[] destInd = getIndexFromPos(p);
             final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0], destInd[1], game.tileM.blocks);
