@@ -2,6 +2,7 @@ package model.player;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Game;
 import model.entity.Base;
@@ -11,7 +12,7 @@ import model.entity.unit.Unit;
 public class Player {
     private final Game game;
     public String name;
-    public final ArrayList<Unit> units;
+    public ArrayList<Unit> units;
     private final ArrayList<Tower> towers;
     public Base base;
     public double balance = 25000;
@@ -25,6 +26,24 @@ public class Player {
         this.units = new ArrayList<>();
         this.towers = new ArrayList<>();
         this.unitDone = new ArrayList<>();
+    }
+
+    public void checkRange(Player enemy) {
+        // ArrayList<Unit> delete = new ArrayList<Unit>();
+        for (Tower tower : this.towers) {
+
+            for (Unit unit : this.units) { // own unit is in range of own tower
+                if (tower.isInRange(unit))
+                    tower.useAbility(unit, true, enemy);
+            }
+            for (Unit unit : enemy.units) { // enemy unit is in range of own tower
+                if (tower.isInRange(unit))
+                    tower.useAbility(unit, false, enemy);
+                // delete.add(unit);
+
+            }
+        }
+        // enemy.units = delete;
     }
 
     public void addUnit(final Unit unit) {

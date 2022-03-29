@@ -112,6 +112,11 @@ public class Game extends JPanel implements Runnable {
 
             if (timer >= 1000000000) {
                 System.out.println("FPS: " + drawCount);
+                for (Player player : players) {
+                    for (Unit unit : player.units) {
+                        unit.speed = unit.REGULAR_SPEED;
+                    }
+                }
                 drawCount = 0;
                 timer = 0;
             }
@@ -162,6 +167,11 @@ public class Game extends JPanel implements Runnable {
             p.update();
         }
 
+        if (isAttacking) {
+            players.get(0).checkRange(players.get(1));
+            players.get(1).checkRange(players.get(0));
+        }
+
         boolean allFinished = true;
         for (final Player p : players) {
             for (final Unit u : p.units) {
@@ -202,14 +212,13 @@ public class Game extends JPanel implements Runnable {
         g2.setColor(new Color(1f, 0f, 0f, .5f));
         g2.fillRect((int) hoverPosition.x, (int) hoverPosition.y, tileSize, tileSize);
 
-
-        if(DRAW_DRAG){
-            if(prevDragPosition != null) {
+        if (DRAW_DRAG) {
+            if (prevDragPosition != null) {
                 g2.setColor(new Color(0, 0, 255, 100));
                 g2.fillRect((int) prevDragPosition.x, (int) prevDragPosition.y, tileSize, tileSize);
             }
-    
-            if(dragPosition != null) {
+
+            if (dragPosition != null) {
                 g2.setColor(new Color(0, 255, 0, 100));
                 g2.fillRect((int) dragPosition.x, (int) dragPosition.y, tileSize, tileSize);
             }

@@ -17,12 +17,13 @@ import model.Game;
 
 public class ButtonPanel extends JPanel {
     private final boolean ICONS = true;
-    private final boolean BORDERS = false;
+    private final boolean BORDERS = true;
     private final Game game;
 
     public ButtonPanel(final Game game) {
         this.game = game;
-        // this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        // this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+        // BorderFactory.createLoweredBevelBorder()));
         initComponents();
     }
 
@@ -54,8 +55,9 @@ public class ButtonPanel extends JPanel {
                 Tower1BtnActionPerformed(evt);
             }
         });
-        if(BORDERS){
-            Tower1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if (BORDERS) {
+            Tower1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+                    BorderFactory.createLoweredBevelBorder()));
         }
         add(Tower1Btn);
 
@@ -76,12 +78,13 @@ public class ButtonPanel extends JPanel {
                 Tower2BtnActionPerformed(evt);
             }
         });
-        if(BORDERS){
-            Tower2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if (BORDERS) {
+            Tower2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+                    BorderFactory.createLoweredBevelBorder()));
         }
         add(Tower2Btn);
 
-        if(ICONS){
+        if (ICONS) {
             try {
                 Tower3Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_slow.png"))
@@ -89,7 +92,7 @@ public class ButtonPanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             Tower3Btn.setText("Tower3");
         }
         Tower3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
@@ -98,8 +101,9 @@ public class ButtonPanel extends JPanel {
                 Tower3BtnActionPerformed(evt);
             }
         });
-        if(BORDERS){
-            Tower3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if (BORDERS) {
+            Tower3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+                    BorderFactory.createLoweredBevelBorder()));
         }
         add(Tower3Btn);
 
@@ -110,12 +114,13 @@ public class ButtonPanel extends JPanel {
                 ReadyBtnActionPerformed(evt);
             }
         });
-        if(BORDERS){
-            // Ready.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if (BORDERS) {
+            // Ready.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+            // BorderFactory.createLoweredBevelBorder()));
         }
         add(Ready);
 
-        if(ICONS){
+        if (ICONS) {
             try {
                 Unit1Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/brute.png"))
@@ -123,7 +128,7 @@ public class ButtonPanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             Unit1Btn.setText("Unit1");
         }
         Unit1Btn.setPreferredSize(new java.awt.Dimension(100, 75));
@@ -132,12 +137,13 @@ public class ButtonPanel extends JPanel {
                 Unit1BtnActionPerformed(evt);
             }
         });
-        if(BORDERS){
-            Unit1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if (BORDERS) {
+            Unit1Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+                    BorderFactory.createLoweredBevelBorder()));
         }
         add(Unit1Btn);
 
-        if(ICONS){
+        if (ICONS) {
             try {
                 Unit2Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/spec.png"))
@@ -145,7 +151,7 @@ public class ButtonPanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             Unit2Btn.setText("Unit2");
         }
         Unit2Btn.setPreferredSize(new java.awt.Dimension(100, 75));
@@ -154,12 +160,13 @@ public class ButtonPanel extends JPanel {
                 Unit2BtnActionPerformed(evt);
             }
         });
-        if(BORDERS){
-            Unit2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if (BORDERS) {
+            Unit2Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+                    BorderFactory.createLoweredBevelBorder()));
         }
         add(Unit2Btn);
 
-        if(ICONS){
+        if (ICONS) {
             try {
                 Unit3Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/tank.png"))
@@ -167,7 +174,7 @@ public class ButtonPanel extends JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             Unit3Btn.setText("Unit3");
         }
         Unit3Btn.setPreferredSize(new java.awt.Dimension(100, 75));
@@ -176,8 +183,9 @@ public class ButtonPanel extends JPanel {
                 Unit3BtnActionPerformed(evt);
             }
         });
-        if(BORDERS){
-            Unit3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        if (BORDERS) {
+            Unit3Btn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+                    BorderFactory.createLoweredBevelBorder()));
         }
         add(Unit3Btn);
 
