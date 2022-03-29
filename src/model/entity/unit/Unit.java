@@ -77,6 +77,9 @@ public abstract class Unit extends Entity {
             final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0], destInd[1], game.tileM.blocks);
             aStar.process();
             ArrayList<Cell> destCells = aStar.displaySolution(false);
+            if(destCells == null){
+                return new ArrayList<Position>();
+            }
             if(destCells.size() < minLength){
                 minLength = destCells.size();
                 minFromStart = p;
