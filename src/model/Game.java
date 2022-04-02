@@ -77,6 +77,7 @@ public class Game extends JPanel implements Runnable {
         final Base b2 = new Base(new Position(24 * tileSize, 16 * tileSize), this);
         p2.setBase(b2);
 
+
         players.add(p1);
         players.add(p2);
 
@@ -111,7 +112,7 @@ public class Game extends JPanel implements Runnable {
             }
 
             if (timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
+                //System.out.println("FPS: " + drawCount);
                 for (Player player : players) {
                     for (Unit unit : player.units) {
                         unit.speed = unit.REGULAR_SPEED;
@@ -223,7 +224,8 @@ public class Game extends JPanel implements Runnable {
                 g2.fillRect((int) dragPosition.x, (int) dragPosition.y, tileSize, tileSize);
             }
         }
-
+        g2.setColor(Color.WHITE);
+        g2.drawLine((maxScreenCol * tileSize) / 2, 0, (maxScreenCol * tileSize) / 2, maxScreenRow * tileSize);
         g2.dispose();
     }
 }
