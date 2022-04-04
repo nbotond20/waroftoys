@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-
+    public boolean GAME_RUNNING = true;
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean active = false;
     public int switchPlayer = 0;
@@ -16,6 +16,10 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(final KeyEvent e) {
         final int code = e.getKeyCode();
+
+        if( code == KeyEvent.VK_ESCAPE){
+            GAME_RUNNING = !GAME_RUNNING;
+        }
 
         if (code == KeyEvent.VK_W) {
             upPressed = true;

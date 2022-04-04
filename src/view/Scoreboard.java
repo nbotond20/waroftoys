@@ -1,15 +1,24 @@
 package view;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
-import model.Game;
-
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+
+import model.Game;
 
 public class Scoreboard extends JPanel {
     private final boolean BORDERS = false;
@@ -26,9 +35,9 @@ public class Scoreboard extends JPanel {
     private JLabel Player2CoinIcon;
     public JLabel Player2Name;
     private JLabel TimerLabel;
-    private Game game;
+    private final Game game;
 
-    public Scoreboard(Game game) {
+    public Scoreboard(final Game game) {
         this.game = game;
         if(BORDERS){
             this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
@@ -43,8 +52,8 @@ public class Scoreboard extends JPanel {
         Player1Name = new JLabel();
         Player2Name = new JLabel();
         TimerLabel = new JLabel();
-        Player2CoinIcon = new JLabel();
         Player1CoinIcon = new JLabel();
+        Player2CoinIcon = new JLabel();
         Player1Balance = new JLabel();
         Player2Balance = new JLabel();
 
@@ -60,18 +69,16 @@ public class Scoreboard extends JPanel {
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new Insets(0, 100, 0, 0);
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         add(Player2Name, gridBagConstraints);
-        Player2Name.getAccessibleContext().setAccessibleName("Player1Name");
 
         Player1Name.setFont(new Font("Tahoma", 1, 24));
         Player1Name.setHorizontalAlignment(SwingConstants.CENTER);
         Player1Name.setText(game.players.get(0).name);
-
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new Insets(0, 28, 0, 100);
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         add(Player1Name, gridBagConstraints);
 
         TimerLabel.setFont(new Font("Tahoma", 0, 36));
@@ -81,33 +88,33 @@ public class Scoreboard extends JPanel {
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.insets = new Insets(0, 40, 0, 40);
+        gridBagConstraints.insets = new Insets(0, 200, 0, 200);
         add(TimerLabel, gridBagConstraints);
 
         try {
             Player2CoinIcon
                     .setIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/scoreboard/coinicon.png"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new Insets(0, 4, 0, 140);
-        add(Player2CoinIcon, gridBagConstraints);
-
-        try {
-            Player1CoinIcon
-                    .setIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/scoreboard/coinicon.png"))));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new Insets(0, 106, 0, 0);
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+        add(Player2CoinIcon, gridBagConstraints);
+
+        try {
+            Player1CoinIcon
+                    .setIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/scoreboard/coinicon.png"))));
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         add(Player1CoinIcon, gridBagConstraints);
 
         Player2Balance.setFont(new Font("Tahoma", 0, 14));
@@ -116,8 +123,7 @@ public class Scoreboard extends JPanel {
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.insets = new Insets(0, 112, 0, 0);
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         add(Player2Balance, gridBagConstraints);
 
         Player1Balance.setFont(new Font("Tahoma", 0, 14));
@@ -126,8 +132,7 @@ public class Scoreboard extends JPanel {
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.insets = new Insets(0, 0, 0, 60);
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         add(Player1Balance, gridBagConstraints);
 
     }
@@ -143,20 +148,22 @@ public class Scoreboard extends JPanel {
     public void normalTimer() {
         timer = new Timer(1000, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                second++;
-
-                ddSecond = dFormat.format(second);
-                ddMinute = dFormat.format(minute);
-                TimerLabel.setText(ddMinute + ":" + ddSecond);
-
-                if (second == 60) {
-                    second = 0;
-                    minute++;
+            public void actionPerformed(final ActionEvent e) {
+                if(game.keyH.GAME_RUNNING){
+                    second++;
 
                     ddSecond = dFormat.format(second);
                     ddMinute = dFormat.format(minute);
                     TimerLabel.setText(ddMinute + ":" + ddSecond);
+    
+                    if (second == 60) {
+                        second = 0;
+                        minute++;
+    
+                        ddSecond = dFormat.format(second);
+                        ddMinute = dFormat.format(minute);
+                        TimerLabel.setText(ddMinute + ":" + ddSecond);
+                    }
                 }
             }
         });

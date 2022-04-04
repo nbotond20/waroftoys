@@ -1,0 +1,10 @@
+0 -> Default 	("wood") 	1x1
+1 -> Water 	("water") 	1x1
+2 -> Car 	("car") 	3x5
+3 -> Bottle 	("bottle") 	2x4
+4 -> Pencil 	("pencil")	1x5 
+5 -> Domino 	("domino")	4x9
+6 -> Dice 	("dices")	4x4
+7 -> Bear 	("bear")	10x8
+
+Zárójelben az a név van amivel a kódban hivatkozunk az adott képre. A pl. 1x1 az a (szélesség X magasság).

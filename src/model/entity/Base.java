@@ -11,6 +11,7 @@ import model.Game;
 import model.utility.Position;
 
 public class Base extends Entity {
+    private static final boolean DRAW_IMAGE = false;
     private BufferedImage image;
     private final Color color;
 
@@ -47,9 +48,13 @@ public class Base extends Entity {
 
     public void draw(final Graphics2D g2) {
         g2.setColor(Color.GREEN);
-        /* g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null); */
-        g2.setColor(color);
-        g2.fillRect((int) pos.x, (int) pos.y, width, height);
+
+        if(DRAW_IMAGE){
+            g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null);
+        }else{
+            g2.setColor(color);
+            g2.fillRect((int) pos.x, (int) pos.y, width, height);
+        }
         if(pos.x == game.hoverPosition.x && pos.y == game.hoverPosition.y){
             g2.setColor(new Color(100, 100, 100, 100));
             g2.fillOval((int) (pos.x + width/2 - range/2), (int) (pos.y + width/2 - range/2), (int)range, (int)range);
