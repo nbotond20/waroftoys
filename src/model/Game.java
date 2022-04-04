@@ -231,7 +231,7 @@ public class Game extends JPanel implements Runnable {
         btnPanel.Tower3Btn.setEnabled(true);
     }
 
-    private void disableButtons() {
+    public void disableButtons() {
         btnPanel.Ready.setEnabled(false);
         btnPanel.Unit1Btn.setEnabled(false);
         btnPanel.Unit2Btn.setEnabled(false);

@@ -284,6 +284,7 @@ public class ButtonPanel extends JPanel {
 
         if (game.isAttacking) {
             Ready.setText("Attacking...");
+            game.disableButtons();
         }
     }
 
