@@ -11,9 +11,6 @@ import model.entity.tower.TowerType1;
 import model.entity.tower.TowerType2;
 import model.entity.tower.TowerType3;
 import model.entity.unit.Unit;
-import model.entity.unit.UnitType1;
-import model.entity.unit.UnitType2;
-import model.entity.unit.UnitType3;
 
 public class MouseHandler implements MouseListener {
     public Position pos = new Position();
@@ -39,7 +36,7 @@ public class MouseHandler implements MouseListener {
 
         if(SwingUtilities.isRightMouseButton(e)){
             boolean isSet = false;
-            for(Unit u : game.players.get(game.activePlayer).units){
+            for(final Unit u : game.players.get(game.activePlayer).units){
                 if(u.isInSameTile(pos)){
                     game.selectedUnit = u;
                     isSet = true;
@@ -48,7 +45,7 @@ public class MouseHandler implements MouseListener {
 
             if(game.selectedUnit != null && game.selectedUnit.fixPositions != null){
                 Position temp = null;
-                for(Position p : game.selectedUnit.fixPositions){
+                for(final Position p : game.selectedUnit.fixPositions){
                     if((int) (p.x / game.tileSize) == (int) (pos.x / game.tileSize) && (int) (pos.y / game.tileSize) == (int) (p.y / game.tileSize)){
                         temp = p;
                     }
@@ -76,18 +73,6 @@ public class MouseHandler implements MouseListener {
                     case 2:
                         final Tower t3 = new TowerType3(new Position(), game, this);
                         game.players.get(game.activePlayer).addTower(t3);
-                        break;
-                    case 3:
-                        final Unit u1 = new UnitType1(new Position(), game, this, game.activePlayer);
-                        game.players.get(game.activePlayer).addUnit(u1);
-                        break;
-                    case 4:
-                        final Unit u2 = new UnitType2(new Position(), game, this, game.activePlayer);
-                        game.players.get(game.activePlayer).addUnit(u2);
-                        break;
-                    case 5:
-                        final Unit u3 = new UnitType3(new Position(), game, this, game.activePlayer);
-                        game.players.get(game.activePlayer).addUnit(u3);
                         break;
                 }
             }

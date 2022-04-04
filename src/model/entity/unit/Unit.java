@@ -22,7 +22,10 @@ import model.utility.MouseHandler;
 import model.utility.Position;
 
 public abstract class Unit extends Entity {
-    private int playerNum;
+    private int posInsideTile = 4;
+    private final int offsetX = 12;
+    private final int offsetY = 8;
+    private final int playerNum;
     private final boolean AStarVerbose = false;
 
     private BufferedImage front1, front2, front3, front4, front5, front6, front7, front8;
@@ -47,7 +50,7 @@ public abstract class Unit extends Entity {
 
     Color color;
 
-    public Unit(final Game game, final MouseHandler mouseH, int playerNum) {
+    public Unit(final Game game, final MouseHandler mouseH, final int playerNum) {
         this.playerNum = playerNum;
         this.width = 16 * game.scale;
         this.height = 24 * game.scale;
@@ -60,24 +63,40 @@ public abstract class Unit extends Entity {
         this.fixPositions = new ArrayList<Position>();
     }
 
-    public ArrayList<Position> sortByClosest(ArrayList<Position> positions) {
+    public Unit(final Game game, final MouseHandler mouseH, final int playerNum, final int posInsideTile){
+        this(game, mouseH, playerNum);
+        this.posInsideTile = posInsideTile;
+    }
+
+    public void setOffset(final int i){
+        this.posInsideTile = i;
+    }
+
+    public ArrayList<Position> sortByClosest(final ArrayList<Position> positions) {
         if (positions.size() == 0) {
             return new ArrayList<Position>();
         }
-        ArrayList<Position> temp = new ArrayList<Position>();
-        for (Position p : positions) {
+        final ArrayList<Position> temp = new ArrayList<Position>();
+        for (final Position p : positions) {
             temp.add(p);
         }
-        ArrayList<Position> result = new ArrayList<Position>();
+        final ArrayList<Position> result = new ArrayList<Position>();
         Position minFromStart = new Position();
         int minLength = Integer.MAX_VALUE;
-        for (Position p : temp) {
-            int[] startInd = getIndexFromPos(this.pos);
+        for (final Position p : temp) {
+            if (p.x < 0 || p.y < 0 || p.x > game.maxScreenCol * game.tileSize
+                    || p.y > game.maxScreenRow * game.tileSize) {
+                return new ArrayList<Position>();
+            }
+            final int[] startInd = getIndexFromPos(this.pos);
             final int[] destInd = getIndexFromPos(p);
             final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1], destInd[0],
                     destInd[1], game.tileM.blocks);
             aStar.process();
-            ArrayList<Cell> destCells = aStar.displaySolution(false);
+            final ArrayList<Cell> destCells = aStar.displaySolution(false);
+            if (destCells == null || destCells.size() == 0) {
+                return new ArrayList<Position>();
+            }
             if (destCells.size() < minLength) {
                 minLength = destCells.size();
                 minFromStart = p;
@@ -89,13 +108,13 @@ public abstract class Unit extends Entity {
             Position localMin = new Position();
             int localMinLength = Integer.MAX_VALUE;
 
-            for (Position p : temp) {
-                int[] startInd = getIndexFromPos(result.get(result.size() - 1));
+            for (final Position p : temp) {
+                final int[] startInd = getIndexFromPos(result.get(result.size() - 1));
                 final int[] destInd = getIndexFromPos(p);
                 final AStar aStar = new AStar(game.maxScreenRow, game.maxScreenCol, startInd[0], startInd[1],
                         destInd[0], destInd[1], game.tileM.blocks);
                 aStar.process();
-                ArrayList<Cell> destCells = aStar.displaySolution(false);
+                final ArrayList<Cell> destCells = aStar.displaySolution(false);
                 if (destCells.size() < localMinLength) {
                     localMinLength = destCells.size();
                     localMin = p;
@@ -108,7 +127,7 @@ public abstract class Unit extends Entity {
         return result;
     }
 
-    public void setEnemyBasePos(Position pos) {
+    public void setEnemyBasePos(final Position pos) {
         this.enemyBasePosition = pos;
     }
 
@@ -147,15 +166,15 @@ public abstract class Unit extends Entity {
         }
     }
 
-    public void addFixPosition(Position pos) {
+    public void addFixPosition(final Position pos) {
         this.fixPositions.add(getPosFromIndex(getIndexFromPos(pos)));
     }
 
-    public void addFixPosition(int i, int j) {
+    public void addFixPosition(final int i, final int j) {
         addFixPosition(new Position(i * game.tileSize, j * game.tileSize));
     }
 
-    public void addDestination(Position dest) {
+    public void addDestination(final Position dest) {
         if (!game.isAttacking) {
 
             int[] startInd;
@@ -195,7 +214,7 @@ public abstract class Unit extends Entity {
     public void updatePath() {
         destinations.clear();
         fixPositions = sortByClosest(fixPositions);
-        for (Position p : fixPositions) {
+        for (final Position p : fixPositions) {
             this.addDestination(p);
         }
         this.addDestination(enemyBasePosition);
@@ -297,44 +316,64 @@ public abstract class Unit extends Entity {
     public void draw(final Graphics2D g2) {
         final BufferedImage image = setImageBasedOnDirection(dir, destinations.size() == 0);
 
+        int localOffsetX = 0;
+        int localOffsetY = 0;
+
         g2.setColor(color);
 
-        g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null);
+        if(posInsideTile == 0){ // TOP LEFT
+            localOffsetX -= offsetX;
+            localOffsetY -= offsetY; 
+        }else if(posInsideTile == 1){ // TOP CENTER
+            localOffsetX = 0;
+            localOffsetY -= offsetY; 
+        }else if(posInsideTile == 2){ // TOP RIGHT
+            localOffsetX += offsetX;
+            localOffsetY -= offsetY;
+        }else if(posInsideTile == 3){ // CENTER LEFT
+            localOffsetX -= offsetX;
+            localOffsetY = 0;
+        }else if(posInsideTile == 4){ // CENTER
+            localOffsetX = 0;
+            localOffsetY = 0;
+        }else if(posInsideTile == 5){ // CENTER RIGHT
+            localOffsetX += offsetX;
+            localOffsetY = 0; 
+        }else if(posInsideTile == 6){ // BOTTOM LEFT
+            localOffsetX -= offsetX;
+            localOffsetY += offsetY;
+        }else if(posInsideTile == 7){ // BOTTOM CENTER
+            localOffsetX = 0;
+            localOffsetY += offsetY;
+        }else if(posInsideTile == 8){ // BOTTOM RIGHT
+            localOffsetX += offsetX;
+            localOffsetY += offsetY;
+        }  
 
-        if (destinations.size() != 0 && abs(pos.x - game.mouseMH.pos.x + width / 2) < game.tileSize / 2
-                && abs(pos.y - game.mouseMH.pos.y + height / 2) < game.tileSize / 2
-                || (game.selectedUnit != null && this == game.selectedUnit)) {
-            if (!game.isAttacking) {
-                updatePath();
-            }
+        g2.drawImage(image, (int) pos.x - localOffsetX, (int) pos.y - localOffsetY, width, height, null); 
 
+        if (destinations.size() != 0 && ((abs(pos.x - game.mouseMH.pos.x + width / 2) < game.tileSize / 2 && abs(pos.y - game.mouseMH.pos.y + height / 2) < game.tileSize / 2) || (game.selectedUnit != null && this == game.selectedUnit))) {            
             g2.drawRect((int) pos.x + 6, (int) pos.y + height / 2, width - 12, height / 2);
-            g2.fillOval((int) destinations.get(0).x + (width / 2) - dotSize / 2,
-                    (int) destinations.get(0).y + (height / 2) - dotSize / 2, dotSize, dotSize);
-            g2.drawLine((int) destinations.get(0).x + (width / 2), (int) destinations.get(0).y + (height / 2),
-                    (int) pos.x + (width / 2), (int) pos.y + (height / 2));
+            g2.fillOval((int) destinations.get(0).x + (width / 2) - dotSize / 2, (int) destinations.get(0).y + (height / 2) - dotSize / 2, dotSize, dotSize);
+            g2.drawLine((int) destinations.get(0).x + (width / 2), (int) destinations.get(0).y + (height / 2), (int) pos.x + (width / 2), (int) pos.y + (height / 2));
             for (int i = 1; i < destinations.size(); i++) {
                 final Position p1 = destinations.get(i - 1);
                 final Position p2 = destinations.get(i);
-                g2.fillOval((int) p2.x + (width / 2) - dotSize / 2, (int) p2.y + (height / 2) - dotSize / 2, dotSize,
-                        dotSize);
-                g2.drawLine((int) p1.x + (width / 2), (int) p1.y + (height / 2), (int) p2.x + (width / 2),
-                        (int) p2.y + (height / 2));
+                g2.fillOval((int) p2.x + (width / 2) - dotSize / 2, (int) p2.y + (height / 2) - dotSize / 2, dotSize, dotSize);
+                g2.drawLine((int) p1.x + (width / 2), (int) p1.y + (height / 2), (int) p2.x + (width / 2), (int) p2.y + (height / 2));
             }
 
-            for (Position p : fixPositions) {
+            for (final Position p : fixPositions) {
                 g2.setColor(Color.YELLOW);
-                Position temp = getCorrectPos(p);
-                g2.fillOval((int) temp.x + width / 2 - dotSize / 2, (int) temp.y + height / 2 - dotSize / 2, dotSize,
-                        dotSize);
+                final Position temp = getCorrectPos(p);
+                g2.fillOval((int) temp.x + width / 2 - dotSize / 2, (int) temp.y + height / 2 - dotSize / 2, dotSize, dotSize);
             }
         }
 
         g2.setColor(Color.RED);
-        g2.fillRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2, (int) pos.y - 5,
-                (int) (HEALTH_BAR_WIDTH * (health / MAX_HEALTH)), 5);
+        g2.fillRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2 + localOffsetX, (int) pos.y - 5 + localOffsetY, (int) (HEALTH_BAR_WIDTH * (health / MAX_HEALTH)), 5);
         g2.setColor(Color.BLACK);
-        g2.drawRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2, (int) pos.y - 5, HEALTH_BAR_WIDTH, 5);
+        g2.drawRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2 + localOffsetX, (int) pos.y - 5 + localOffsetY, HEALTH_BAR_WIDTH, 5);
     }
 
     public void getPlayerImage(final String filename) {

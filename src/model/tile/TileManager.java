@@ -17,7 +17,6 @@ public class TileManager {
     public int maxColNumber;
 
     public Tile[][] grid;
-    public Tile[][] obstacles;
     public int[][] blocks;
     private final HashMap<String, BufferedImage> images;
     private final HashMap<Integer, String> tileCodeTable;
@@ -46,7 +45,7 @@ public class TileManager {
             images.put("water", ImageIO.read(getClass().getResourceAsStream("/tiles/water-64x64.png")));
 
             tileCodeTable.put(2, "car");
-            obstacleSizeTable.put("car", new Integer[] { 4, 7 });
+            obstacleSizeTable.put("car", new Integer[] { 3, 5 });
             images.put("car", ImageIO.read(getClass().getResourceAsStream("/tiles/car-165x165.png")));
 
             tileCodeTable.put(3, "bottle");
@@ -84,24 +83,24 @@ public class TileManager {
             maxColNumber = Integer.parseInt(dimensions[0]);
             maxRowNumber = Integer.parseInt(dimensions[1]);
             grid = new Tile[maxRowNumber][maxColNumber];
-            obstacles = new Tile[maxRowNumber][maxColNumber];
 
             for (int i = 0; i < maxRowNumber; i++) {
-                String[] numbers = br.readLine().split(" ");
+                final String[] numbers = br.readLine().split(" ");
                 for (int j = 0; j < maxColNumber; j++) {
-                    int tileNum = Integer.parseInt(numbers[j]);
-                    String tileType = tileCodeTable.get(tileNum);
+                    final int tileNum = Integer.parseInt(numbers[j]);
+                    final String tileType = tileCodeTable.get(tileNum);
 
-                    Tile tile = new Tile();
+                    final Tile tile = new Tile();
                     tile.image = images.get(tileType);
                     tile.type = tileType;
                     tile.dimension = obstacleSizeTable.get(tileCodeTable.get(tileNum));
                     if (tileNum > 1) {
                         tile.bitMap = loadBitMap(tileType, tile.dimension[0], tile.dimension[1]);
-                        tile.secondaryImage = images.get("wood");
-                        obstacles[i][j] = tile;
-                    }else{
-                        obstacles[i][j] = null;
+                        if(tileType == "bottle"){
+                            tile.secondaryImage = images.get("water");
+                        }else{
+                            tile.secondaryImage = images.get("wood");
+                        }
                     }
                     grid[i][j] = tile;
                 }
@@ -109,13 +108,13 @@ public class TileManager {
 
             for (int i = 0; i < grid.length; i++) {
                 for (int j = 0; j < grid[i].length; j++) {
-                    if (grid[i][j].type == "water") {
+                    if (!grid[i][j].collision && grid[i][j].type == "water") {
                         grid[i][j].collision = true;
                         blockCount++;
                     } else if (grid[i][j].type != DEFAULT) {
                         for (int e = 0; e < grid[i][j].dimension[0]; e++) {
                             for (int f = 0; f < grid[i][j].dimension[1]; f++) {
-                                if ((i + f < grid.length - 1 && j + e < grid[i].length - 1) && grid[i][j].bitMap[f][e] == 0) {
+                                if (!grid[i + f][j + e].collision && (i + f < grid.length - 1 && j + e < grid[i].length - 1) && grid[i][j].bitMap[f][e] == 0) {
                                     grid[i + f][j + e].collision = true;
                                     blockCount++;
                                 }
@@ -135,6 +134,7 @@ public class TileManager {
                     }
                 }
             }
+            /* System.out.println("k: "+ k +", blockCount: " + blockCount); */
         } catch (final Exception e) {
             e.printStackTrace();
         }
@@ -161,8 +161,8 @@ public class TileManager {
         }
     }
 
-    public void addToBlocks(int[] indexes) {
-        int newarray[][] = new int[blocks.length + 1][2];
+    public void addToBlocks(final int[] indexes) {
+        final int newarray[][] = new int[blocks.length + 1][2];
 
         for (int i = 0; i < blocks.length; i++)
             newarray[i] = blocks[i];
@@ -171,19 +171,19 @@ public class TileManager {
         blocks = newarray;
     }
 
-    public Integer[][] loadBitMap(String filename, int width, int height) {
-        Integer[][] result = new Integer[height][width];
+    public Integer[][] loadBitMap(final String filename, final int width, final int height) {
+        final Integer[][] result = new Integer[height][width];
         try {
             final InputStream is = getClass().getResourceAsStream("/bitmaps/" + filename + ".txt");
             final BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             for (int i = 0; i < height; i++) {
-                String[] numbers = br.readLine().split(" ");
+                final String[] numbers = br.readLine().split(" ");
                 for (int j = 0; j < width; j++) {
                     result[i][j] = Integer.parseInt(numbers[j]);
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
         return result;
     }

@@ -4,13 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.text.Position;
 
 import model.Game;
 import model.entity.Entity;
@@ -19,6 +14,7 @@ import model.player.Player;
 import model.utility.MouseHandler;
 
 public abstract class Tower extends Entity {
+    private static final boolean DRAW_IMAGE = false;
     private BufferedImage image;
     public Color color;
 
@@ -30,7 +26,7 @@ public abstract class Tower extends Entity {
         HEALTH_BAR_WIDTH = 50;
     }
 
-    public void useAbility(Unit unit, Boolean own, Player enemy) {
+    public void useAbility(final Unit unit, final Boolean own, final Player enemy) {
         // System.out.println("using ability");
         if (this.type == "ATTACK" && !own) {
             unit.health -= .28;
@@ -49,10 +45,10 @@ public abstract class Tower extends Entity {
         // return true;
     }
 
-    public Boolean isInRange(Entity unit) {
+    public Boolean isInRange(final Entity unit) {
         // System.out.println("isInRange");
 
-        char type = 'N';
+        /* char type = 'N';
 
         if (unit.pos.x <= this.pos.x && unit.pos.y <= this.pos.y)
             type = 'A';
@@ -61,9 +57,9 @@ public abstract class Tower extends Entity {
         if (unit.pos.x <= this.pos.x && unit.pos.y >= this.pos.y)
             type = 'C';
         if (unit.pos.x >= this.pos.x && unit.pos.y >= this.pos.y)
-            type = 'D';
+            type = 'D'; */
 
-        double rad = Math.sqrt(Math.pow((unit.pos.x - this.pos.x), 2) + Math.pow((unit.pos.y - this.pos.y), 2));
+        final double rad = Math.sqrt(Math.pow((unit.pos.x - this.pos.x), 2) + Math.pow((unit.pos.y - this.pos.y), 2));
 
         // System.out.println(rad + " < calc | range > " + this.range);
         if (rad <= this.range / 2)
@@ -81,7 +77,6 @@ public abstract class Tower extends Entity {
     }
 
     public void draw(final Graphics2D g2) {
-        /* g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null); */
         if (game.hoverPosition.x == pos.x && game.hoverPosition.y == pos.y) {
             g2.setColor(new Color(100, 100, 100, 100));
             g2.fillOval((int) (pos.x + width / 2 - range / 2), (int) (pos.y + width / 2 - range / 2), (int) range,
@@ -91,8 +86,12 @@ public abstract class Tower extends Entity {
                     (int) range);
         }
 
-        g2.setColor(color);
-        g2.fillOval((int) pos.x, (int) pos.y, width, height);
+        if (DRAW_IMAGE) {
+            g2.drawImage(image, (int) pos.x, (int) pos.y, width, height, null);
+        } else {
+            g2.setColor(color);
+            g2.fillOval((int) pos.x, (int) pos.y, width, height);
+        }
 
         g2.setColor(Color.RED);
         g2.fillRect((int) pos.x + (width - HEALTH_BAR_WIDTH) / 2, (int) pos.y - 5,

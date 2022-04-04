@@ -1,11 +1,5 @@
 package view;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -13,9 +7,22 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 import model.Game;
+import model.entity.unit.Unit;
+import model.entity.unit.UnitType1;
+import model.entity.unit.UnitType2;
+import model.entity.unit.UnitType3;
+import model.utility.Position;
 
 public class ButtonPanel extends JPanel {
+    private final Color SELECTED_COLOR = new Color(255, 0, 0);
     private final boolean ICONS = true;
     private final boolean BORDERS = true;
     private final Game game;
@@ -43,7 +50,7 @@ public class ButtonPanel extends JPanel {
                 Tower1Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_attack.png"))
                                 .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         } else {
@@ -66,7 +73,7 @@ public class ButtonPanel extends JPanel {
                 Tower2Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_speed.png"))
                                 .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         } else {
@@ -89,7 +96,7 @@ public class ButtonPanel extends JPanel {
                 Tower3Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/turrets/turret_slow.png"))
                                 .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         } else {
@@ -125,7 +132,7 @@ public class ButtonPanel extends JPanel {
                 Unit1Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/brute.png"))
                                 .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         } else {
@@ -148,7 +155,7 @@ public class ButtonPanel extends JPanel {
                 Unit2Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/spec.png"))
                                 .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         } else {
@@ -171,7 +178,7 @@ public class ButtonPanel extends JPanel {
                 Unit3Btn.setIcon(
                         new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/buttons/units/tank.png"))
                                 .getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH)));
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         } else {
@@ -206,46 +213,66 @@ public class ButtonPanel extends JPanel {
         Unit1Btn.setForeground(new Color(0, 0, 0));
         Unit2Btn.setForeground(new Color(0, 0, 0));
         Unit3Btn.setForeground(new Color(0, 0, 0));
+
+        Tower1Btn.setBackground(new JButton().getBackground());
+        Tower2Btn.setBackground(new JButton().getBackground());
+        Tower3Btn.setBackground(new JButton().getBackground());
+        Unit1Btn.setBackground(new JButton().getBackground());
+        Unit2Btn.setBackground(new JButton().getBackground());
+        Unit3Btn.setBackground(new JButton().getBackground());
     }
 
     private void Tower1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Tower1Btn.setForeground(new Color(255, 0, 0));
+        game.requestFocus();
+        Tower1Btn.setForeground(SELECTED_COLOR);
+        Tower1Btn.setBackground(SELECTED_COLOR);
         game.selectedButtonNum = 0;
     }
 
     private void Tower2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Tower2Btn.setForeground(new Color(255, 0, 0));
+        game.requestFocus();
+        Tower2Btn.setForeground(SELECTED_COLOR);
+        Tower2Btn.setBackground(SELECTED_COLOR);
         game.selectedButtonNum = 1;
     }
 
     private void Tower3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Tower3Btn.setForeground(new Color(255, 0, 0));
+        game.requestFocus();
+        Tower3Btn.setForeground(SELECTED_COLOR);
+        Tower3Btn.setBackground(SELECTED_COLOR);
         game.selectedButtonNum = 2;
     }
 
     private void Unit1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Unit1Btn.setForeground(new Color(255, 0, 0));
-        game.selectedButtonNum = 3;
+        game.requestFocus();
+
+        final Unit u1 = new UnitType1(new Position(), game, game.mouseH, game.activePlayer);
+        game.players.get(game.activePlayer).addUnit(u1);
     }
 
     private void Unit2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Unit2Btn.setForeground(new Color(255, 0, 0));
-        game.selectedButtonNum = 4;
+        game.requestFocus();
+
+        final Unit u2 = new UnitType2(new Position(), game, game.mouseH, game.activePlayer);
+        game.players.get(game.activePlayer).addUnit(u2);
     }
 
     private void Unit3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        Unit3Btn.setForeground(new Color(255, 0, 0));
-        game.selectedButtonNum = 5;
+        game.requestFocus();
+
+        final Unit u3 = new UnitType3(new Position(), game, game.mouseH, game.activePlayer);
+        game.players.get(game.activePlayer).addUnit(u3);
     }
 
     private void ReadyBtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
+        game.requestFocus();
         game.selectedButtonNum = -1;
 
         game.setNextPlayer();
@@ -261,23 +288,23 @@ public class ButtonPanel extends JPanel {
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JButton Tower1Btn;
-    private javax.swing.JButton Tower2Btn;
-    private javax.swing.JButton Tower3Btn;
+    public javax.swing.JButton Tower1Btn;
+    public javax.swing.JButton Tower2Btn;
+    public javax.swing.JButton Tower3Btn;
     public javax.swing.JButton Ready;
-    private javax.swing.JButton Unit1Btn;
-    private javax.swing.JButton Unit2Btn;
-    private javax.swing.JButton Unit3Btn;
+    public javax.swing.JButton Unit1Btn;
+    public javax.swing.JButton Unit2Btn;
+    public javax.swing.JButton Unit3Btn;
     // End of variables declaration
 
     class RoundBtn implements Border {
-        private int r;
+        private final int r;
 
-        RoundBtn(int r) {
+        RoundBtn(final int r) {
             this.r = r;
         }
 
-        public Insets getBorderInsets(Component c) {
+        public Insets getBorderInsets(final Component c) {
             return new Insets(this.r + 1, this.r + 1, this.r + 2, this.r);
         }
 
@@ -285,8 +312,8 @@ public class ButtonPanel extends JPanel {
             return true;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
-                int width, int height) {
+        public void paintBorder(final Component c, final Graphics g, final int x, final int y,
+                final int width, final int height) {
             g.drawRoundRect(x, y, width - 1, height - 1, r, r);
         }
     }

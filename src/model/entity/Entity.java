@@ -17,8 +17,7 @@ public abstract class Entity {
     public String type = "unit";
 
     public Position getPosFromIndex(final int i, final int j) {
-        return new Position(j * game.tileSize + (game.tileSize / 2) - width / 2,
-                i * game.tileSize + (game.tileSize / 2) - height / 2);
+        return new Position(j * game.tileSize + (game.tileSize / 2) - width / 2, i * game.tileSize + (game.tileSize / 2) - height / 2);
     }
 
     public Position getPosFromIndex(final int[] indexes) {
@@ -35,7 +34,7 @@ public abstract class Entity {
         this.pos = new Position(getPosFromIndex(ind[0], ind[1]));
     }
 
-    public boolean isInSameTile(Position pos1) {
+    public boolean isInSameTile(final Position pos1) {
         return equal(getCorrectPos(pos1), getCorrectPos(this.pos));
     }
 
@@ -44,7 +43,7 @@ public abstract class Entity {
         return new Position(getPosFromIndex(ind[0], ind[1]));
     }
 
-    private boolean equal(Position pos1, Position pos2) {
+    private boolean equal(final Position pos1, final Position pos2) {
         return (pos1.x == pos2.x && pos1.y == pos2.y);
     }
 }
