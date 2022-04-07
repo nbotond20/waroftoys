@@ -20,10 +20,9 @@ public class AStar {
     // End cell
     private int endI, endJ;
 
-    public AStar(final int width, final int height, final int si, final int sj, final int ei, final int ej,
-                 final int[][] blocks) {
-        grid = new Cell[width][height];
-        closedCells = new boolean[width][height];
+    public AStar(final int height, final int width, final int si, final int sj, final int ei, final int ej,final int[][] blocks) {
+        grid = new Cell[height][width];
+        closedCells = new boolean[height][width];
         openCells = new PriorityQueue<Cell>((final Cell c1, final Cell c2) -> {
             return c1.finalCost < c2.finalCost ? -1 : c1.finalCost > c2.finalCost ? 1 : 0;
         });
