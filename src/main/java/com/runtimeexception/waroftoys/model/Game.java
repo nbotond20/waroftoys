@@ -9,6 +9,7 @@ import com.runtimeexception.waroftoys.model.utility.MouseHandler;
 import com.runtimeexception.waroftoys.model.utility.MouseMovementHandler;
 import com.runtimeexception.waroftoys.model.utility.Position;
 import com.runtimeexception.waroftoys.view.ButtonPanel;
+import com.runtimeexception.waroftoys.view.GamePanel;
 import com.runtimeexception.waroftoys.view.Scoreboard;
 
 import javax.swing.*;
@@ -18,7 +19,8 @@ import java.util.ArrayList;
 import static java.lang.Math.abs;
 
 
-public class Game extends JPanel implements Runnable {
+public class Game implements Runnable {
+    private GamePanel gamePanel;
 
     private static final boolean DRAW_DRAG = false;
 
@@ -35,8 +37,8 @@ public class Game extends JPanel implements Runnable {
     public final int tileSize = originalTileSize * scale;
     public final int maxScreenCol = 44;
     public final int maxScreenRow = 20;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    public final int screenWidth = tileSize * maxScreenCol;
+    public final int screenHeight = tileSize * maxScreenRow;
 
     final int FPS = 60;
 
@@ -58,12 +60,7 @@ public class Game extends JPanel implements Runnable {
 
     public Game(final String name1, final String name2) {
 
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.GRAY);
-        this.setDoubleBuffered(true);
-        this.addKeyListener(keyH);
-        this.addMouseMotionListener(mouseMH);
-        this.setFocusable(true);
+        
         this.hoverPosition = new Position();
 
         this.players = new ArrayList<Player>();
@@ -81,8 +78,10 @@ public class Game extends JPanel implements Runnable {
         players.add(p1);
         players.add(p2);
 
-        addMouseListener(mouseH);
+    }
 
+    public void setGamePanel(GamePanel gp){
+        this.gamePanel = gp;
     }
 
     public void startGameThread() {
@@ -111,7 +110,7 @@ public class Game extends JPanel implements Runnable {
 
                 if (delta > 1) {
                     update();
-                    repaint();
+                    gamePanel.repaint();
                     delta--;
                     drawCount++;
                 }
@@ -238,10 +237,7 @@ public class Game extends JPanel implements Runnable {
         btnPanel.Tower3Btn.setEnabled(false);
     }
 
-    public void paintComponent(final Graphics g) {
-        super.paintComponent(g);
-        final Graphics2D g2 = (Graphics2D) g;
-
+    public void draw(final Graphics2D g2) {
         tileM.draw(g2);
 
         for (final Player p : players) {

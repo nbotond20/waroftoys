@@ -17,10 +17,10 @@ public class ButtonPanel extends JPanel {
     private final Color SELECTED_COLOR = new Color(255, 0, 0);
     private final boolean ICONS = true;
     private final boolean BORDERS = true;
-    private final Game game;
+    private final GamePanel gamePanel;
 
-    public ButtonPanel(final Game game) {
-        this.game = game;
+    public ButtonPanel(final GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
         // this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
         // BorderFactory.createLoweredBevelBorder()));
         initComponents();
@@ -216,67 +216,67 @@ public class ButtonPanel extends JPanel {
 
     private void Tower1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        game.requestFocus();
+        gamePanel.requestFocus();
         Tower1Btn.setForeground(SELECTED_COLOR);
         Tower1Btn.setBackground(SELECTED_COLOR);
-        game.selectedButtonNum = 0;
+        gamePanel.game.selectedButtonNum = 0;
     }
 
     private void Tower2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        game.requestFocus();
+        gamePanel.requestFocus();
         Tower2Btn.setForeground(SELECTED_COLOR);
         Tower2Btn.setBackground(SELECTED_COLOR);
-        game.selectedButtonNum = 1;
+        gamePanel.game.selectedButtonNum = 1;
     }
 
     private void Tower3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        game.requestFocus();
+        gamePanel.requestFocus();
         Tower3Btn.setForeground(SELECTED_COLOR);
         Tower3Btn.setBackground(SELECTED_COLOR);
-        game.selectedButtonNum = 2;
+        gamePanel.game.selectedButtonNum = 2;
     }
 
     private void Unit1BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        game.requestFocus();
+        gamePanel.requestFocus();
 
-        final Unit u1 = new UnitType1(new Position(), game, game.mouseH, game.activePlayer);
-        game.players.get(game.activePlayer).addUnit(u1);
+        final Unit u1 = new UnitType1(new Position(), gamePanel.game, gamePanel.game.mouseH, gamePanel.game.activePlayer);
+        gamePanel.game.players.get(gamePanel.game.activePlayer).addUnit(u1);
     }
 
     private void Unit2BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        game.requestFocus();
+        gamePanel.requestFocus();
 
-        final Unit u2 = new UnitType2(new Position(), game, game.mouseH, game.activePlayer);
-        game.players.get(game.activePlayer).addUnit(u2);
+        final Unit u2 = new UnitType2(new Position(), gamePanel.game, gamePanel.game.mouseH, gamePanel.game.activePlayer);
+        gamePanel.game.players.get(gamePanel.game.activePlayer).addUnit(u2);
     }
 
     private void Unit3BtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        game.requestFocus();
+        gamePanel.requestFocus();
 
-        final Unit u3 = new UnitType3(new Position(), game, game.mouseH, game.activePlayer);
-        game.players.get(game.activePlayer).addUnit(u3);
+        final Unit u3 = new UnitType3(new Position(), gamePanel.game, gamePanel.game.mouseH, gamePanel.game.activePlayer);
+        gamePanel.game.players.get(gamePanel.game.activePlayer).addUnit(u3);
     }
 
     private void ReadyBtnActionPerformed(final java.awt.event.ActionEvent evt) {
         resetColor();
-        game.requestFocus();
-        game.selectedButtonNum = -1;
+        gamePanel.requestFocus();
+        gamePanel.game.selectedButtonNum = -1;
 
-        game.setNextPlayer();
-        if (game.readyBtnPushCount == 1) {
+        gamePanel.game.setNextPlayer();
+        if (gamePanel.game.readyBtnPushCount == 1) {
             Ready.setText("Attack");
         } else {
             Ready.setText("Ready");
         }
 
-        if (game.isAttacking) {
+        if (gamePanel.game.isAttacking) {
             Ready.setText("Attacking...");
-            game.disableButtons();
+            gamePanel.game.disableButtons();
         }
     }
 

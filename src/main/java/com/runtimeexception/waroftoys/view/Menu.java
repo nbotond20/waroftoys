@@ -193,13 +193,13 @@ public class Menu extends JPanel {
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0,0));
 
-        final Game game = new Game(Player1Input.getText(), Player2Input.getText());
+        final GamePanel gamePanel = new GamePanel(Player1Input.getText(), Player2Input.getText());
 
-        final ButtonPanel btnPanel = new ButtonPanel(game);
-        final Scoreboard scoreboard = new Scoreboard(game);
+        final ButtonPanel btnPanel = new ButtonPanel(gamePanel);
+        final Scoreboard scoreboard = new Scoreboard(gamePanel.game);
 
-        game.addButtonPanel(btnPanel);
-        game.addScoreboardPanel(scoreboard);
+        gamePanel.game.addButtonPanel(btnPanel);
+        gamePanel.game.addScoreboardPanel(scoreboard);
 
         final JPanel p1 = new JPanel();
         p1.setBackground(new Color(148,246,250,98));
@@ -209,7 +209,7 @@ public class Menu extends JPanel {
         p2.setPreferredSize(new Dimension(138,0));
 
         mainPanel.add(scoreboard, BorderLayout.PAGE_START);
-        mainPanel.add(game, BorderLayout.CENTER);
+        mainPanel.add(gamePanel, BorderLayout.CENTER);
         mainPanel.add(btnPanel, BorderLayout.PAGE_END);
 
         /* mainPanel.add(p1, BorderLayout.LINE_START);
@@ -222,8 +222,8 @@ public class Menu extends JPanel {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
-        game.startGameThread();
-        game.requestFocus();
+        gamePanel.game.startGameThread();
+        gamePanel.requestFocus();
     }
 
     private void SavedGamesActionPerformed(final java.awt.event.ActionEvent evt) {
