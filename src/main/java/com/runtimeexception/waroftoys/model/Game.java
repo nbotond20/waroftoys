@@ -20,7 +20,8 @@ import static java.lang.Math.abs;
 
 public class Game implements Runnable {
     private GamePanel gamePanel;
-
+    
+    private static final boolean GAME_PANEL = false;
     private static final boolean DRAW_DRAG = false;
 
     public Position hoverPosition;
@@ -109,7 +110,9 @@ public class Game implements Runnable {
 
                 if (delta > 1) {
                     update();
-                    gamePanel.repaint();
+                    if(GAME_PANEL){
+                        gamePanel.repaint();
+                    }
                     delta--;
                     drawCount++;
                 }
