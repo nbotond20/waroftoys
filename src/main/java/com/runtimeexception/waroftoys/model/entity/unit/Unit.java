@@ -129,7 +129,7 @@ public abstract class Unit extends Entity {
         this.enemyBasePosition = pos;
     }
 
-    private void move(final Position pos) {
+    public void move(final Position pos) {
         this.pos.x += pos.x;
         this.pos.y += pos.y;
     }
@@ -141,7 +141,7 @@ public abstract class Unit extends Entity {
         return false;
     }
 
-    private Position calcNextPos(final Position curr, final Position dest) {
+    public Position calcNextPos(final Position curr, final Position dest) {
         final double distX = (dest.x - curr.x);
         final double distY = (dest.y - curr.y);
         if (sqrt(distX * distX + distY * distY) <= speed) {
