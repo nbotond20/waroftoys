@@ -1,19 +1,15 @@
-package com.runtimeexception.waroftoys.model.entity.unit;
+package com.runtimeexception.waroftoys.model.pathfinding;
 
 import static org.junit.Assert.*;
-import com.runtimeexception.waroftoys.model.utility.Position;
+
+import java.util.ArrayList;
+import org.junit.Test;
 
 public class PathfindingTest {
     @Test
     public void testNoRoute(){
         Boolean route = true;
-        Position start = new Position(0,0);
-        Position end = new Position(0,2);
-        final int[][] temp = new int[1][2];
-        temp[0][0] = 0;
-        temp[0][1] = 1;
-        final AStar aStar = new AStar(3, 1, start.x, start.y, end.x, 
-        end.y, temp);
+        final AStar aStar = new AStar(3, 2, 0, 0, 0, 2, new int [][] {{0, 1}});
         aStar.process();
         final ArrayList<Cell> destCells = aStar.displaySolution(false);
         if (destCells == null || destCells.size() == 0) {

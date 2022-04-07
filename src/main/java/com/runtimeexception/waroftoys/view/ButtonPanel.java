@@ -1,6 +1,5 @@
 package com.runtimeexception.waroftoys.view;
 
-import com.runtimeexception.waroftoys.model.Game;
 import com.runtimeexception.waroftoys.model.entity.unit.Unit;
 import com.runtimeexception.waroftoys.model.entity.unit.UnitType1;
 import com.runtimeexception.waroftoys.model.entity.unit.UnitType2;

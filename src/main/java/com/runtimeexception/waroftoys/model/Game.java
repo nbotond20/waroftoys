@@ -12,7 +12,6 @@ import com.runtimeexception.waroftoys.view.ButtonPanel;
 import com.runtimeexception.waroftoys.view.GamePanel;
 import com.runtimeexception.waroftoys.view.Scoreboard;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 

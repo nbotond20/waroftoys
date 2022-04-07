@@ -1,6 +1,7 @@
-package com.runtimeexception.waroftoys.model.entity.unit;
+package com.runtimeexception.waroftoys.model.entity.tower;
 
-import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 public class TowerTest {
     @Test

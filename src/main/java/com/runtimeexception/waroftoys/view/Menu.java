@@ -1,6 +1,5 @@
 package com.runtimeexception.waroftoys.view;
 
-import com.runtimeexception.waroftoys.model.Game;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
