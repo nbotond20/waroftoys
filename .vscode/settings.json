@@ -1,7 +1,3 @@
 {
-    "java.dependency.packagePresentation": "hierarchical",
-    "java.project.sourcePaths": [
-        "res",
-        "src"
-    ]
+    "java.dependency.packagePresentation": "hierarchical"
 }

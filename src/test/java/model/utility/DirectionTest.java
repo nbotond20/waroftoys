@@ -1,7 +1,0 @@
-package model.utility;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class DirectionTest {
-
-}
