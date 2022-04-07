@@ -5,11 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.runtimeexception.waroftoys.model.Game;
 
 import com.runtimeexception.waroftoys.model.entity.unit.*;
-import com.runtimeexception.waroftoys.model.player.Player;
 import com.runtimeexception.waroftoys.model.utility.Position;
 import org.junit.Test;
-
-import java.util.Timer;
 
 public class TowerTest {
     Game game;
