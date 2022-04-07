@@ -11,7 +11,7 @@ public class GamePanel extends JPanel {
     public Game game;
 
     public GamePanel(String name1, String name2) {
-        this.game = new Game(name1, name2);
+        this.game = new Game(name1, name2, false);
         this.game.setGamePanel(this);
 
         this.setPreferredSize(new Dimension(game.screenWidth, game.screenHeight));
@@ -28,8 +28,8 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         final Graphics2D g2 = (Graphics2D) g;
 
-        game.draw(g2);
+        if(game.GAME_PANEL){
+            game.draw(g2);
+        }
     }
-
-    
 }

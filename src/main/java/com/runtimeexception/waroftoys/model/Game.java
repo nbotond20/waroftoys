@@ -21,7 +21,7 @@ import static java.lang.Math.abs;
 public class Game implements Runnable {
     private GamePanel gamePanel;
     
-    private static final boolean GAME_PANEL = false;
+    public boolean GAME_PANEL = false;
     private static final boolean DRAW_DRAG = false;
 
     public Position hoverPosition;
@@ -78,6 +78,11 @@ public class Game implements Runnable {
         players.add(p1);
         players.add(p2);
 
+    }
+
+    public Game(final String name1, final String name2, boolean draw) {
+        this(name1, name2);
+        this.GAME_PANEL = draw;
     }
 
     public void setGamePanel(GamePanel gp){
