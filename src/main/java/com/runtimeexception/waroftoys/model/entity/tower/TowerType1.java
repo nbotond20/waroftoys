@@ -12,8 +12,8 @@ public class TowerType1 extends Tower {
         getTowerImage("stone");
 
         this.pos = pos;
-        this.health = 100;
-        this.MAX_HEALTH = 100;
+        this.health = 1000;
+        this.MAX_HEALTH = 1000;
         this.range = 200;
         this.cost = 2500;
         this.color = new Color(0, 0, 200, 255);

@@ -15,8 +15,8 @@ public class UnitType3 extends Unit {
         this.pos = pos;
         calcCorrectPosition(this.pos);
         this.dir = Direction.DOWN;
-        this.health = 50;
-        this.MAX_HEALTH = 50;
+        this.health = 250;
+        this.MAX_HEALTH = 250;
         this.color = new Color(200, 0, 0, 255);
         this.cost = 3000;
         this.damage = 50;

@@ -24,8 +24,8 @@ public class Base extends Entity {
 
         this.pos = pos;
         calcCorrectPosition(this.pos);
-        this.health = 100;
-        this.MAX_HEALTH = 100;
+        this.health = 1000;
+        this.MAX_HEALTH = 1000;
         this.range = 200;
 
         this.color = Color.WHITE;
