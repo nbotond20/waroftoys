@@ -17,8 +17,8 @@ public class UnitTest {
     public void unit1ClassTest() {
         unit = new UnitType1(new Position(), game, game.mouseH, 0);
         assertEquals(unit.speed, 1);
-        assertEquals(unit.health, 100);
-        assertEquals(unit.MAX_HEALTH, 100);
+        assertEquals(unit.health, 500);
+        assertEquals(unit.MAX_HEALTH, 500);
         assertEquals(unit.cost, 1000);
         assertEquals(unit.damage, 30);
     }
@@ -28,8 +28,8 @@ public class UnitTest {
     public void unit2ClassTest() {
         unit = new UnitType2(new Position(), game, game.mouseH, 0);
         assertEquals(unit.speed, 0.5);
-        assertEquals(unit.health, 300);
-        assertEquals(unit.MAX_HEALTH, 300);
+        assertEquals(unit.health, 1500);
+        assertEquals(unit.MAX_HEALTH, 1500);
         assertEquals(unit.cost, 2000);
         assertEquals(unit.damage, 40);
     }
@@ -39,8 +39,8 @@ public class UnitTest {
     public void unit3ClassTest() {
         unit = new UnitType3(new Position(), game, game.mouseH, 0);
         assertEquals(unit.speed, 1.5);
-        assertEquals(unit.health, 50);
-        assertEquals(unit.MAX_HEALTH, 50);
+        assertEquals(unit.health, 250);
+        assertEquals(unit.MAX_HEALTH, 250);
         assertEquals(unit.cost, 3000);
         assertEquals(unit.damage, 50);
     }
