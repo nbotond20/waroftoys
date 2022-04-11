@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import static java.lang.Math.abs;
 
 public class Game implements Runnable {
+    Player winner;
     private GamePanel gamePanel;
 
     public boolean GAME_PANEL = false;
@@ -205,12 +206,19 @@ public class Game implements Runnable {
             }
         }
 
-        /* updateAllTileOffsets(); */
+        updateAllTileOffsets();
 
         if (allFinished) {
             isAttacking = false;
             enableButtons();
             btnPanel.Ready.setText("Ready");
+            if (players.get(0).base.health <= 0) {
+                keyH.GAME_RUNNING = false;
+                winner = players.get(1);
+            } else if (players.get(1).base.health <= 0) {
+                keyH.GAME_RUNNING = false;
+                winner = players.get(0);
+            }
         }
 
         score.Player1Balance.setText(String.valueOf(players.get(0).balance));
@@ -269,6 +277,16 @@ public class Game implements Runnable {
 
         g2.setColor(Color.WHITE);
         g2.drawLine((maxScreenCol * tileSize) / 2, 0, (maxScreenCol * tileSize) / 2, maxScreenRow * tileSize);
+
+        if (winner != null) {
+            FontMetrics metrics = g2.getFontMetrics(new Font("Arial", Font.BOLD, 50));
+            int x = 0 + (screenWidth - metrics.stringWidth(winner.name + " Wins!")) / 2;
+            int y = 0 + ((screenHeight - metrics.getHeight()) / 2) + metrics.getAscent();
+            g2.setColor(Color.RED);
+            g2.setFont(new Font("Arial", Font.BOLD, 50));
+            g2.drawString(winner.name + " Wins!", x, y);
+        }
+
         g2.dispose();
     }
 

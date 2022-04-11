@@ -162,6 +162,7 @@ public class Player {
         for (final Unit u : game.players.get(1).units) {
             u.updatePath();
         }
+        setAvailableFields();
     }
 
     public void setBase(final Base base) {
