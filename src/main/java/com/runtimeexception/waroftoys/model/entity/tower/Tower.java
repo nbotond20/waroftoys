@@ -45,17 +45,6 @@ public abstract class Tower extends Entity {
     public Boolean isInRange(final Entity unit) {
         // System.out.println("isInRange");
 
-        char type = 'N';
-
-        if (unit.pos.x <= this.pos.x && unit.pos.y <= this.pos.y)
-            type = 'A';
-        if (unit.pos.x >= this.pos.x && unit.pos.y <= this.pos.y)
-            type = 'B';
-        if (unit.pos.x <= this.pos.x && unit.pos.y >= this.pos.y)
-            type = 'C';
-        if (unit.pos.x >= this.pos.x && unit.pos.y >= this.pos.y)
-            type = 'D';
-
         final double rad = Math.sqrt(Math.pow((unit.pos.x - this.pos.x), 2) + Math.pow((unit.pos.y - this.pos.y), 2));
 
         // System.out.println(rad + " < calc | range > " + this.range);
