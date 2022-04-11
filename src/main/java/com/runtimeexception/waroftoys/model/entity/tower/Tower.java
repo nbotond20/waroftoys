@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public abstract class Tower extends Entity {
-    private static final boolean DRAW_IMAGE = false;
+    private static final boolean DRAW_IMAGE = true;
     private BufferedImage image;
     public Color color;
 
@@ -24,14 +24,13 @@ public abstract class Tower extends Entity {
         HEALTH_BAR_WIDTH = 50;
     }
 
-    public void useAbility(final Unit unit, final Boolean own, final Player enemy) {
+    public Boolean useAbility(final Unit unit, final Boolean own, final Player enemy) {
         // System.out.println("using ability");
         if (this.type == "ATTACK" && !own) {
             unit.health -= .28;
             if (unit.health <= 0) {
-                // return false;
-                // enemy.units.remove(unit);
                 enemy.unitDone.add(unit);
+                return true;
             }
         }
         if (this.type == "FASTER" && own) {
@@ -40,13 +39,13 @@ public abstract class Tower extends Entity {
         if (this.type == "SLOWER" && !own) {
             unit.speed = unit.REGULAR_SPEED * .7;
         }
-        // return true;
+        return false;
     }
 
     public Boolean isInRange(final Entity unit) {
         // System.out.println("isInRange");
 
-        /* char type = 'N';
+        char type = 'N';
 
         if (unit.pos.x <= this.pos.x && unit.pos.y <= this.pos.y)
             type = 'A';
@@ -55,7 +54,7 @@ public abstract class Tower extends Entity {
         if (unit.pos.x <= this.pos.x && unit.pos.y >= this.pos.y)
             type = 'C';
         if (unit.pos.x >= this.pos.x && unit.pos.y >= this.pos.y)
-            type = 'D'; */
+            type = 'D';
 
         final double rad = Math.sqrt(Math.pow((unit.pos.x - this.pos.x), 2) + Math.pow((unit.pos.y - this.pos.y), 2));
 

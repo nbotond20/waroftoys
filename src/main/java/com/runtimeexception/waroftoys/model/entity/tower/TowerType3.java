@@ -18,6 +18,7 @@ public class TowerType3 extends Tower {
         this.cost = 500;
         this.color = new Color(200, 0, 0, 255);
         this.type = "SLOWER";
+        this.img = "radar";
 
         calcCorrectPosition(this.pos);
     }

@@ -18,6 +18,7 @@ public class TowerType1 extends Tower {
         this.cost = 2500;
         this.color = new Color(0, 0, 200, 255);
         this.type = "ATTACK";
+        this.img = "fire";
 
         calcCorrectPosition(this.pos);
     }

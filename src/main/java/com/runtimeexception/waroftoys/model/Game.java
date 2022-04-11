@@ -17,10 +17,9 @@ import java.util.ArrayList;
 
 import static java.lang.Math.abs;
 
-
 public class Game implements Runnable {
     private GamePanel gamePanel;
-    
+
     public boolean GAME_PANEL = false;
     private static final boolean DRAW_DRAG = false;
 
@@ -49,7 +48,7 @@ public class Game implements Runnable {
     private Thread gameThread;
 
     public ArrayList<Player> players;
-    public int activePlayer = (int)Math.round(Math.random());
+    public int activePlayer = (int) Math.round(Math.random());
     private int prevPlayer = activePlayer;
     public int readyBtnPushCount = 0;
 
@@ -60,7 +59,6 @@ public class Game implements Runnable {
 
     public Game(final String name1, final String name2) {
 
-        
         this.hoverPosition = new Position();
 
         this.players = new ArrayList<Player>();
@@ -85,7 +83,7 @@ public class Game implements Runnable {
         this.GAME_PANEL = draw;
     }
 
-    public void setGamePanel(GamePanel gp){
+    public void setGamePanel(GamePanel gp) {
         this.gamePanel = gp;
     }
 
@@ -104,8 +102,8 @@ public class Game implements Runnable {
         int drawCount = 0;
 
         while (gameThread != null) {
-            if(keyH.GAME_RUNNING){
-                if(!isAttacking){
+            if (keyH.GAME_RUNNING) {
+                if (!isAttacking) {
                     enableButtons();
                 }
                 currentTime = System.nanoTime();
@@ -115,7 +113,7 @@ public class Game implements Runnable {
 
                 if (delta > 1) {
                     update();
-                    if(GAME_PANEL){
+                    if (GAME_PANEL) {
                         gamePanel.repaint();
                     }
                     delta--;
@@ -132,7 +130,7 @@ public class Game implements Runnable {
                     drawCount = 0;
                     timer = 0;
                 }
-            }else{
+            } else {
                 disableButtons();
                 currentTime = System.nanoTime();
                 delta += (currentTime - lastTime) / drawInterval;
@@ -177,6 +175,8 @@ public class Game implements Runnable {
             }
             readyBtnPushCount = 0;
         } else {
+            players.get(0).balance += 10000;
+            players.get(1).balance += 10000;
             if (activePlayer == 0) {
                 activePlayer = 1;
             } else {
@@ -184,7 +184,9 @@ public class Game implements Runnable {
             }
         }
     }
+
     long counter = 0;
+
     public void update() {
         for (final Player p : players) {
             p.update();
@@ -281,7 +283,7 @@ public class Game implements Runnable {
     private final int order8[] = { 4, 0, 2, 6, 8, 1, 3, 5 };
     private final int order9[] = { 4, 0, 2, 6, 8, 1, 3, 5, 7 };
 
-    public void updateAllTileOffsets(){
+    public void updateAllTileOffsets() {
         for (int i = 0; i <= maxScreenRow; i++) {
             for (int j = 0; j <= maxScreenCol; j++) {
                 setTileOffsets(new Position((j * tileSize) - tileSize / 2, (i * tileSize) - tileSize / 2));
@@ -289,7 +291,7 @@ public class Game implements Runnable {
         }
     }
 
-    public void setTileOffsets(final Position closeTo){
+    public void setTileOffsets(final Position closeTo) {
         int count = 0;
         for (final Player p : players) {
             if (p.units != null) {

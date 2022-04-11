@@ -70,6 +70,11 @@ public class Player {
         Collections.shuffle(availableIndexes);
     }
 
+    public void earnMoney(final Player enemy) {
+        this.balance += enemy.unitDone.get(enemy.unitDone.size() - 1).cost / 2; // player gets half of the cost of a
+                                                                                // dead unit
+    }
+
     public void checkRange(final Player enemy) {
         // ArrayList<Unit> delete = new ArrayList<Unit>();
         for (final Tower tower : this.towers) {
@@ -81,7 +86,8 @@ public class Player {
             }
             for (final Unit unit : enemy.units) { // enemy unit is in range of own tower
                 if (tower.isInRange(unit)) {
-                    tower.useAbility(unit, false, enemy);
+                    if (tower.useAbility(unit, false, enemy))
+                        this.earnMoney(enemy);
                 }
                 // delete.add(unit);
             }
@@ -144,6 +150,7 @@ public class Player {
         if (balance > tower.cost && !game.tileM.grid[i[0]][i[1]].collision) {
             this.balance -= tower.cost;
             tower.pos = game.hoverPosition;
+            tower.getTowerImage(tower.img);
             towers.add(tower);
             game.tileM.grid[i[0]][i[1]].collision = true;
             game.tileM.addToBlocks(i);
