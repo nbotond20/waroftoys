@@ -66,6 +66,7 @@ public class MouseMovementHandler implements MouseMotionListener {
                         game.selectedUnit.addFixPosition(game.dragPosition);
                     }
                 }
+                game.selectedUnit.updatePath();
             }
         }
     }

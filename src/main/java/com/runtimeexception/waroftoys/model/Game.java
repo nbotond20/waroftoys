@@ -165,7 +165,8 @@ public class Game implements Runnable {
 
             disableButtons();
             isAttacking = true;
-
+            players.get(0).balance += 10000;
+            players.get(1).balance += 10000;
             if (prevPlayer == 0) {
                 activePlayer = 1;
                 prevPlayer = 1;
@@ -175,8 +176,6 @@ public class Game implements Runnable {
             }
             readyBtnPushCount = 0;
         } else {
-            players.get(0).balance += 10000;
-            players.get(1).balance += 10000;
             if (activePlayer == 0) {
                 activePlayer = 1;
             } else {
