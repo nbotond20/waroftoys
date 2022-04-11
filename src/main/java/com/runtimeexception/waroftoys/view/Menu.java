@@ -27,14 +27,11 @@ public class Menu extends JPanel {
 
         Left = new javax.swing.JPanel();
         Player1Input = new javax.swing.JTextField();
-        // Player1Pic = new javax.swing.JPanel();
         Buttons = new javax.swing.JPanel();
         Start = new javax.swing.JButton();
         SavedGames = new javax.swing.JButton();
-        /* Quit = new javax.swing.JButton(); */
         Right = new javax.swing.JPanel();
         Player2Input = new javax.swing.JTextField();
-        // Player2Pic = new javax.swing.JPanel();
 
         Left.setBackground(new java.awt.Color(100, 0, 0));
         Left.setPreferredSize(new java.awt.Dimension((int) (300 * (0.5 / scale)), (int) (540 * (0.5 / scale))));
@@ -60,25 +57,8 @@ public class Menu extends JPanel {
         Player1Input.setBackground(new Color(0, 0, 0, 40));
         CompoundBorder border = new CompoundBorder(line, empty);
         Player1Input.setBorder(border);
-        // Player1Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         Left.add(Player1Input, gridBagConstraints);
 
-        /*
-         * final javax.swing.GroupLayout jPanel1Layout = new
-         * javax.swing.GroupLayout(Player1Pic);
-         * Player1Pic.setLayout(jPanel1Layout);
-         * jPanel1Layout.setHorizontalGroup(
-         * jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         * .addGap(0, 100, Short.MAX_VALUE));
-         * jPanel1Layout.setVerticalGroup(
-         * jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         * .addGap(0, 100, Short.MAX_VALUE));
-         * 
-         * gridBagConstraints = new java.awt.GridBagConstraints();
-         * gridBagConstraints.insets = new java.awt.Insets((int) (15 * (0.5 / scale)),
-         * 0, (int) (15 * (0.5 / scale)), 0);
-         * Left.add(Player1Pic, gridBagConstraints);
-         */
         Left.setOpaque(false);
         add(Left);
 
@@ -127,29 +107,6 @@ public class Menu extends JPanel {
         SavedGames.setBorderPainted(false);
         Buttons.add(SavedGames, gridBagConstraints);
 
-        /*
-         * Quit.setFont(new java.awt.Font("Segoe UI", 0, (int)(20 * (0.5 / scale))));
-         * //NOI18N
-         * Quit.setText("Quit");
-         * Quit.setPreferredSize(new java.awt.Dimension((int)(140 * (0.5 / scale)),
-         * (int)(40 * (0.5 / scale))));
-         * Quit.addActionListener(new java.awt.event.ActionListener() {
-         * public void actionPerformed(java.awt.event.ActionEvent evt) {
-         * QuitActionPerformed(evt);
-         * }
-         * });
-         * gridBagConstraints = new java.awt.GridBagConstraints();
-         * gridBagConstraints.gridx = 0;
-         * gridBagConstraints.gridy = 4;
-         * gridBagConstraints.insets = new java.awt.Insets((int)(9 * (0.5 / scale)), 0,
-         * (int)(8 * (0.5 / scale)), 0);
-         * Quit.setOpaque(false);
-         * Quit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-         * Quit.setContentAreaFilled(false);
-         * Quit.setBorderPainted(false);
-         * Buttons.add(Quit, gridBagConstraints);
-         */
-
         Buttons.setOpaque(false);
         add(Buttons);
 
@@ -169,7 +126,6 @@ public class Menu extends JPanel {
         Player2Input.setOpaque(false);
         Player2Input.setMargin(new Insets(0, 0, 0, 0));
         Player2Input.setBackground(new Color(0, 0, 0, 40));
-        // CompoundBorder border = new CompoundBorder(line, empty);
         Player2Input.setBorder(border);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -178,37 +134,19 @@ public class Menu extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets((int) (15 * (0.5 / scale)), 0, (int) (15 * (0.5 / scale)), 0);
         Player2Input.setForeground(Color.WHITE);
         Player2Input.setOpaque(false);
-        // Player2Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         Right.add(Player2Input, gridBagConstraints);
-
-        /*
-         * final javax.swing.GroupLayout Player2PicLayout = new
-         * javax.swing.GroupLayout(Player2Pic);
-         * Player2Pic.setLayout(Player2PicLayout);
-         * Player2PicLayout.setHorizontalGroup(
-         * Player2PicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
-         * LEADING)
-         * .addGap(0, 100, Short.MAX_VALUE));
-         * Player2PicLayout.setVerticalGroup(
-         * Player2PicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
-         * LEADING)
-         * .addGap(0, 100, Short.MAX_VALUE));
-         */
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets((int) (15 * (0.5 / scale)), 0, (int) (15 * (0.5 / scale)), 0);
-        // Right.add(Player2Pic, gridBagConstraints);
 
         Right.setOpaque(false);
         add(Right);
     }
 
     private void Player2InputActionPerformed(final java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
 
     private void Player1InputActionPerformed(final java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
 
     private void StartActionPerformed(final java.awt.event.ActionEvent evt) {
@@ -236,11 +174,6 @@ public class Menu extends JPanel {
         mainPanel.add(gamePanel, BorderLayout.CENTER);
         mainPanel.add(btnPanel, BorderLayout.PAGE_END);
 
-        /*
-         * mainPanel.add(p1, BorderLayout.LINE_START);
-         * mainPanel.add(p2, BorderLayout.LINE_END);
-         */
-
         mainPanel.setBackground(new Color(0, 0, 255, 255));
 
         window.add(mainPanel);
@@ -253,25 +186,15 @@ public class Menu extends JPanel {
     }
 
     private void SavedGamesActionPerformed(final java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
-
-    /*
-     * private void QuitActionPerformed(java.awt.event.ActionEvent evt) {
-     * System.exit(0);
-     * }
-     */
 
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Buttons;
     private javax.swing.JPanel Right;
     private javax.swing.JTextField Player1Input;
     private javax.swing.JTextField Player2Input;
-    // private javax.swing.JPanel Player1Pic;
-    // private javax.swing.JPanel Player2Pic;
     private javax.swing.JButton Start;
     private javax.swing.JButton SavedGames;
-    /* private javax.swing.JButton Quit; */
 
     @Override
     protected void paintComponent(final Graphics g) {

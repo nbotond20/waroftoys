@@ -63,12 +63,12 @@ public class Game implements Runnable {
 
         this.players = new ArrayList<Player>();
 
-        final Player p1 = new Player(name1, this, 1000000000);
+        final Player p1 = new Player(name1, this, 25000);
         final Base b1 = new Base(new Position(1 * tileSize, 1 * tileSize), this);
         p1.setBase(b1);
         p1.setAvailableFields();
 
-        final Player p2 = new Player(name2, this, 1000000000);
+        final Player p2 = new Player(name2, this, 25000);
         final Base b2 = new Base(new Position(42 * tileSize, 18 * tileSize), this);
         p2.setBase(b2);
         p2.setAvailableFields();
