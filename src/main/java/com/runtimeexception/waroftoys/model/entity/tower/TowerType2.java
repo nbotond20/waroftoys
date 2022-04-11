@@ -18,6 +18,7 @@ public class TowerType2 extends Tower {
         this.cost = 1000;
         this.color = new Color(0, 200, 0, 255);
         this.type = "FASTER";
+        this.img = "lidar";
 
         calcCorrectPosition(this.pos);
     }

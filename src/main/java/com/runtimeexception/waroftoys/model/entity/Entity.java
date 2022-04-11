@@ -15,9 +15,11 @@ public abstract class Entity {
     public int HEALTH_BAR_WIDTH;
     public double cost;
     public String type = "unit";
+    public String img;
 
     public Position getPosFromIndex(final int i, final int j) {
-        return new Position(j * game.tileSize + (game.tileSize / 2) - width / 2, i * game.tileSize + (game.tileSize / 2) - height / 2);
+        return new Position(j * game.tileSize + (game.tileSize / 2) - width / 2,
+                i * game.tileSize + (game.tileSize / 2) - height / 2);
     }
 
     public Position getPosFromIndex(final int[] indexes) {

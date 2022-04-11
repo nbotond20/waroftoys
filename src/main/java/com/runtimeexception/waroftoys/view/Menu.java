@@ -1,8 +1,11 @@
 package com.runtimeexception.waroftoys.view;
 
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -24,14 +27,14 @@ public class Menu extends JPanel {
 
         Left = new javax.swing.JPanel();
         Player1Input = new javax.swing.JTextField();
-        Player1Pic = new javax.swing.JPanel();
+        // Player1Pic = new javax.swing.JPanel();
         Buttons = new javax.swing.JPanel();
         Start = new javax.swing.JButton();
         SavedGames = new javax.swing.JButton();
         /* Quit = new javax.swing.JButton(); */
         Right = new javax.swing.JPanel();
         Player2Input = new javax.swing.JTextField();
-        Player2Pic = new javax.swing.JPanel();
+        // Player2Pic = new javax.swing.JPanel();
 
         Left.setBackground(new java.awt.Color(100, 0, 0));
         Left.setPreferredSize(new java.awt.Dimension((int) (300 * (0.5 / scale)), (int) (540 * (0.5 / scale))));
@@ -39,7 +42,7 @@ public class Menu extends JPanel {
 
         Player1Input.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Player1Input.setText("Player1");
-        Player1Input.setPreferredSize(new java.awt.Dimension((int) (160 * (0.5 / scale)), (int) (25 * (0.5 / scale))));
+        Player1Input.setPreferredSize(new java.awt.Dimension((int) (160 * (0.5 / scale)), (int) (190 * (0.5 / scale))));
         Player1Input.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Player1InputActionPerformed(evt);
@@ -51,22 +54,31 @@ public class Menu extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets((int) (15 * (0.5 / scale)), 0, (int) (15 * (0.5 / scale)), 0);
         Player1Input.setForeground(Color.WHITE);
         Player1Input.setOpaque(false);
-        Player1Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        Player1Input.setMargin(new Insets(0, 0, 0, 0));
+        Border line = BorderFactory.createLineBorder(Color.DARK_GRAY);
+        Border empty = new EmptyBorder(125, 0, 0, 0);
+        Player1Input.setBackground(new Color(0, 0, 0, 40));
+        CompoundBorder border = new CompoundBorder(line, empty);
+        Player1Input.setBorder(border);
+        // Player1Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         Left.add(Player1Input, gridBagConstraints);
 
-        final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(Player1Pic);
-        Player1Pic.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 100, Short.MAX_VALUE));
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 100, Short.MAX_VALUE));
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets((int) (15 * (0.5 / scale)), 0, (int) (15 * (0.5 / scale)), 0);
-        Left.add(Player1Pic, gridBagConstraints);
-
+        /*
+         * final javax.swing.GroupLayout jPanel1Layout = new
+         * javax.swing.GroupLayout(Player1Pic);
+         * Player1Pic.setLayout(jPanel1Layout);
+         * jPanel1Layout.setHorizontalGroup(
+         * jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         * .addGap(0, 100, Short.MAX_VALUE));
+         * jPanel1Layout.setVerticalGroup(
+         * jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         * .addGap(0, 100, Short.MAX_VALUE));
+         * 
+         * gridBagConstraints = new java.awt.GridBagConstraints();
+         * gridBagConstraints.insets = new java.awt.Insets((int) (15 * (0.5 / scale)),
+         * 0, (int) (15 * (0.5 / scale)), 0);
+         * Left.add(Player1Pic, gridBagConstraints);
+         */
         Left.setOpaque(false);
         add(Left);
 
@@ -115,27 +127,28 @@ public class Menu extends JPanel {
         SavedGames.setBorderPainted(false);
         Buttons.add(SavedGames, gridBagConstraints);
 
-
-        /* Quit.setFont(new java.awt.Font("Segoe UI", 0, (int)(20 * (0.5 / scale)))); //NOI18N
-        Quit.setText("Quit");
-        Quit.setPreferredSize(new java.awt.Dimension((int)(140 * (0.5 / scale)),
-        (int)(40 * (0.5 / scale))));
-        Quit.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-        QuitActionPerformed(evt);
-        }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets((int)(9 * (0.5 / scale)), 0,
-        (int)(8 * (0.5 / scale)), 0);
-        Quit.setOpaque(false);
-        Quit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        Quit.setContentAreaFilled(false);
-        Quit.setBorderPainted(false);
-        Buttons.add(Quit, gridBagConstraints); */
-
+        /*
+         * Quit.setFont(new java.awt.Font("Segoe UI", 0, (int)(20 * (0.5 / scale))));
+         * //NOI18N
+         * Quit.setText("Quit");
+         * Quit.setPreferredSize(new java.awt.Dimension((int)(140 * (0.5 / scale)),
+         * (int)(40 * (0.5 / scale))));
+         * Quit.addActionListener(new java.awt.event.ActionListener() {
+         * public void actionPerformed(java.awt.event.ActionEvent evt) {
+         * QuitActionPerformed(evt);
+         * }
+         * });
+         * gridBagConstraints = new java.awt.GridBagConstraints();
+         * gridBagConstraints.gridx = 0;
+         * gridBagConstraints.gridy = 4;
+         * gridBagConstraints.insets = new java.awt.Insets((int)(9 * (0.5 / scale)), 0,
+         * (int)(8 * (0.5 / scale)), 0);
+         * Quit.setOpaque(false);
+         * Quit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+         * Quit.setContentAreaFilled(false);
+         * Quit.setBorderPainted(false);
+         * Buttons.add(Quit, gridBagConstraints);
+         */
 
         Buttons.setOpaque(false);
         add(Buttons);
@@ -146,33 +159,45 @@ public class Menu extends JPanel {
 
         Player2Input.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Player2Input.setText("Player2");
-        Player2Input.setPreferredSize(new java.awt.Dimension((int) (160 * (0.5 / scale)), (int) (25 * (0.5 / scale))));
+        Player2Input.setPreferredSize(new java.awt.Dimension((int) (160 * (0.5 / scale)), (int) (190 * (0.5 / scale))));
         Player2Input.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(final java.awt.event.ActionEvent evt) {
                 Player2InputActionPerformed(evt);
             }
         });
+        Player2Input.setForeground(Color.WHITE);
+        Player2Input.setOpaque(false);
+        Player2Input.setMargin(new Insets(0, 0, 0, 0));
+        Player2Input.setBackground(new Color(0, 0, 0, 40));
+        // CompoundBorder border = new CompoundBorder(line, empty);
+        Player2Input.setBorder(border);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets((int) (15 * (0.5 / scale)), 0, (int) (15 * (0.5 / scale)), 0);
         Player2Input.setForeground(Color.WHITE);
         Player2Input.setOpaque(false);
-        Player2Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        // Player2Input.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         Right.add(Player2Input, gridBagConstraints);
 
-        final javax.swing.GroupLayout Player2PicLayout = new javax.swing.GroupLayout(Player2Pic);
-        Player2Pic.setLayout(Player2PicLayout);
-        Player2PicLayout.setHorizontalGroup(
-                Player2PicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 100, Short.MAX_VALUE));
-        Player2PicLayout.setVerticalGroup(
-                Player2PicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 100, Short.MAX_VALUE));
+        /*
+         * final javax.swing.GroupLayout Player2PicLayout = new
+         * javax.swing.GroupLayout(Player2Pic);
+         * Player2Pic.setLayout(Player2PicLayout);
+         * Player2PicLayout.setHorizontalGroup(
+         * Player2PicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
+         * LEADING)
+         * .addGap(0, 100, Short.MAX_VALUE));
+         * Player2PicLayout.setVerticalGroup(
+         * Player2PicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.
+         * LEADING)
+         * .addGap(0, 100, Short.MAX_VALUE));
+         */
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets((int) (15 * (0.5 / scale)), 0, (int) (15 * (0.5 / scale)), 0);
-        Right.add(Player2Pic, gridBagConstraints);
+        // Right.add(Player2Pic, gridBagConstraints);
 
         Right.setOpaque(false);
         add(Right);
@@ -190,7 +215,7 @@ public class Menu extends JPanel {
         window.remove(this);
 
         final JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout(0,0));
+        mainPanel.setLayout(new BorderLayout(0, 0));
 
         final GamePanel gamePanel = new GamePanel(Player1Input.getText(), Player2Input.getText());
 
@@ -201,20 +226,22 @@ public class Menu extends JPanel {
         gamePanel.game.addScoreboardPanel(scoreboard);
 
         final JPanel p1 = new JPanel();
-        p1.setBackground(new Color(148,246,250,98));
-        p1.setPreferredSize(new Dimension(138,0));
+        p1.setBackground(new Color(200, 246, 250, 98));
+        p1.setPreferredSize(new Dimension(138, 0));
         final JPanel p2 = new JPanel();
-        p2.setBackground(new Color(148,246,250,98));
-        p2.setPreferredSize(new Dimension(138,0));
+        p2.setBackground(new Color(148, 246, 250, 98));
+        p2.setPreferredSize(new Dimension(138, 0));
 
         mainPanel.add(scoreboard, BorderLayout.PAGE_START);
         mainPanel.add(gamePanel, BorderLayout.CENTER);
         mainPanel.add(btnPanel, BorderLayout.PAGE_END);
 
-        /* mainPanel.add(p1, BorderLayout.LINE_START);
-        mainPanel.add(p2, BorderLayout.LINE_END); */
+        /*
+         * mainPanel.add(p1, BorderLayout.LINE_START);
+         * mainPanel.add(p2, BorderLayout.LINE_END);
+         */
 
-        mainPanel.setBackground(new Color(0,0,255,255));
+        mainPanel.setBackground(new Color(0, 0, 255, 255));
 
         window.add(mainPanel);
         window.pack();
@@ -229,17 +256,19 @@ public class Menu extends JPanel {
         // TODO add your handling code here:
     }
 
-    /* private void QuitActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0);
-    } */
+    /*
+     * private void QuitActionPerformed(java.awt.event.ActionEvent evt) {
+     * System.exit(0);
+     * }
+     */
 
     private javax.swing.JPanel Left;
     private javax.swing.JPanel Buttons;
     private javax.swing.JPanel Right;
     private javax.swing.JTextField Player1Input;
     private javax.swing.JTextField Player2Input;
-    private javax.swing.JPanel Player1Pic;
-    private javax.swing.JPanel Player2Pic;
+    // private javax.swing.JPanel Player1Pic;
+    // private javax.swing.JPanel Player2Pic;
     private javax.swing.JButton Start;
     private javax.swing.JButton SavedGames;
     /* private javax.swing.JButton Quit; */
@@ -250,7 +279,22 @@ public class Menu extends JPanel {
         BufferedImage bgImage;
         try {
             bgImage = ImageIO.read(getClass().getResourceAsStream("/menu/menu-bg.png"));
-            g.drawImage(bgImage, 0, 0, (int) (1920 * scale), (int) (1080 * scale), null);
+            g.drawImage(bgImage, 0, 0, (int) (1920 * scale), (int) (1080 * scale),
+                    null);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+        BufferedImage greenImg;
+        try {
+            greenImg = ImageIO.read(getClass().getResourceAsStream("/menu/greenSoldier.png"));
+            g.drawImage(greenImg, 735, 195, (int) (200 * scale), (int) (200 * scale), null);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+        BufferedImage legoImg;
+        try {
+            legoImg = ImageIO.read(getClass().getResourceAsStream("/menu/lego.png"));
+            g.drawImage(legoImg, 125, 195, (int) (200 * scale), (int) (200 * scale), null);
         } catch (final IOException e) {
             e.printStackTrace();
         }
