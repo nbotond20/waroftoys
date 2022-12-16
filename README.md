@@ -45,3 +45,10 @@ Az a játékos nyer, aki előbb elpusztítja ellenfele bázisát.
 ## Játékmenet terve
 
 ![A War of Toys játékmenetének primitív felületi terve](https://i.imgur.com/Obio5TY.png)
+
+## Megvalósított játék
+### Menu
+![image](https://user-images.githubusercontent.com/80464629/208180800-7170ed83-8712-4105-8caf-80f2d44dc22f.png)
+
+### Jaték tér
+![image](https://user-images.githubusercontent.com/80464629/208181186-fa434322-d7d0-4706-9424-3b07a46305e0.png)
